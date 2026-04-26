@@ -5,10 +5,55 @@
       <feDisplacementMap in="SourceGraphic" in2="n" scale="1.4"/>
     </filter>
   </defs>
-  <path d="M31 206c20-47 40-87 69-120 26-29 58-48 103-66" stroke="#6B5238" stroke-width="1.5" stroke-linecap="round" filter="url(#wc2)"/>
-  <path d="M77 137c-10-4-19-8-29-14M92 118c-10-4-19-9-28-16M115 95c-10-4-18-10-26-18M145 75c-10-4-17-10-24-18" stroke="#7A8B63" stroke-width="1.2" stroke-linecap="round"/>
-  <ellipse cx="52" cy="114" rx="11" ry="8" fill="#F1C7CF" opacity=".88"/>
-  <ellipse cx="71" cy="95" rx="9" ry="7" fill="#B7C8F2" opacity=".88"/>
-  <ellipse cx="96" cy="74" rx="10" ry="8" fill="#F0DFA0" opacity=".88"/>
-  <ellipse cx="128" cy="55" rx="8" ry="6" fill="#C8B6E0" opacity=".88"/>
+
+  <!-- Main vertical stem (varied weight) -->
+  <path d="M31 206 C 51 159 71 119 100 86 C 126 57 158 38 203 20" stroke="#6B5238" stroke-width="1.7" stroke-linecap="round" fill="none" filter="url(#wc2)"/>
+  <path d="M40 196 C 60 158 80 122 105 92" stroke="#7A5238" stroke-width="0.9" stroke-linecap="round" fill="none" opacity="0.5"/>
+
+  <!-- Side stems / offshoots -->
+  <g stroke="#7A8B63" stroke-width="1.2" stroke-linecap="round" fill="none">
+    <path d="M77 137 c -10 -4 -19 -8 -29 -14"/>
+    <path d="M92 118 c -10 -4 -19 -9 -28 -16"/>
+    <path d="M115 95 c -10 -4 -18 -10 -26 -18"/>
+    <path d="M145 75 c -10 -4 -17 -10 -24 -18"/>
+    <path d="M58 168 c -8 -2 -14 -2 -22 -2" opacity="0.6"/>
+    <path d="M170 60 c -8 0 -14 -1 -22 -4" opacity="0.6"/>
+  </g>
+
+  <!-- Painted leaves -->
+  <g fill="#9DA85B" opacity="0.72">
+    <path d="M62 162 Q 50 158 48 168 Q 56 172 62 162 Z"/>
+    <path d="M82 132 Q 70 128 68 138 Q 76 142 82 132 Z"/>
+    <path d="M104 108 Q 92 104 90 114 Q 98 118 104 108 Z"/>
+    <path d="M134 82 Q 122 78 120 88 Q 128 92 134 82 Z"/>
+    <path d="M168 56 Q 156 52 154 62 Q 162 66 168 56 Z"/>
+  </g>
+
+  <!-- Wildflowers — primary cluster -->
+  <g>
+    <ellipse cx="52" cy="114" rx="11.5" ry="8.5" fill="#F1C7CF" opacity="0.9"/>
+    <circle cx="52" cy="114" r="3" fill="#E94493" opacity="0.55"/>
+    <ellipse cx="71" cy="95" rx="9.5" ry="7" fill="#B7C8F2" opacity="0.9"/>
+    <ellipse cx="96" cy="74" rx="10.5" ry="8" fill="#F0DFA0" opacity="0.9"/>
+    <circle cx="96" cy="74" r="2.5" fill="#E2A434" opacity="0.55"/>
+    <ellipse cx="128" cy="55" rx="8.5" ry="6" fill="#C8B6E0" opacity="0.9"/>
+    <ellipse cx="158" cy="40" rx="7" ry="5" fill="#F1C7CF" opacity="0.85"/>
+    <ellipse cx="184" cy="28" rx="6" ry="4.5" fill="#A9C9A4" opacity="0.85"/>
+  </g>
+
+  <!-- Lower bouquet accents -->
+  <g>
+    <circle cx="36" cy="194" r="5" fill="#F1C7CF" opacity="0.8"/>
+    <circle cx="46" cy="180" r="4" fill="#F0DFA0" opacity="0.8"/>
+    <circle cx="28" cy="178" r="3.5" fill="#B7C8F2" opacity="0.8"/>
+  </g>
+
+  <!-- Tiny dots / pollen accents -->
+  <g fill="#7A5238" opacity="0.45">
+    <circle cx="60" cy="106" r="1"/>
+    <circle cx="80" cy="86" r="1"/>
+    <circle cx="106" cy="66" r="1"/>
+    <circle cx="138" cy="48" r="1"/>
+    <circle cx="170" cy="34" r="1"/>
+  </g>
 </svg>

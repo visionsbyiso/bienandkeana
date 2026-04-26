@@ -84,55 +84,167 @@
           <span class="hero__portrait-wash" aria-hidden="true"></span>
           <span class="hero__portrait-sprig hero__portrait-sprig--left" aria-hidden="true"></span>
           <span class="hero__portrait-sprig hero__portrait-sprig--right" aria-hidden="true"></span>
-          <svg class="hero__couple" viewBox="0 0 1024 586" role="img" aria-label="Illustrated portrait of Bien and Keana">
+          <svg class="hero__couple" viewBox="270 86 494 654" role="img" aria-label="Illustrated portrait of Bien and Keana holding photo frames">
             <defs>
               <radialGradient id="skin" cx="50%" cy="35%" r="65%">
                 <stop offset="0" stop-color="#F2CDAE"/>
                 <stop offset="1" stop-color="#D9A786"/>
               </radialGradient>
-              <radialGradient id="barong" cx="40%" cy="30%" r="70%">
-                <stop offset="0" stop-color="#FFF8EC"/>
-                <stop offset="1" stop-color="#EAD9B9"/>
-              </radialGradient>
-              <radialGradient id="gown" cx="50%" cy="25%" r="75%">
-                <stop offset="0" stop-color="#FFF9EE"/>
-                <stop offset="1" stop-color="#E8D8BB"/>
-              </radialGradient>
-              <filter id="watercolor" x="-20%" y="-20%" width="140%" height="140%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="5" result="n"/>
-                <feDisplacementMap in="SourceGraphic" in2="n" scale="1.2"/>
+              <linearGradient id="barong" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#F2DDB1"/>
+                <stop offset="1" stop-color="#C49870"/>
+              </linearGradient>
+              <linearGradient id="slacks" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#3F2D1D"/>
+                <stop offset="1" stop-color="#221608"/>
+              </linearGradient>
+              <linearGradient id="gown" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#FFFFFF"/>
+                <stop offset="1" stop-color="#D9C39A"/>
+              </linearGradient>
+              <linearGradient id="frameWood" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#B98A57"/>
+                <stop offset="0.5" stop-color="#9A6E3F"/>
+                <stop offset="1" stop-color="#74502B"/>
+              </linearGradient>
+              <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#3B2613"/>
+                <stop offset="1" stop-color="#1F1207"/>
+              </linearGradient>
+              <filter id="watercolor" x="-10%" y="-10%" width="120%" height="120%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="7" result="n"/>
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="0.6"/>
               </filter>
+              <clipPath id="groomFrameClip">
+                <rect x="316" y="138" width="142" height="156" rx="3"/>
+              </clipPath>
+              <clipPath id="brideFrameClip">
+                <rect x="582" y="146" width="142" height="156" rx="3"/>
+              </clipPath>
             </defs>
-            <ellipse cx="512" cy="558" rx="340" ry="24" fill="#D9C8AB" opacity=".35"/>
-            <g filter="url(#watercolor)" opacity=".95">
-              <path d="M336 378c8-63 14-95 26-131 8-26 19-44 37-58 15-12 38-18 58-17 19 2 32 14 39 30 10 20 16 45 20 83 6 54 8 82 10 143H336z" fill="url(#barong)"/>
-              <rect x="455" y="390" width="28" height="148" rx="8" fill="#3A2A1B" opacity=".84"/>
-              <rect x="398" y="390" width="28" height="148" rx="8" fill="#3A2A1B" opacity=".84"/>
-              <circle cx="432" cy="172" r="42" fill="url(#skin)"/>
-              <path d="M389 165c11-36 72-52 93-17 2 5 4 11 4 16-31-12-66-12-97 1z" fill="#2E2118"/>
-              <rect x="364" y="188" width="132" height="112" rx="8" fill="none" stroke="#9B7A4B" stroke-width="9"/>
-              <rect x="377" y="200" width="106" height="89" rx="4" fill="#FBF5E7" opacity=".86"/>
+
+            <!-- Soft ground shadow -->
+            <ellipse cx="512" cy="724" rx="320" ry="14" fill="#C9B68F" opacity=".34"/>
+
+            <!-- ============ GROOM (left) ============ -->
+            <g filter="url(#watercolor)">
+              <!-- Shoes -->
+              <ellipse cx="354" cy="716" rx="26" ry="7" fill="#1A1208"/>
+              <ellipse cx="412" cy="716" rx="26" ry="7" fill="#1A1208"/>
+              <!-- Slacks (legs) -->
+              <path d="M328 510 L334 712 L376 712 L383 510 Z" fill="url(#slacks)"/>
+              <path d="M385 510 L390 712 L432 712 L438 510 Z" fill="url(#slacks)"/>
+              <!-- Barong torso (gently flared at hem, tapered at shoulder) -->
+              <path d="M306 348 Q298 420 314 510 L452 510 Q468 420 460 348 Q448 322 432 310 Q412 298 383 298 Q354 298 342 310 Q322 322 306 348 Z" fill="url(#barong)" stroke="#7A5238" stroke-width="2"/>
+              <!-- Subtle barong placket line -->
+              <path d="M383 312 L383 506" stroke="#7A5238" stroke-width="1.4" fill="none" opacity="0.6"/>
+              <!-- Bow tie peeking just below the frame -->
+              <path d="M368 304 L380 318 L392 318 L386 304 Z" fill="#2E1A12"/>
+              <path d="M374 312 L386 312 L380 318 Z" fill="#1A0E08"/>
+              <path d="M370 308 L362 312 L364 318 L372 316 Z" fill="#2E1A12"/>
+              <path d="M390 308 L398 312 L396 318 L388 316 Z" fill="#2E1A12"/>
+              <!-- Arms raised (sleeve = barong color) -->
+              <path d="M308 350 Q272 286 286 218 Q294 200 312 198" stroke="url(#barong)" stroke-width="26" fill="none" stroke-linecap="round"/>
+              <path d="M460 350 Q496 286 482 218 Q474 200 456 198" stroke="url(#barong)" stroke-width="26" fill="none" stroke-linecap="round"/>
+              <!-- Sleeve cuff lines -->
+              <path d="M298 220 Q304 214 320 210" stroke="#B59969" stroke-width="1.4" fill="none" opacity="0.6"/>
+              <path d="M470 220 Q464 214 448 210" stroke="#B59969" stroke-width="1.4" fill="none" opacity="0.6"/>
+              <!-- Hands gripping the frame corners -->
+              <path d="M316 198 Q304 200 300 212 Q304 222 316 224 Q330 222 332 212 Q332 202 316 198 Z" fill="url(#skin)"/>
+              <path d="M456 198 Q444 202 444 212 Q446 222 460 224 Q472 222 476 212 Q472 200 456 198 Z" fill="url(#skin)"/>
+
+              <!-- Hair tuft above the frame -->
+              <path d="M328 130 Q352 96 388 102 Q420 98 444 128 Q450 142 446 156 Q420 144 388 146 Q354 146 332 156 Q326 142 328 130 Z" fill="url(#hair)"/>
+              <path d="M348 110 Q360 92 376 96" stroke="#1F1207" stroke-width="1.6" fill="none" opacity="0.55"/>
             </g>
-            <g filter="url(#watercolor)" opacity=".95">
-              <path d="M544 402c8-44 17-69 34-93 16-24 40-40 70-43 31-4 58 10 78 35 23 30 35 74 38 137l-220 2z" fill="url(#gown)"/>
-              <path d="M554 438c60-33 122-33 191 0l-5 108H557z" fill="#EEE0C4"/>
-              <circle cx="648" cy="205" r="44" fill="url(#skin)"/>
-              <path d="M607 198c7-43 78-53 95-11 6 14 5 32-1 47-18-23-45-37-94-36z" fill="#2B211A"/>
-              <rect x="579" y="224" width="136" height="114" rx="8" fill="none" stroke="#9B7A4B" stroke-width="9"/>
-              <rect x="592" y="236" width="110" height="90" rx="4" fill="#FBF5E7" opacity=".86"/>
+
+            <!-- Groom photo frame (no watercolor filter so the photo stays crisp) -->
+            <g transform="rotate(-2 387 216)">
+              <!-- outer wood -->
+              <rect x="306" y="128" width="162" height="176" rx="6" fill="url(#frameWood)" stroke="#5A3A1E" stroke-width="2"/>
+              <!-- bevel highlight -->
+              <rect x="309" y="131" width="156" height="170" rx="4" fill="none" stroke="#D9B584" stroke-width="1" opacity="0.75"/>
+              <!-- inner cream mat behind photo -->
+              <rect x="316" y="138" width="142" height="156" rx="3" fill="#FBF5E7"/>
+              <!-- the photo -->
+              <image id="groomPhoto"
+                     href="./assets/florals/placeholder-frame-photo.svg"
+                     x="316" y="138" width="142" height="156"
+                     preserveAspectRatio="xMidYMid slice"
+                     clip-path="url(#groomFrameClip)"/>
+              <!-- inner frame line -->
+              <rect x="316" y="138" width="142" height="156" rx="3" fill="none" stroke="rgba(58,42,27,0.45)" stroke-width="1.2"/>
             </g>
-            <g transform="translate(512 284)">
-              <rect x="-23" y="-18" width="46" height="36" rx="8" fill="#2E313A"/>
-              <circle cx="-9" cy="0" r="4" fill="#51576A"/>
-              <circle cx="9" cy="0" r="4" fill="#51576A"/>
+
+            <!-- ============ BRIDE (right) ============ -->
+            <g filter="url(#watercolor)">
+              <!-- Shoes peeking under hem -->
+              <ellipse cx="624" cy="718" rx="14" ry="5" fill="#3A2A1B"/>
+              <ellipse cx="668" cy="718" rx="14" ry="5" fill="#3A2A1B"/>
+              <!-- A-line gown -->
+              <path d="M572 348 Q558 432 552 712 L744 712 Q738 432 724 348 Q714 322 696 310 Q678 298 648 298 Q618 298 600 310 Q582 322 572 348 Z" fill="url(#gown)" stroke="#9A7A4F" stroke-width="1.8"/>
+              <!-- Bodice / sweetheart neckline -->
+              <path d="M598 318 Q620 348 648 348 Q676 348 698 318 L696 360 L600 360 Z" fill="#F2DCB1" opacity="0.85"/>
+              <!-- Skirt drape lines -->
+              <path d="M600 410 Q570 540 562 700" stroke="#9A7A4F" stroke-width="1.3" fill="none" opacity="0.55"/>
+              <path d="M696 410 Q726 540 734 700" stroke="#9A7A4F" stroke-width="1.3" fill="none" opacity="0.55"/>
+              <path d="M648 380 L648 700" stroke="#9A7A4F" stroke-width="1" fill="none" opacity="0.45"/>
+              <!-- Arms raised (skin tone — sleeveless) -->
+              <path d="M576 358 Q548 290 564 224 Q572 206 588 206" stroke="url(#skin)" stroke-width="22" fill="none" stroke-linecap="round"/>
+              <path d="M720 358 Q748 290 732 224 Q724 206 708 206" stroke="url(#skin)" stroke-width="22" fill="none" stroke-linecap="round"/>
+              <!-- Hands gripping frame corners -->
+              <path d="M588 206 Q576 210 574 222 Q578 232 592 232 Q604 230 606 220 Q604 210 588 206 Z" fill="url(#skin)"/>
+              <path d="M708 206 Q696 210 694 220 Q696 230 708 232 Q722 232 726 222 Q724 210 708 206 Z" fill="url(#skin)"/>
+              <!-- Hair (long, flowing past shoulders behind frame) -->
+              <path d="M566 122 Q598 88 648 88 Q698 88 730 122 Q738 200 736 296 Q732 372 712 396 L702 380 Q700 320 696 264 Q692 220 680 200 Q662 188 648 188 Q634 188 616 200 Q604 220 600 264 Q596 320 594 380 L584 396 Q564 372 560 296 Q558 200 566 122 Z" fill="url(#hair)"/>
+              <!-- Hair top tuft above frame -->
+              <path d="M580 144 Q612 110 648 112 Q684 110 716 144 Q720 158 716 172 Q686 158 648 158 Q610 158 580 172 Q576 158 580 144 Z" fill="url(#hair)"/>
+              <!-- Subtle face hint at side of frame (just hair edge) -->
             </g>
-            <g opacity=".72" filter="url(#watercolor)">
-              <circle cx="344" cy="528" r="18" fill="#F1C7CF"/>
-              <circle cx="376" cy="520" r="14" fill="#B7C8F2"/>
-              <circle cx="406" cy="532" r="15" fill="#F0DFA0"/>
-              <circle cx="620" cy="530" r="16" fill="#F1C7CF"/>
-              <circle cx="652" cy="520" r="14" fill="#B7C8F2"/>
-              <circle cx="684" cy="532" r="13" fill="#F0DFA0"/>
+
+            <!-- Bride photo frame -->
+            <g transform="rotate(2 653 224)">
+              <rect x="572" y="136" width="162" height="176" rx="6" fill="url(#frameWood)" stroke="#5A3A1E" stroke-width="2"/>
+              <rect x="575" y="139" width="156" height="170" rx="4" fill="none" stroke="#D9B584" stroke-width="1" opacity="0.75"/>
+              <rect x="582" y="146" width="142" height="156" rx="3" fill="#FBF5E7"/>
+              <image id="bridePhoto"
+                     href="./assets/florals/placeholder-frame-photo.svg"
+                     x="582" y="146" width="142" height="156"
+                     preserveAspectRatio="xMidYMid slice"
+                     clip-path="url(#brideFrameClip)"/>
+              <rect x="582" y="146" width="142" height="156" rx="3" fill="none" stroke="rgba(58,42,27,0.45)" stroke-width="1.2"/>
+            </g>
+
+            <!-- Tiny PS5 controller doodle nestled between hems -->
+            <g transform="translate(508 600)" opacity="0.78">
+              <rect x="-22" y="-12" width="44" height="22" rx="6" fill="#2E313A"/>
+              <circle cx="-9" cy="-1" r="3" fill="#51576A"/>
+              <circle cx="9" cy="-1" r="3" fill="#51576A"/>
+              <rect x="-26" y="-8" width="6" height="12" rx="2" fill="#2E313A"/>
+              <rect x="20" y="-8" width="6" height="12" rx="2" fill="#2E313A"/>
+            </g>
+
+            <!-- Wildflower bouquet at groom's feet -->
+            <g opacity="0.78" filter="url(#watercolor)">
+              <path d="M306 712 Q310 690 314 670" stroke="#7A8B5A" stroke-width="1.4" fill="none"/>
+              <path d="M316 712 Q322 686 326 666" stroke="#7A8B5A" stroke-width="1.4" fill="none"/>
+              <path d="M298 712 Q298 692 300 678" stroke="#7A8B5A" stroke-width="1.4" fill="none"/>
+              <circle cx="314" cy="664" r="6" fill="#F1C7CF"/>
+              <circle cx="304" cy="678" r="5" fill="#F0DFA0"/>
+              <circle cx="328" cy="668" r="5.5" fill="#B7C8F2"/>
+              <circle cx="296" cy="676" r="4" fill="#E94493" opacity="0.7"/>
+              <circle cx="320" cy="678" r="3.5" fill="#A9C9A4"/>
+            </g>
+            <!-- Wildflower bouquet at bride's feet -->
+            <g opacity="0.78" filter="url(#watercolor)">
+              <path d="M712 712 Q714 690 718 670" stroke="#7A8B5A" stroke-width="1.4" fill="none"/>
+              <path d="M722 712 Q726 686 728 666" stroke="#7A8B5A" stroke-width="1.4" fill="none"/>
+              <path d="M704 712 Q702 692 700 678" stroke="#7A8B5A" stroke-width="1.4" fill="none"/>
+              <circle cx="716" cy="664" r="6" fill="#F1C7CF"/>
+              <circle cx="704" cy="678" r="5" fill="#F0DFA0"/>
+              <circle cx="730" cy="670" r="5.5" fill="#B7C8F2"/>
+              <circle cx="700" cy="676" r="4" fill="#E94493" opacity="0.7"/>
+              <circle cx="722" cy="678" r="3.5" fill="#A9C9A4"/>
             </g>
           </svg>
         </figure>

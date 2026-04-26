@@ -263,6 +263,19 @@
     });
   });
 
+  // ---------- HERO FRAME PHOTO HYDRATION ----------
+  // Swap the placeholder SVGs inside the held picture frames with the real
+  // photos configured in EVITE_CONFIG.groomFramePhoto / brideFramePhoto.
+  function hydrateHeroPhoto(id, src) {
+    if (!src) return;
+    const node = document.getElementById(id);
+    if (!node) return;
+    node.setAttribute("href", src);
+    node.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", src);
+  }
+  hydrateHeroPhoto("groomPhoto", cfg.groomFramePhoto);
+  hydrateHeroPhoto("bridePhoto", cfg.brideFramePhoto);
+
   // ---------- HERO PAPER-TILT (desktop only, dampened) ----------
   const heroCouple = document.getElementById("heroCouple");
   if (heroCouple && !isCoarsePointer && !reduced) {

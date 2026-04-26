@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1080" preserveAspectRatio="none" fill="none">
+  <!-- Stems / vines (light painted ink)  concentrated on the corners with continuous trace along edges -->
+  <g stroke="#7A8B5A" stroke-linecap="round" fill="none">
+    <!-- top edge -->
+    <path d="M62 70 Q 200 56 400 64 Q 600 56 738 70" stroke-width="1.6" opacity="0.78"/>
+    <path d="M120 86 Q 220 74 320 84" stroke-width="1.2" opacity="0.55"/>
+    <path d="M480 84 Q 580 74 680 86" stroke-width="1.2" opacity="0.55"/>
+    <!-- bottom edge -->
+    <path d="M62 1010 Q 200 1024 400 1016 Q 600 1024 738 1010" stroke-width="1.6" opacity="0.78"/>
+    <path d="M120 994 Q 220 1006 320 996" stroke-width="1.2" opacity="0.55"/>
+    <path d="M480 996 Q 580 1006 680 994" stroke-width="1.2" opacity="0.55"/>
+    <!-- left edge -->
+    <path d="M70 90 Q 56 320 64 540 Q 56 760 70 990" stroke-width="1.6" opacity="0.78"/>
+    <!-- right edge -->
+    <path d="M730 90 Q 744 320 736 540 Q 744 760 730 990" stroke-width="1.6" opacity="0.78"/>
+  </g>
+
+  <!-- TOP-LEFT cluster -->
+  <g>
+    <g stroke="#7A8B5A" stroke-linecap="round" fill="none" opacity="0.78">
+      <path d="M82 92 Q 116 130 138 178" stroke-width="1.6"/>
+      <path d="M104 130 Q 96 116 78 110" stroke-width="1.2"/>
+      <path d="M118 158 Q 132 146 152 144" stroke-width="1.2"/>
+      <path d="M82 92 Q 110 80 142 82" stroke-width="1.6"/>
+      <path d="M118 92 Q 124 78 138 70" stroke-width="1.2"/>
+    </g>
+    <g opacity="0.85">
+      <circle cx="142" cy="80" r="9" fill="#F1C7CF"/>
+      <circle cx="156" cy="68" r="6" fill="#F0DFA0"/>
+      <circle cx="128" cy="62" r="5" fill="#B7C8F2"/>
+      <circle cx="78" cy="108" r="6" fill="#E94493" opacity="0.65"/>
+      <circle cx="156" cy="146" r="7" fill="#C8B6E0"/>
+      <circle cx="138" cy="180" r="6" fill="#A9C9A4"/>
+    </g>
+    <!-- leaf shapes -->
+    <g fill="#9DA85B" opacity="0.65">
+      <path d="M104 132 Q 92 124 84 134 Q 92 138 104 132 Z"/>
+      <path d="M122 158 Q 132 152 138 162 Q 130 168 122 158 Z"/>
+    </g>
+  </g>
+
+  <!-- TOP-RIGHT cluster -->
+  <g>
+    <g stroke="#7A8B5A" stroke-linecap="round" fill="none" opacity="0.78">
+      <path d="M718 92 Q 684 130 662 178" stroke-width="1.6"/>
+      <path d="M696 130 Q 704 116 722 110" stroke-width="1.2"/>
+      <path d="M682 158 Q 668 146 648 144" stroke-width="1.2"/>
+      <path d="M718 92 Q 690 80 658 82" stroke-width="1.6"/>
+      <path d="M682 92 Q 676 78 662 70" stroke-width="1.2"/>
+    </g>
+    <g opacity="0.85">
+      <circle cx="658" cy="80" r="9" fill="#F1C7CF"/>
+      <circle cx="644" cy="68" r="6" fill="#F0DFA0"/>
+      <circle cx="672" cy="62" r="5" fill="#B7C8F2"/>
+      <circle cx="722" cy="108" r="6" fill="#E94493" opacity="0.65"/>
+      <circle cx="644" cy="146" r="7" fill="#C8B6E0"/>
+      <circle cx="662" cy="180" r="6" fill="#A9C9A4"/>
+    </g>
+    <g fill="#9DA85B" opacity="0.65">
+      <path d="M696 132 Q 708 124 716 134 Q 708 138 696 132 Z"/>
+      <path d="M678 158 Q 668 152 662 162 Q 670 168 678 158 Z"/>
+    </g>
+  </g>
+
+  <!-- BOTTOM-LEFT cluster -->
+  <g>
+    <g stroke="#7A8B5A" stroke-linecap="round" fill="none" opacity="0.78">
+      <path d="M82 988 Q 116 950 138 902" stroke-width="1.6"/>
+      <path d="M104 950 Q 96 964 78 970" stroke-width="1.2"/>
+      <path d="M118 922 Q 132 934 152 936" stroke-width="1.2"/>
+      <path d="M82 988 Q 110 1000 142 998" stroke-width="1.6"/>
+      <path d="M118 988 Q 124 1002 138 1010" stroke-width="1.2"/>
+    </g>
+    <g opacity="0.85">
+      <circle cx="142" cy="1000" r="9" fill="#F1C7CF"/>
+      <circle cx="156" cy="1012" r="6" fill="#F0DFA0"/>
+      <circle cx="128" cy="1018" r="5" fill="#B7C8F2"/>
+      <circle cx="78" cy="972" r="6" fill="#E94493" opacity="0.65"/>
+      <circle cx="156" cy="934" r="7" fill="#C8B6E0"/>
+      <circle cx="138" cy="900" r="6" fill="#A9C9A4"/>
+    </g>
+    <g fill="#9DA85B" opacity="0.65">
+      <path d="M104 948 Q 92 956 84 946 Q 92 942 104 948 Z"/>
+      <path d="M122 922 Q 132 928 138 918 Q 130 912 122 922 Z"/>
+    </g>
+  </g>
+
+  <!-- BOTTOM-RIGHT cluster -->
+  <g>
+    <g stroke="#7A8B5A" stroke-linecap="round" fill="none" opacity="0.78">
+      <path d="M718 988 Q 684 950 662 902" stroke-width="1.6"/>
+      <path d="M696 950 Q 704 964 722 970" stroke-width="1.2"/>
+      <path d="M682 922 Q 668 934 648 936" stroke-width="1.2"/>
+      <path d="M718 988 Q 690 1000 658 998" stroke-width="1.6"/>
+      <path d="M682 988 Q 676 1002 662 1010" stroke-width="1.2"/>
+    </g>
+    <g opacity="0.85">
+      <circle cx="658" cy="1000" r="9" fill="#F1C7CF"/>
+      <circle cx="644" cy="1012" r="6" fill="#F0DFA0"/>
+      <circle cx="672" cy="1018" r="5" fill="#B7C8F2"/>
+      <circle cx="722" cy="972" r="6" fill="#E94493" opacity="0.65"/>
+      <circle cx="644" cy="934" r="7" fill="#C8B6E0"/>
+      <circle cx="662" cy="900" r="6" fill="#A9C9A4"/>
+    </g>
+    <g fill="#9DA85B" opacity="0.65">
+      <path d="M696 948 Q 708 956 716 946 Q 708 942 696 948 Z"/>
+      <path d="M678 922 Q 668 928 662 918 Q 670 912 678 922 Z"/>
+    </g>
+  </g>
+
+  <!-- mid-edge tiny accents to stop the long edges feeling empty -->
+  <g opacity="0.55">
+    <circle cx="76" cy="540" r="4" fill="#F1C7CF"/>
+    <circle cx="84" cy="558" r="3" fill="#F0DFA0"/>
+    <circle cx="724" cy="540" r="4" fill="#F1C7CF"/>
+    <circle cx="716" cy="558" r="3" fill="#F0DFA0"/>
+    <circle cx="400" cy="74" r="4" fill="#B7C8F2"/>
+    <circle cx="412" cy="86" r="3" fill="#F0DFA0"/>
+    <circle cx="400" cy="1006" r="4" fill="#B7C8F2"/>
+    <circle cx="388" cy="996" r="3" fill="#F0DFA0"/>
+  </g>
+</svg>

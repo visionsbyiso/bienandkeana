@@ -32,6 +32,13 @@ window.EVITE_CONFIG = {
   // Leave as null to run in local demo mode (submissions are simulated in-browser).
   appsScriptUrl: "https://script.google.com/macros/s/AKfycbxOjjaFUnOLD86ozjBhRpzMS2l26ScR_riSFlH4aHQZSsssMOdTA_P0geBZECugLF_jqA/exec",
 
+  // ----- Hero photo frames -----
+  // Drop a square-cropped baby photo into ./assets/photos/ (or use any URL),
+  // then point these keys at it. The default placeholder will swap automatically.
+  // Recommended: square crops, ~600×600, JPG/PNG/WEBP/SVG all work.
+  groomFramePhoto: "./assets/florals/placeholder-frame-photo.svg",
+  brideFramePhoto: "./assets/florals/placeholder-frame-photo.svg",
+
   // ----- Copy -----
   verse: [
     "To everything there's a reason,",

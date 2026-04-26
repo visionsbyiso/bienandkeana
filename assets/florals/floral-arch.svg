@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 140" fill="none">
+  <!-- mirrored arched sprigs that meet at center, used above titles + as section breakers -->
+
+  <g stroke="#7A8B5A" stroke-linecap="round" fill="none">
+    <!-- main arches -->
+    <path d="M40 110 Q 110 56 200 64" stroke-width="1.8" opacity="0.82"/>
+    <path d="M360 110 Q 290 56 200 64" stroke-width="1.8" opacity="0.82"/>
+    <!-- small offshoots left -->
+    <path d="M76 86 Q 88 76 96 80" stroke-width="1.2" opacity="0.6"/>
+    <path d="M118 70 Q 122 60 134 62" stroke-width="1.2" opacity="0.6"/>
+    <path d="M156 64 Q 162 56 172 60" stroke-width="1.2" opacity="0.6"/>
+    <!-- small offshoots right -->
+    <path d="M324 86 Q 312 76 304 80" stroke-width="1.2" opacity="0.6"/>
+    <path d="M282 70 Q 278 60 266 62" stroke-width="1.2" opacity="0.6"/>
+    <path d="M244 64 Q 238 56 228 60" stroke-width="1.2" opacity="0.6"/>
+    <!-- center stem dropping -->
+    <path d="M200 64 Q 200 80 196 96" stroke-width="1.2" opacity="0.5"/>
+    <path d="M200 64 Q 200 80 204 96" stroke-width="1.2" opacity="0.5"/>
+  </g>
+
+  <!-- leaves -->
+  <g fill="#9DA85B" opacity="0.62">
+    <path d="M84 88 Q 76 80 70 86 Q 76 92 84 88 Z"/>
+    <path d="M126 70 Q 120 60 110 64 Q 116 72 126 70 Z"/>
+    <path d="M164 64 Q 158 54 150 58 Q 156 66 164 64 Z"/>
+    <path d="M316 88 Q 324 80 330 86 Q 324 92 316 88 Z"/>
+    <path d="M274 70 Q 280 60 290 64 Q 284 72 274 70 Z"/>
+    <path d="M236 64 Q 242 54 250 58 Q 244 66 236 64 Z"/>
+  </g>
+
+  <!-- wildflowers -->
+  <g opacity="0.88">
+    <!-- center -->
+    <circle cx="200" cy="58" r="9" fill="#F1C7CF"/>
+    <circle cx="200" cy="58" r="3" fill="#E94493" opacity="0.7"/>
+    <!-- left arc -->
+    <circle cx="48" cy="106" r="7" fill="#B7C8F2"/>
+    <circle cx="64" cy="96" r="5" fill="#F0DFA0"/>
+    <circle cx="100" cy="80" r="6" fill="#C8B6E0"/>
+    <circle cx="140" cy="64" r="6" fill="#F1C7CF"/>
+    <circle cx="174" cy="60" r="5" fill="#A9C9A4"/>
+    <!-- right arc -->
+    <circle cx="352" cy="106" r="7" fill="#B7C8F2"/>
+    <circle cx="336" cy="96" r="5" fill="#F0DFA0"/>
+    <circle cx="300" cy="80" r="6" fill="#C8B6E0"/>
+    <circle cx="260" cy="64" r="6" fill="#F1C7CF"/>
+    <circle cx="226" cy="60" r="5" fill="#A9C9A4"/>
+  </g>
+
+  <!-- tiny center dangle -->
+  <g opacity="0.85">
+    <circle cx="200" cy="100" r="3.5" fill="#E94493" opacity="0.55"/>
+    <circle cx="194" cy="92" r="2.5" fill="#F0DFA0"/>
+    <circle cx="206" cy="92" r="2.5" fill="#F0DFA0"/>
+  </g>
+</svg>
