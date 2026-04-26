@@ -301,6 +301,7 @@
     });
   }
 
+
   // Smooth-scroll for in-page anchor clicks (with offset for the dock)
   document.addEventListener("click", (e) => {
     const a = e.target.closest('a[href^="#"]');

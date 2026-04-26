@@ -24,6 +24,11 @@
   <link rel="stylesheet" href="./assets/styles.css" />
 </head>
 <body>
+  <div class="wildflower-bg" aria-hidden="true">
+    <span class="wildflower-bg__layer wildflower-bg__layer--a"></span>
+    <span class="wildflower-bg__layer wildflower-bg__layer--b"></span>
+    <span class="wildflower-bg__layer wildflower-bg__layer--c"></span>
+  </div>
 
   <!-- ===================== ENVELOPE INTRO ===================== -->
   <div class="envelope-stage" id="envelope" data-state="closed" role="dialog" aria-label="Open the wedding invitation">
@@ -75,16 +80,20 @@
           Keana
         </h1>
         <p class="hero__date">06 · 13 · 2026</p>
-        <img
-          class="hero__couple"
-          id="heroCouple"
-          src="./assets/images/hero-couple.webp"
-          alt="Illustrated portrait of Bien and Keana"
-          width="1024"
-          height="586"
-          loading="eager"
-          decoding="async"
-        />
+        <figure class="hero__portrait" id="heroCouple">
+          <span class="hero__portrait-wash" aria-hidden="true"></span>
+          <span class="hero__portrait-sprig hero__portrait-sprig--left" aria-hidden="true"></span>
+          <span class="hero__portrait-sprig hero__portrait-sprig--right" aria-hidden="true"></span>
+          <img
+            class="hero__couple"
+            src="./assets/images/hero-couple.webp"
+            alt="Illustrated portrait of Bien and Keana"
+            width="1024"
+            height="586"
+            loading="eager"
+            decoding="async"
+          />
+        </figure>
         <p class="hero__scroll-hint">Scroll to begin</p>
       </div>
     </section>
