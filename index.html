@@ -10,7 +10,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Bien & Keana · 06.13.2026" />
   <meta property="og:description" content="A wildflower wedding at Santisimo Rosario Parish, UST. Saturday, June 13, 2026. Kindly RSVP on or before May 15, 2026." />
-  <meta property="og:image" content="./assets/images/hero-couple.webp" />
+  <meta property="og:image" content="./assets/florals/hero-couple-social.svg" />
 
   <title>Bien & Keana · 06.13.2026</title>
 
@@ -18,8 +18,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Petit+Formal+Script&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
 
-  <link rel="icon" href="./assets/images/monogram-wreath.webp" type="image/webp" />
-  <link rel="apple-touch-icon" href="./assets/images/monogram-wreath.webp" />
+  <link rel="icon" href="./assets/florals/monogram.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./assets/florals/monogram.svg" />
 
   <link rel="stylesheet" href="./assets/styles.css" />
 </head>
@@ -84,15 +84,57 @@
           <span class="hero__portrait-wash" aria-hidden="true"></span>
           <span class="hero__portrait-sprig hero__portrait-sprig--left" aria-hidden="true"></span>
           <span class="hero__portrait-sprig hero__portrait-sprig--right" aria-hidden="true"></span>
-          <img
-            class="hero__couple"
-            src="./assets/images/hero-couple.webp"
-            alt="Illustrated portrait of Bien and Keana"
-            width="1024"
-            height="586"
-            loading="eager"
-            decoding="async"
-          />
+          <svg class="hero__couple" viewBox="0 0 1024 586" role="img" aria-label="Illustrated portrait of Bien and Keana">
+            <defs>
+              <radialGradient id="skin" cx="50%" cy="35%" r="65%">
+                <stop offset="0" stop-color="#F2CDAE"/>
+                <stop offset="1" stop-color="#D9A786"/>
+              </radialGradient>
+              <radialGradient id="barong" cx="40%" cy="30%" r="70%">
+                <stop offset="0" stop-color="#FFF8EC"/>
+                <stop offset="1" stop-color="#EAD9B9"/>
+              </radialGradient>
+              <radialGradient id="gown" cx="50%" cy="25%" r="75%">
+                <stop offset="0" stop-color="#FFF9EE"/>
+                <stop offset="1" stop-color="#E8D8BB"/>
+              </radialGradient>
+              <filter id="watercolor" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="5" result="n"/>
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="1.2"/>
+              </filter>
+            </defs>
+            <ellipse cx="512" cy="558" rx="340" ry="24" fill="#D9C8AB" opacity=".35"/>
+            <g filter="url(#watercolor)" opacity=".95">
+              <path d="M336 378c8-63 14-95 26-131 8-26 19-44 37-58 15-12 38-18 58-17 19 2 32 14 39 30 10 20 16 45 20 83 6 54 8 82 10 143H336z" fill="url(#barong)"/>
+              <rect x="455" y="390" width="28" height="148" rx="8" fill="#3A2A1B" opacity=".84"/>
+              <rect x="398" y="390" width="28" height="148" rx="8" fill="#3A2A1B" opacity=".84"/>
+              <circle cx="432" cy="172" r="42" fill="url(#skin)"/>
+              <path d="M389 165c11-36 72-52 93-17 2 5 4 11 4 16-31-12-66-12-97 1z" fill="#2E2118"/>
+              <rect x="364" y="188" width="132" height="112" rx="8" fill="none" stroke="#9B7A4B" stroke-width="9"/>
+              <rect x="377" y="200" width="106" height="89" rx="4" fill="#FBF5E7" opacity=".86"/>
+            </g>
+            <g filter="url(#watercolor)" opacity=".95">
+              <path d="M544 402c8-44 17-69 34-93 16-24 40-40 70-43 31-4 58 10 78 35 23 30 35 74 38 137l-220 2z" fill="url(#gown)"/>
+              <path d="M554 438c60-33 122-33 191 0l-5 108H557z" fill="#EEE0C4"/>
+              <circle cx="648" cy="205" r="44" fill="url(#skin)"/>
+              <path d="M607 198c7-43 78-53 95-11 6 14 5 32-1 47-18-23-45-37-94-36z" fill="#2B211A"/>
+              <rect x="579" y="224" width="136" height="114" rx="8" fill="none" stroke="#9B7A4B" stroke-width="9"/>
+              <rect x="592" y="236" width="110" height="90" rx="4" fill="#FBF5E7" opacity=".86"/>
+            </g>
+            <g transform="translate(512 284)">
+              <rect x="-23" y="-18" width="46" height="36" rx="8" fill="#2E313A"/>
+              <circle cx="-9" cy="0" r="4" fill="#51576A"/>
+              <circle cx="9" cy="0" r="4" fill="#51576A"/>
+            </g>
+            <g opacity=".72" filter="url(#watercolor)">
+              <circle cx="344" cy="528" r="18" fill="#F1C7CF"/>
+              <circle cx="376" cy="520" r="14" fill="#B7C8F2"/>
+              <circle cx="406" cy="532" r="15" fill="#F0DFA0"/>
+              <circle cx="620" cy="530" r="16" fill="#F1C7CF"/>
+              <circle cx="652" cy="520" r="14" fill="#B7C8F2"/>
+              <circle cx="684" cy="532" r="13" fill="#F0DFA0"/>
+            </g>
+          </svg>
         </figure>
         <p class="hero__scroll-hint">Scroll to begin</p>
       </div>
@@ -399,7 +441,7 @@
 
     <!-- ===================== FOOTER ===================== -->
     <footer class="footer">
-      <img class="footer__monogram" src="./assets/images/monogram-wreath.webp" alt="B and K monogram inside a wildflower wreath" loading="lazy" />
+      <img class="footer__monogram" src="./assets/florals/monogram.svg" alt="B and K monogram inside a wildflower wreath" loading="lazy" />
       <p class="footer__line script">Bien &amp; Keana</p>
       <p class="footer__date">Saturday · June 13 · 2026</p>
       <button class="footer__share" id="shareBtn">Share this invitation</button>

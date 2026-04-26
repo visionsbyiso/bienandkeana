@@ -147,12 +147,14 @@ Keana & Bien/
 │   ├── motion.js
 │   ├── rsvp.js
 │   ├── config.js                 ← edit point for couple/event/RSVP URL
+│   ├── florals/
+│   │   ├── bloom-cluster-1.svg
+│   │   ├── bloom-cluster-2.svg
+│   │   ├── hero-couple-social.svg
+│   │   ├── monogram.svg
+│   │   ├── sprig-line-1.svg
+│   │   └── sprig-line-2.svg
 │   └── images/
-│       ├── hero-couple.webp
-│       ├── monogram-wreath.webp
-│       ├── wildflower-frame.webp
-│       ├── wildflower-sprig.webp
-│       ├── wildflower-sprig-2.webp
 │       └── ust-watercolor.webp
 ├── apps-script/
 │   └── Code.gs                   ← paste into Apps Script editor

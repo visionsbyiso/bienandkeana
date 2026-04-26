@@ -68,16 +68,16 @@ body {
 }
 .wildflower-bg__layer--a {
   background-image:
-    url("./images/wildflower-sprig.webp"),
-    url("./images/wildflower-sprig-2.webp");
+    url("./florals/sprig-line-1.svg"),
+    url("./florals/bloom-cluster-1.svg");
   background-size: 300px auto, 260px auto;
   background-position: 4% 10%, 92% 84%;
   animation: floralDriftA 34s ease-in-out infinite alternate;
 }
 .wildflower-bg__layer--b {
   background-image:
-    url("./images/wildflower-sprig-2.webp"),
-    url("./images/wildflower-sprig.webp");
+    url("./florals/sprig-line-2.svg"),
+    url("./florals/bloom-cluster-2.svg");
   background-size: 220px auto, 240px auto;
   background-position: 85% 16%, 12% 78%;
   opacity: 0.09;
@@ -532,14 +532,14 @@ section + section::before {
   height: clamp(140px, 30vw, 290px);
   left: max(8px, 2vw);
   bottom: clamp(80px, 14vh, 160px);
-  background-image: url("./images/wildflower-sprig-2.webp");
+  background-image: url("./florals/sprig-line-2.svg");
 }
 .hero--integrated::after {
   width: clamp(150px, 28vw, 290px);
   height: clamp(100px, 20vw, 180px);
   right: max(8px, 2vw);
   top: clamp(90px, 16vh, 180px);
-  background-image: url("./images/wildflower-sprig.webp");
+  background-image: url("./florals/sprig-line-1.svg");
 }
 .hero__wrap {
   width: min(720px, 100%);
@@ -599,12 +599,12 @@ section + section::before {
 .hero__portrait-sprig--left {
   left: 10px;
   bottom: 8px;
-  background-image: url("./images/wildflower-sprig.webp");
+  background-image: url("./florals/sprig-line-1.svg");
 }
 .hero__portrait-sprig--right {
   right: 10px;
   top: 10px;
-  background-image: url("./images/wildflower-sprig-2.webp");
+  background-image: url("./florals/sprig-line-2.svg");
 }
 
 .hero__couple {
@@ -720,10 +720,10 @@ section + section::before {
   pointer-events: none;
   z-index: 0;
   background:
-    url("./images/wildflower-sprig.webp") left 20px top 10px / 190px auto no-repeat,
-    url("./images/wildflower-sprig-2.webp") right 18px top 28px / 160px auto no-repeat,
-    url("./images/wildflower-sprig-2.webp") left 18px bottom 20px / 165px auto no-repeat,
-    url("./images/wildflower-sprig.webp") right 14px bottom 10px / 200px auto no-repeat;
+    url("./florals/sprig-line-1.svg") left 20px top 10px / 190px auto no-repeat,
+    url("./florals/sprig-line-2.svg") right 18px top 28px / 160px auto no-repeat,
+    url("./florals/sprig-line-2.svg") left 18px bottom 20px / 165px auto no-repeat,
+    url("./florals/sprig-line-1.svg") right 14px bottom 10px / 200px auto no-repeat;
   opacity: 0.72;
 }
 .invitation__inner {
@@ -879,7 +879,7 @@ section + section::before {
   left: 50%;
   transform: translateX(-50%);
   top: clamp(140px, 20vh, 200px);
-  background: url("./images/wildflower-sprig.webp") center/contain no-repeat;
+  background: url("./florals/sprig-line-1.svg") center/contain no-repeat;
   opacity: 0.86;
   pointer-events: none;
 }
@@ -917,14 +917,14 @@ section + section::before {
   height: clamp(120px, 20vw, 190px);
   left: max(4px, 1vw);
   top: 32%;
-  background-image: url("./images/wildflower-sprig-2.webp");
+  background-image: url("./florals/sprig-line-2.svg");
 }
 .attire--integrated::after {
   width: clamp(120px, 20vw, 190px);
   height: clamp(90px, 14vw, 140px);
   right: max(4px, 1vw);
   bottom: 14%;
-  background-image: url("./images/wildflower-sprig.webp");
+  background-image: url("./florals/sprig-line-1.svg");
 }
 .attire__rules {
   max-width: 600px;
@@ -1009,7 +1009,7 @@ section + section::before {
   width: clamp(160px, 32vw, 320px);
   height: clamp(72px, 12vw, 130px);
   opacity: 0.78;
-  background: url("./images/wildflower-sprig.webp") center/contain no-repeat;
+  background: url("./florals/sprig-line-1.svg") center/contain no-repeat;
   pointer-events: none;
 }
 .notes__title { font-size: clamp(40px, 9vw, 64px); }
