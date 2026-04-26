@@ -318,7 +318,7 @@
   // Auto-focus the search input when arriving at #rsvp
   window.addEventListener("hashchange", () => {
     if (window.location.hash === "#rsvp") {
-      setTimeout(() => document.getElementById("rsvpSearchInput")?.focus({ preventScroll: true }), 600);
+      setTimeout(() => document.getElementById("rsvpGuestName")?.focus({ preventScroll: true }), 600);
     }
   });
 })();

@@ -374,33 +374,16 @@
         </h2>
         <p class="rsvp__intro body-copy">
           <em>Kindly RSVP on or before</em> <span class="rsvp__deadline">May 15, 2026</span>.<br/>
-          <em>Search your name below to send your reply.</em>
+          <em>Please enter your details below to send your reply.</em>
         </p>
       </div>
 
-      <form class="rsvp-search reveal" data-delay="1" id="rsvpSearchForm" autocomplete="off" novalidate>
-        <label class="rsvp-search__label" for="rsvpSearchInput">Find your name</label>
-        <input
-          class="rsvp-search__input"
-          id="rsvpSearchInput"
-          type="text"
-          inputmode="text"
-          autocomplete="off"
-          placeholder="Type your full name exactly as invited…"
-        />
-        <div class="rsvp-search__actions">
-          <button type="submit" class="rsvp-search__submit" id="rsvpLookupBtn">Find my invitation</button>
+      <form class="rsvp-card reveal is-open is-shown" data-delay="1" id="rsvpCard" aria-live="polite">
+        <div class="rsvp-card__hello">Guest details</div>
+        <div class="rsvp-card__row" style="margin-top: 10px;">
+          <label class="label" for="rsvpGuestName">Full name</label>
+          <input class="rsvp-search__input" id="rsvpGuestName" type="text" autocomplete="name" placeholder="Type your full name" required />
         </div>
-        <p class="rsvp-search__helper" id="rsvpSearchHelper">
-          For privacy, guest names are hidden. Only exact matches reveal the invitation.
-        </p>
-      </form>
-
-      <!-- Personalized RSVP card (revealed after a guest is selected) -->
-      <div class="rsvp-card" id="rsvpCard" aria-live="polite">
-        <div class="rsvp-card__hello">For</div>
-        <div class="rsvp-card__name script" id="rsvpCardName">—</div>
-        <span class="rsvp-card__side" id="rsvpCardSide">—'s side</span>
 
         <div class="rsvp-card__row">
           <span class="label">Will you be joining us?</span>
@@ -410,14 +393,17 @@
           </div>
         </div>
 
-        <div class="rsvp-card__row" id="stepperRow" style="display:none;">
-          <span class="label">How many in your party?</span>
-          <div class="stepper" role="group" aria-label="Guest count">
-            <button type="button" id="stepperMinus" aria-label="Decrease guests">–</button>
-            <span class="stepper__value" id="stepperValue">1</span>
-            <button type="button" id="stepperPlus" aria-label="Increase guests">+</button>
+        <div class="rsvp-card__row">
+          <span class="label">Do you have an approved plus one?</span>
+          <div class="rsvp-card__radios">
+            <label class="rsvp-card__radio"><input type="radio" name="hasPlusOne" value="Yes" /><span>Yes</span></label>
+            <label class="rsvp-card__radio"><input type="radio" name="hasPlusOne" value="No"  /><span>No</span></label>
           </div>
-          <span class="stepper__hint" id="stepperHint">Including yourself</span>
+        </div>
+
+        <div class="rsvp-card__row" id="plusOneNameRow" style="display:none;">
+          <label class="label" for="plusOneName">Plus one full name</label>
+          <input class="rsvp-search__input" id="plusOneName" type="text" autocomplete="name" placeholder="Type your plus one's full name" />
         </div>
 
         <div class="rsvp-card__row">
@@ -425,17 +411,16 @@
           <textarea class="rsvp-card__textarea" id="rsvpMessage" placeholder="Words of love, well-wishes, anything you'd like to share…" rows="3"></textarea>
         </div>
 
-        <button type="button" class="rsvp-card__submit" id="rsvpSubmit">Send my reply</button>
+        <button type="submit" class="rsvp-card__submit" id="rsvpSubmit">Send my reply</button>
         <div class="rsvp-card__error" id="rsvpError" hidden></div>
-        <button type="button" class="rsvp-card__back" id="rsvpBack">← Search a different name</button>
-      </div>
+      </form>
 
       <!-- Success state -->
       <div class="rsvp-success" id="rsvpSuccess" aria-live="polite">
         <span class="eyebrow">Thank you</span>
         <div class="rsvp-success__title script" id="rsvpSuccessTitle">With our hearts</div>
         <p class="rsvp-success__body" id="rsvpSuccessBody">Your reply has been received. We can't wait to celebrate with you.</p>
-        <button type="button" class="rsvp-card__back" id="rsvpEdit">Update my reply</button>
+        <button type="button" class="rsvp-card__back" id="rsvpEdit">Send another RSVP</button>
       </div>
     </section>
 

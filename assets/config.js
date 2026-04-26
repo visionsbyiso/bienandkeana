@@ -29,18 +29,8 @@ window.EVITE_CONFIG = {
   // ----- RSVP backend -----
   // Paste your Apps Script Web App URL here after deploying apps-script/Code.gs
   // (See README.md → "RSVP setup")
-  // Leave as null to use the built-in DEMO list (works fully offline for previews).
+  // Leave as null to run in local demo mode (submissions are simulated in-browser).
   appsScriptUrl: "https://script.google.com/macros/s/AKfycbxOjjaFUnOLD86ozjBhRpzMS2l26ScR_riSFlH4aHQZSsssMOdTA_P0geBZECugLF_jqA/exec",
-
-  // Demo guest list used only when appsScriptUrl is null.
-  // Mirrors the columns in the real Google Sheet.
-  demoGuests: [
-    { id: "1", name: "Coleen Reyes",       aliases: "Coleen", side: "Bride",  plusOneAllowed: true,  maxGuests: 2, hasResponded: false },
-    { id: "2", name: "Keith Anthony Cruz", aliases: "Keith",  side: "Groom",  plusOneAllowed: true,  maxGuests: 2, hasResponded: false },
-    { id: "3", name: "Maria Santos",       aliases: "Maris",  side: "Bride",  plusOneAllowed: false, maxGuests: 1, hasResponded: false },
-    { id: "4", name: "Juan Dela Cruz",     aliases: "JDC",    side: "Groom",  plusOneAllowed: false, maxGuests: 1, hasResponded: true,  attending: "Yes", guestCount: 1 },
-    { id: "5", name: "The Rivera Family",  aliases: "Rivera", side: "Bride",  plusOneAllowed: true,  maxGuests: 4, hasResponded: false },
-  ],
 
   // ----- Copy -----
   verse: [

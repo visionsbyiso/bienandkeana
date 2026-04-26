@@ -4,8 +4,7 @@ A premium, mobile-first wildflower e-vite for **Bien & Keana** · *Saturday, Jun
 
 - Champagne-cream paper · Petit Formal Script + Libre Caslon Text
 - Cinematic vellum-envelope intro
-- Guest-list-aware RSVP backed by Google Sheets
-- Privacy-safe RSVP lookup (no guest-name dropdown/exposure)
+- Direct open RSVP form backed by Google Sheets
 - Vanilla HTML/CSS/JS · no build step
 
 ---
@@ -18,17 +17,14 @@ python3 -m http.server 8000
 # open http://localhost:8000
 ```
 
-A built-in **demo guest list** lives in `assets/config.js` so you can try the full RSVP flow with no backend wired up yet:
+Open the RSVP section and fill out:
+- guest full name
+- attending yes/no
+- approved plus one yes/no
+- plus one full name (if applicable)
+- optional message
 
-| Try typing | Result |
-|---|---|
-| `Coleen` | +1 allowed, max 2 |
-| `Keith` | +1 allowed, max 2 |
-| `Maria` | solo, no +1 |
-| `Juan` | already responded (Update mode) |
-| `Rivera` | family of 4 |
-
-When `EVITE_CONFIG.appsScriptUrl` is set (Step 2 below), the demo list is bypassed and the real Google Sheet is used.
+When `EVITE_CONFIG.appsScriptUrl` is set (Step 2 below), submissions are written directly to your Google Sheet.
 
 ---
 
@@ -37,30 +33,29 @@ When `EVITE_CONFIG.appsScriptUrl` is set (Step 2 below), the demo list is bypass
 ### 2a. Create the Sheet
 
 1. Create a new Google Sheet (any name — e.g. *Keana & Bien RSVPs*).
-2. Rename Sheet 1 to **`Guests`** (case-sensitive).
+2. Rename Sheet 1 to **`RSVPs`** (case-sensitive).
 3. Paste this header row exactly into row 1:
 
-| A | B | C | D | E | F | G | H | I |
-|---|---|---|---|---|---|---|---|---|
-| `Name` | `Aliases` | `Side` | `PlusOneAllowed` | `MaxGuests` | `Attending` | `GuestCount` | `Message` | `RespondedAt` |
+| A | B | C | D | E | F |
+|---|---|---|---|---|---|
+| `Name` | `Attending` | `HasPlusOne` | `PlusOneName` | `Message` | `SubmittedAt` |
 
 4. Add your guests starting on row 2. Example:
 
-| Name | Aliases | Side | PlusOneAllowed | MaxGuests | Attending | GuestCount | Message | RespondedAt |
-|---|---|---|---|---|---|---|---|---|
-| Coleen Reyes | Coleen | Bride | TRUE | 2 |  |  |  |  |
-| Keith Anthony Cruz | Keith | Groom | TRUE | 2 |  |  |  |  |
-| Maria Santos | Maris | Bride | FALSE | 1 |  |  |  |  |
-| The Rivera Family | Rivera | Bride | TRUE | 4 |  |  |  |  |
+| Name | Attending | HasPlusOne | PlusOneName | Message | SubmittedAt |
+|---|---|---|---|---|---|
+| Coleen Reyes | Yes | No |  | Looking forward to your day |  |
+| Keith Anthony Cruz | Yes | Yes | Maria Santos | Excited to celebrate |  |
+| Juan Dela Cruz | No | No |  | Sending love |  |
 
 **Column reference**
 
-- `Name` — canonical full name; used for private lookup
-- `Aliases` — comma-separated nicknames (so "Keith" finds "Keith Anthony Cruz")
-- `Side` — `Bride` or `Groom`
-- `PlusOneAllowed` — `TRUE` shows the +1 stepper to the guest; `FALSE` hides it
-- `MaxGuests` — total seats including the named guest (`1` = solo, `2` = +1, `4` = family)
-- `Attending` / `GuestCount` / `Message` / `RespondedAt` — leave empty; filled by the form
+- `Name` — guest full name (typed directly by guest)
+- `Attending` — `Yes` or `No`
+- `HasPlusOne` — `Yes` or `No`
+- `PlusOneName` — full name of approved plus one (optional)
+- `Message` — optional note from guest
+- `SubmittedAt` — timestamp from the script
 
 ### 2b. Deploy the Apps Script Web App
 
@@ -84,7 +79,7 @@ Open [`assets/config.js`](assets/config.js) and paste your URL:
 appsScriptUrl: "https://script.google.com/macros/s/AKfycb…/exec",
 ```
 
-Reload the site. Search now hits your Sheet; submissions write back to it.
+Reload the site. Form submissions write directly into your sheet.
 
 > **Updating the script later**: every time you change `Code.gs`, you must redeploy via **Deploy → Manage deployments → ✎ Edit → Version: New version → Deploy**. Reusing the same deployment URL keeps `assets/config.js` unchanged.
 
