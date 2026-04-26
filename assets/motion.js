@@ -115,7 +115,7 @@
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.18, rootMargin: "0px 0px -40px 0px" });
+    }, { threshold: 0.12, rootMargin: "0px 0px -30px 0px" });
     revealEls.forEach((el) => io.observe(el));
   } else {
     revealEls.forEach((el) => el.classList.add("is-revealed"));
@@ -212,7 +212,7 @@
           });
         }
       });
-    }, { threshold: 0.4 });
+    }, { threshold: 0.46 });
     sections.forEach((s) => sectionIO.observe(s));
   }
 
