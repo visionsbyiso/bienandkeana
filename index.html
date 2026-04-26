@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#F5EBD9" />
+  <meta name="description" content="Bien & Keana — Saturday, June 13, 2026. A wildflower wedding at Santisimo Rosario Parish, UST. Kindly RSVP on or before May 15, 2026." />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Bien & Keana · 06.13.2026" />
+  <meta property="og:description" content="A wildflower wedding at Santisimo Rosario Parish, UST. Saturday, June 13, 2026. Kindly RSVP on or before May 15, 2026." />
+  <meta property="og:image" content="./assets/images/hero-couple.webp" />
+
+  <title>Bien & Keana · 06.13.2026</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Petit+Formal+Script&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <link rel="icon" href="./assets/images/monogram-wreath.webp" type="image/webp" />
+  <link rel="apple-touch-icon" href="./assets/images/monogram-wreath.webp" />
+
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+
+  <!-- ===================== ENVELOPE INTRO ===================== -->
+  <div class="envelope-stage" id="envelope" data-state="closed" role="dialog" aria-label="Open the wedding invitation">
+    <div class="envelope" aria-hidden="false">
+      <div class="envelope__body">
+        <div class="envelope__addressee">
+          <span class="eyebrow">For our beloved guest</span>
+          <span class="script">our dearest you</span>
+        </div>
+      </div>
+      <div class="envelope__letter">
+        <div>
+          <span class="eyebrow">You are invited</span>
+          <div class="script">Bien<br/>&amp; Keana</div>
+          <span class="eyebrow">06 · 13 · 2026</span>
+        </div>
+      </div>
+      <div class="envelope__flap" aria-hidden="true"></div>
+      <button class="envelope__seal" id="envelopeSeal" type="button" aria-label="Open the invitation">
+        <span class="envelope__seal-mono">B&amp;K</span>
+      </button>
+    </div>
+    <div class="envelope__hint">Tap the seal to open</div>
+  </div>
+
+  <!-- ===================== APP (everything after envelope) ===================== -->
+  <div class="app" id="app" aria-hidden="true">
+
+    <!-- ----- Floating dock ----- -->
+    <nav class="dock" id="dock" aria-label="Sections">
+      <span class="dock__monogram" aria-hidden="true">B&amp;K</span>
+      <a href="#invitation">Invitation</a>
+      <a href="#venues">Venues</a>
+      <a href="#entourage">Entourage</a>
+      <a href="#attire">Attire</a>
+      <a href="#rsvp">RSVP</a>
+    </nav>
+
+    <!-- ----- Sticky bottom RSVP CTA (mobile) ----- -->
+    <a class="cta-rsvp" id="ctaRsvp" href="#rsvp" aria-label="Go to RSVP">RSVP</a>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="hero">
+      <div class="hero__wrap reveal">
+        <span class="eyebrow hero__eyebrow">Save the date</span>
+        <h1 class="script letterpress hero__names" id="heroNames">
+          Bien
+          <span class="script hero__amp">&amp;</span>
+          Keana
+        </h1>
+        <p class="hero__date">06 · 13 · 2026</p>
+        <img
+          class="hero__couple"
+          id="heroCouple"
+          src="./assets/images/hero-couple.webp"
+          alt="Illustrated portrait of Bien and Keana"
+          width="1024"
+          height="586"
+          loading="eager"
+          decoding="async"
+        />
+        <p class="hero__scroll-hint">Scroll to begin</p>
+      </div>
+    </section>
+
+    <!-- ===================== COUNTDOWN ===================== -->
+    <section class="countdown" id="countdown">
+      <div class="reveal">
+        <span class="eyebrow">Counting down</span>
+        <h2 class="script title-with-underline" style="font-size: clamp(40px, 8vw, 56px); margin-top: 8px;">
+          to our forever
+          <svg class="ink-underline" viewBox="0 0 220 14" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M2,8 C 50,2 110,12 158,6 C 188,3 208,7 218,5" />
+          </svg>
+        </h2>
+      </div>
+      <div class="countdown__grid reveal" data-delay="1" id="countdownGrid">
+        <div class="countdown__cell"><span class="countdown__num" data-cd="days">000</span><span class="countdown__label">Days</span></div>
+        <div class="countdown__cell"><span class="countdown__num" data-cd="hours">00</span><span class="countdown__label">Hours</span></div>
+        <div class="countdown__cell"><span class="countdown__num" data-cd="minutes">00</span><span class="countdown__label">Minutes</span></div>
+        <div class="countdown__cell"><span class="countdown__num" data-cd="seconds">00</span><span class="countdown__label">Seconds</span></div>
+      </div>
+    </section>
+
+    <!-- ===================== INVITATION ===================== -->
+    <section class="invitation" id="invitation">
+      <div class="invitation__frame reveal">
+        <div class="invitation__inner">
+          <p class="invitation__verse body-copy">
+            <em>
+              To everything there's a reason,<br/>
+              a time and a purpose.<br/>
+              On this day, I will marry my<br/>
+              best friend the one I will laugh with.<br/>
+              Live for. Love.
+            </em>
+          </p>
+
+          <p class="invitation__we"><em>We,</em></p>
+          <h2 class="script letterpress invitation__names">
+            Bien
+            <span class="script invitation__amp">&amp;</span>
+            Keana
+          </h2>
+
+          <div class="invitation__parents body-copy">
+            <div>
+              <span class="invitation__parents-label">Together with our parents</span>
+              <em>Bonifacio H. Lagmay †<br/>Maria Luisa H. Lagmay</em>
+            </div>
+            <div>
+              <span class="invitation__parents-label">&nbsp;</span>
+              <em>Marvin M. Rivera<br/>Imee M. Rivera</em>
+            </div>
+          </div>
+
+          <div class="invitation__details body-copy">
+            <p>
+              <em>request the honor of your presence to share with us<br/>
+              a day of happy beginnings as we become united in marriage on</em>
+            </p>
+            <p>
+              <strong>Saturday, the thirteenth of June 2026</strong><br/>
+              <em>at ten o'clock in the morning</em><br/>
+              <strong>Santisimo Rosario Parish — UST</strong><br/>
+              <em>España Blvd., Sampaloc, Manila, Philippines</em>
+            </p>
+            <p style="margin-top: 24px;">
+              <em>Reception immediately follows at</em><br/>
+              <strong>UST Central Seminary Gym</strong><br/>
+              <em>España Blvd., Sampaloc</em>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== VENUES + MAPS ===================== -->
+    <section class="venues" id="venues">
+      <div class="reveal">
+        <span class="eyebrow">Find us here</span>
+        <h2 class="script title-with-underline" style="font-size: clamp(48px, 10vw, 72px); margin: 8px 0 0;">
+          Our venues
+          <svg class="ink-underline" viewBox="0 0 220 14" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M2,8 C 50,2 110,12 158,6 C 188,3 208,7 218,5" />
+          </svg>
+        </h2>
+        <img class="venues__art" src="./assets/images/ust-watercolor.webp" alt="Watercolor illustration of UST" width="1024" height="586" loading="lazy" decoding="async" />
+      </div>
+
+      <div class="venues__grid">
+        <article class="venue-card reveal" data-delay="1">
+          <span class="eyebrow">Ceremony · 10:00 AM</span>
+          <h3 class="venue-card__name">Santisimo Rosario Parish</h3>
+          <p class="venue-card__address">España Blvd., Sampaloc, Manila</p>
+          <div class="venue-card__map" data-map-query="Santisimo Rosario Parish UST Espana Manila">
+            <div class="venue-card__map-placeholder">Map loading…</div>
+          </div>
+          <a class="venue-card__directions" href="#" data-directions="Santisimo Rosario Parish UST Espana Manila">Get directions</a>
+        </article>
+
+        <article class="venue-card reveal" data-delay="2">
+          <span class="eyebrow">Reception · After ceremony</span>
+          <h3 class="venue-card__name">UST Central Seminary Gym</h3>
+          <p class="venue-card__address">España Blvd., Sampaloc, Manila</p>
+          <div class="venue-card__map" data-map-query="UST Central Seminary Gym Espana Manila">
+            <div class="venue-card__map-placeholder">Map loading…</div>
+          </div>
+          <a class="venue-card__directions" href="#" data-directions="UST Central Seminary Gym Espana Manila">Get directions</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== ENTOURAGE ===================== -->
+    <section class="entourage" id="entourage">
+      <div class="reveal">
+        <span class="eyebrow">Standing with us</span>
+        <h2 class="script title-with-underline" style="font-size: clamp(56px, 12vw, 88px); margin: 8px 0 0;">
+          Entourage
+          <svg class="ink-underline" viewBox="0 0 220 14" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M2,8 C 50,2 110,12 158,6 C 188,3 208,7 218,5" />
+          </svg>
+        </h2>
+        <img class="entourage__sprig" src="./assets/images/wildflower-sprig.webp" alt="" aria-hidden="true" loading="lazy" />
+      </div>
+
+      <div class="entourage__parents reveal" data-delay="1">
+        <div class="entourage__parent-block">
+          <span class="invitation__parents-label">Groom's parents</span>
+          <em>Bonifacio H. Lagmay †<br/>Maria Luisa H. Lagmay</em>
+        </div>
+        <div class="entourage__parent-block">
+          <span class="invitation__parents-label">Bride's parents</span>
+          <em>Marvin M. Rivera<br/>Imee M. Rivera</em>
+        </div>
+      </div>
+
+      <div class="entourage__sponsors reveal" data-delay="2">
+        <span class="invitation__parents-label">Principal sponsors</span>
+        <div class="body-copy">
+          <em>
+            Dr. Leovino Ma. Garcia<br/>
+            Mrs. Irene M. Makalintal<br/>
+            Mrs. Janet C. Mendoza<br/>
+            Mrs. Lilia A. Hernandez<br/>
+            Mr. Steve Paul Anthony T. Baltao<br/>
+            Mrs. Winnie Marianne L. Hernandez
+          </em>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ATTIRE ===================== -->
+    <section class="attire" id="attire">
+      <div class="reveal">
+        <span class="eyebrow">Dress code</span>
+        <h2 class="script title-with-underline" style="font-size: clamp(56px, 12vw, 88px); margin: 8px 0 0;">
+          Attire
+          <svg class="ink-underline" viewBox="0 0 220 14" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M2,8 C 50,2 110,12 158,6 C 188,3 208,7 218,5" />
+          </svg>
+        </h2>
+      </div>
+
+      <div class="attire__rules body-copy reveal" data-delay="1">
+        <span class="attire__rule-label">Principal Sponsors</span>
+        <em>
+          Ladies: Floor-length or ankle-length formal gown<br/>
+          Gentlemen: Barong Tagalog
+        </em>
+
+        <span class="attire__rule-label">Guests &amp; Visitors</span>
+        <em>
+          Ladies: Mid- to ankle-length dresses, or formal blouse and skirt, or slacks<br/>
+          Gentlemen: Long-sleeved shirt or modern Barong Tagalog
+        </em>
+
+        <span class="attire__rule-label">Plain &amp; floral prints are welcomed in any of these colors</span>
+      </div>
+
+      <div class="palette reveal" data-delay="2" id="palette" role="group" aria-label="Wedding color palette"></div>
+
+      <p class="attire__welcome reveal" data-delay="3"><em>Vibrant and vivid colors are welcome!</em></p>
+    </section>
+
+    <!-- ===================== UNPLUGGED + GIFTS ===================== -->
+    <section class="notes" id="notes">
+      <div class="reveal">
+        <span class="eyebrow">A little ask</span>
+        <h2 class="script letterpress notes__title title-with-underline">
+          Unplugged ceremony
+          <svg class="ink-underline" viewBox="0 0 220 14" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M2,8 C 50,2 110,12 158,6 C 188,3 208,7 218,5" />
+          </svg>
+        </h2>
+      </div>
+
+      <div class="body-copy reveal" data-delay="1" style="max-width: 560px; margin: 18px auto 0;">
+        <em>
+          We invite you to be fully present during our ceremony. Please put away your phones and cameras and enjoy this special moment with us!
+        </em>
+        <p style="margin-top: 18px;">
+          <em>
+            We have a team of professional photographers with us to capture these memories, so you can simply be in the moment. All photos will be shared with you through the QR code below.
+          </em>
+        </p>
+      </div>
+
+      <div class="notes__qr reveal" data-delay="2" aria-label="Photo gallery QR placeholder">QR comes here once gallery is set up</div>
+
+      <div class="reveal" data-delay="3" style="margin-top: 40px;">
+        <h2 class="script letterpress notes__title title-with-underline" style="font-size: clamp(40px, 9vw, 64px);">
+          A note on gifts
+          <svg class="ink-underline" viewBox="0 0 220 14" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M2,8 C 50,2 110,12 158,6 C 188,3 208,7 218,5" />
+          </svg>
+        </h2>
+      </div>
+
+      <div class="body-copy reveal" data-delay="4" style="max-width: 560px; margin: 18px auto 0;">
+        <em>
+          Your presence at our wedding is present enough, but if we are honored with a gift from you, a monetary gift will be very much appreciated.
+        </em>
+        <p style="margin-top: 14px;">
+          <em>For your convenience, money envelopes will be available at the gift table during the reception.</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== RSVP ===================== -->
+    <section class="rsvp" id="rsvp">
+      <div class="reveal">
+        <span class="eyebrow">Kindly respond</span>
+        <h2 class="script letterpress title-with-underline" style="font-size: clamp(64px, 14vw, 104px);">
+          R.s.v.p.
+          <svg class="ink-underline" viewBox="0 0 220 14" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M2,8 C 50,2 110,12 158,6 C 188,3 208,7 218,5" />
+          </svg>
+        </h2>
+        <p class="rsvp__intro body-copy">
+          <em>Kindly RSVP on or before</em> <span class="rsvp__deadline">May 15, 2026</span>.<br/>
+          <em>Search your name below to send your reply.</em>
+        </p>
+      </div>
+
+      <form class="rsvp-search reveal" data-delay="1" id="rsvpSearchForm" autocomplete="off" novalidate>
+        <label class="rsvp-search__label" for="rsvpSearchInput">Find your name</label>
+        <input
+          class="rsvp-search__input"
+          id="rsvpSearchInput"
+          type="text"
+          inputmode="text"
+          autocomplete="off"
+          placeholder="Type your full name exactly as invited…"
+        />
+        <div class="rsvp-search__actions">
+          <button type="submit" class="rsvp-search__submit" id="rsvpLookupBtn">Find my invitation</button>
+        </div>
+        <p class="rsvp-search__helper" id="rsvpSearchHelper">
+          For privacy, guest names are hidden. Only exact matches reveal the invitation.
+        </p>
+      </form>
+
+      <!-- Personalized RSVP card (revealed after a guest is selected) -->
+      <div class="rsvp-card" id="rsvpCard" aria-live="polite">
+        <div class="rsvp-card__hello">For</div>
+        <div class="rsvp-card__name script" id="rsvpCardName">—</div>
+        <span class="rsvp-card__side" id="rsvpCardSide">—'s side</span>
+
+        <div class="rsvp-card__row">
+          <span class="label">Will you be joining us?</span>
+          <div class="rsvp-card__radios">
+            <label class="rsvp-card__radio"><input type="radio" name="attending" value="Yes" /><span>Joyfully yes</span></label>
+            <label class="rsvp-card__radio"><input type="radio" name="attending" value="No"  /><span>Regretfully no</span></label>
+          </div>
+        </div>
+
+        <div class="rsvp-card__row" id="stepperRow" style="display:none;">
+          <span class="label">How many in your party?</span>
+          <div class="stepper" role="group" aria-label="Guest count">
+            <button type="button" id="stepperMinus" aria-label="Decrease guests">–</button>
+            <span class="stepper__value" id="stepperValue">1</span>
+            <button type="button" id="stepperPlus" aria-label="Increase guests">+</button>
+          </div>
+          <span class="stepper__hint" id="stepperHint">Including yourself</span>
+        </div>
+
+        <div class="rsvp-card__row">
+          <label class="label" for="rsvpMessage">A message for the couple <span style="text-transform:none; letter-spacing:0;">(optional)</span></label>
+          <textarea class="rsvp-card__textarea" id="rsvpMessage" placeholder="Words of love, well-wishes, anything you'd like to share…" rows="3"></textarea>
+        </div>
+
+        <button type="button" class="rsvp-card__submit" id="rsvpSubmit">Send my reply</button>
+        <div class="rsvp-card__error" id="rsvpError" hidden></div>
+        <button type="button" class="rsvp-card__back" id="rsvpBack">← Search a different name</button>
+      </div>
+
+      <!-- Success state -->
+      <div class="rsvp-success" id="rsvpSuccess" aria-live="polite">
+        <span class="eyebrow">Thank you</span>
+        <div class="rsvp-success__title script" id="rsvpSuccessTitle">With our hearts</div>
+        <p class="rsvp-success__body" id="rsvpSuccessBody">Your reply has been received. We can't wait to celebrate with you.</p>
+        <button type="button" class="rsvp-card__back" id="rsvpEdit">Update my reply</button>
+      </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer">
+      <img class="footer__monogram" src="./assets/images/monogram-wreath.webp" alt="B and K monogram inside a wildflower wreath" loading="lazy" />
+      <p class="footer__line script">Bien &amp; Keana</p>
+      <p class="footer__date">Saturday · June 13 · 2026</p>
+      <button class="footer__share" id="shareBtn">Share this invitation</button>
+    </footer>
+  </div>
+
+  <script src="./assets/config.js"></script>
+  <script src="./assets/motion.js" defer></script>
+  <script src="./assets/rsvp.js" defer></script>
+</body>
+</html>
