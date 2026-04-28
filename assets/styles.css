@@ -63,24 +63,25 @@ body {
   inset: -12% -8%;
   background-repeat: no-repeat;
   background-size: cover;
-  opacity: 0.12;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
   will-change: transform;
 }
 .wildflower-bg__layer--a {
   background-image:
-    url("./florals/sprig-line-1.svg"),
-    url("./florals/bloom-cluster-1.svg");
+    url("./florals/painted/sprig-left.webp"),
+    url("./florals/painted/bloom-cluster-a.webp");
   background-size: 300px auto, 260px auto;
   background-position: 4% 10%, 92% 84%;
   animation: floralDriftA 34s ease-in-out infinite alternate;
 }
 .wildflower-bg__layer--b {
   background-image:
-    url("./florals/sprig-line-2.svg"),
-    url("./florals/bloom-cluster-2.svg");
+    url("./florals/painted/sprig-right.webp"),
+    url("./florals/painted/bloom-cluster-b.webp");
   background-size: 220px auto, 240px auto;
   background-position: 85% 16%, 12% 78%;
-  opacity: 0.09;
+  opacity: 0.14;
   animation: floralDriftB 42s ease-in-out infinite alternate;
 }
 .wildflower-bg__layer--c {
@@ -523,23 +524,24 @@ section + section::before {
   position: absolute;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.44;
+  opacity: 0.62;
   background-repeat: no-repeat;
   background-size: contain;
+  mix-blend-mode: multiply;
 }
 .hero--integrated::before {
   width: clamp(120px, 24vw, 250px);
   height: clamp(140px, 30vw, 290px);
   left: max(8px, 2vw);
   bottom: clamp(80px, 14vh, 160px);
-  background-image: url("./florals/sprig-line-2.svg");
+  background-image: url("./florals/painted/sprig-right.webp");
 }
 .hero--integrated::after {
   width: clamp(150px, 28vw, 290px);
   height: clamp(100px, 20vw, 180px);
   right: max(8px, 2vw);
   top: clamp(90px, 16vh, 180px);
-  background-image: url("./florals/sprig-line-1.svg");
+  background-image: url("./florals/painted/sprig-left.webp");
 }
 .hero__wrap {
   width: min(720px, 100%);
@@ -601,13 +603,13 @@ section + section::before {
 .hero__portrait-sprig--left {
   left: -8px;
   bottom: -6px;
-  background-image: url("./florals/sprig-line-1.svg");
+  background-image: url("./florals/painted/sprig-left.webp");
   transform: rotate(-6deg);
 }
 .hero__portrait-sprig--right {
   right: -8px;
   top: -6px;
-  background-image: url("./florals/sprig-line-2.svg");
+  background-image: url("./florals/painted/sprig-right.webp");
   transform: rotate(8deg);
 }
 
@@ -723,7 +725,7 @@ section + section::before {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background: url("./florals/wildflower-frame.svg") center / 100% 100% no-repeat;
+  background: url("./florals/painted/wildflower-frame.webp") center / 100% 100% no-repeat;
   opacity: 0.85;
   mix-blend-mode: multiply;
 }
@@ -825,7 +827,7 @@ section + section::before {
   transform: translateX(-50%);
   width: clamp(220px, 36vw, 340px);
   height: clamp(76px, 12vw, 120px);
-  background: url("./florals/floral-arch.svg") center/contain no-repeat;
+  background: url("./florals/painted/floral-arch.webp") center/contain no-repeat;
   opacity: 0.85;
   mix-blend-mode: multiply;
   pointer-events: none;
@@ -913,7 +915,7 @@ section + section::before {
   left: 50%;
   transform: translateX(-50%);
   top: clamp(60px, 9vh, 110px);
-  background: url("./florals/floral-arch.svg") center/contain no-repeat;
+  background: url("./florals/painted/floral-arch.webp") center/contain no-repeat;
   opacity: 0.88;
   mix-blend-mode: multiply;
   pointer-events: none;
@@ -926,7 +928,7 @@ section + section::before {
   left: 50%;
   transform: translateX(-50%) rotate(180deg);
   bottom: clamp(40px, 6vh, 80px);
-  background: url("./florals/floral-arch.svg") center/contain no-repeat;
+  background: url("./florals/painted/floral-arch.webp") center/contain no-repeat;
   opacity: 0.7;
   mix-blend-mode: multiply;
   pointer-events: none;
@@ -960,7 +962,7 @@ section + section::before {
   left: 50%;
   transform: translateX(-50%);
   top: clamp(60px, 9vh, 110px);
-  background: url("./florals/floral-arch.svg") center/contain no-repeat;
+  background: url("./florals/painted/floral-arch.webp") center/contain no-repeat;
   opacity: 0.86;
   mix-blend-mode: multiply;
 }
@@ -972,8 +974,8 @@ section + section::before {
   height: clamp(90px, 14vw, 150px);
   right: max(8px, 2vw);
   bottom: 8%;
-  background: url("./florals/sprig-line-1.svg") center/contain no-repeat;
-  opacity: 0.45;
+  background: url("./florals/painted/sprig-left.webp") center/contain no-repeat;
+  opacity: 0.6;
   mix-blend-mode: multiply;
 }
 .attire__rules {
@@ -1059,7 +1061,7 @@ section + section::before {
   width: clamp(220px, 36vw, 340px);
   height: clamp(76px, 12vw, 120px);
   opacity: 0.88;
-  background: url("./florals/floral-arch.svg") center/contain no-repeat;
+  background: url("./florals/painted/floral-arch.webp") center/contain no-repeat;
   mix-blend-mode: multiply;
   pointer-events: none;
 }
@@ -1072,7 +1074,7 @@ section + section::before {
   width: clamp(220px, 36vw, 340px);
   height: clamp(76px, 12vw, 120px);
   opacity: 0.7;
-  background: url("./florals/floral-arch.svg") center/contain no-repeat;
+  background: url("./florals/painted/floral-arch.webp") center/contain no-repeat;
   mix-blend-mode: multiply;
   pointer-events: none;
 }
@@ -1107,7 +1109,7 @@ section + section::before {
   top: clamp(60px, 9vh, 110px);
   width: clamp(220px, 36vw, 340px);
   height: clamp(76px, 12vw, 120px);
-  background: url("./florals/floral-arch.svg") center/contain no-repeat;
+  background: url("./florals/painted/floral-arch.webp") center/contain no-repeat;
   opacity: 0.88;
   mix-blend-mode: multiply;
   pointer-events: none;
@@ -1118,9 +1120,9 @@ section + section::before {
   position: absolute;
   inset: clamp(180px, 24vh, 260px) max(8px, 2vw) clamp(40px, 6vh, 80px);
   background:
-    url("./florals/sprig-line-2.svg") left top / clamp(110px, 18vw, 180px) auto no-repeat,
-    url("./florals/sprig-line-1.svg") right bottom / clamp(110px, 18vw, 180px) auto no-repeat;
-  opacity: 0.4;
+    url("./florals/painted/sprig-right.webp") left top / clamp(110px, 18vw, 180px) auto no-repeat,
+    url("./florals/painted/sprig-left.webp") right bottom / clamp(110px, 18vw, 180px) auto no-repeat;
+  opacity: 0.55;
   mix-blend-mode: multiply;
   pointer-events: none;
   z-index: 0;
@@ -1220,8 +1222,8 @@ section + section::before {
   content: "";
   position: absolute;
   inset: -10px;
-  background: url("./florals/wildflower-frame.svg") center / 100% 100% no-repeat;
-  opacity: 0.55;
+  background: url("./florals/painted/wildflower-frame.webp") center / 100% 100% no-repeat;
+  opacity: 0.7;
   mix-blend-mode: multiply;
   pointer-events: none;
   z-index: -1;
