@@ -762,7 +762,7 @@ END:VCALENDAR`;
           </div>
 
           <p className="font-serif italic text-sm mt-3 mb-1" style={{ color: "var(--ink-soft)" }}>
-            {showOlder ? "look at how they grew" : "tap the photos — see them grow"}
+            {showOlder ? "celebrate with us!" : "tap the photos"}
           </p>
 
           <Divider ornament="❀" />
