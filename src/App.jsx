@@ -168,6 +168,35 @@ const FontInjection = () => (
       50%     { transform: scale(1.06); opacity: 0.8; }
     }
     .egg-hint { animation: eggPulse 3.5s ease-in-out infinite; }
+
+    @media (hover: none) and (pointer: coarse) {
+      .btn-organic:hover,
+      .easter-egg:hover {
+        letter-spacing: inherit;
+        transform: none;
+        filter: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; }
+      .reveal.in-view,
+      .sway-slow,
+      .sway-med,
+      .breathe,
+      .egg-hint,
+      .pen-tip.in-view,
+      .petal {
+        animation: none !important;
+      }
+      .flip-img,
+      .btn-organic,
+      .swatch-tooltip,
+      .easter-egg {
+        transition: none !important;
+      }
+    }
   `}</style>
 );
 
@@ -304,6 +333,7 @@ const Divider = ({ ornament = "✦" }) => (
 /*  MAIN COMPONENT                                                    */
 /* ================================================================== */
 export default function WeddingEvite() {
+  const APPS_SCRIPT_URL = (import.meta.env.VITE_APPS_SCRIPT_URL || "").trim();
   const [showOlder, setShowOlder] = useState(false);   // false = babies, true = older kids
   const flipTimer = useRef(null);
 
@@ -322,6 +352,8 @@ export default function WeddingEvite() {
 
   const [rsvp, setRsvp] = useState({ name: "", attending: null, note: "" });
   const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
+  const [rsvpSending, setRsvpSending] = useState(false);
+  const [rsvpError, setRsvpError] = useState("");
 
   const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
@@ -418,10 +450,47 @@ export default function WeddingEvite() {
     setTimeout(() => setEggMessage(null), 2800);
   };
 
-  const handleRsvpSubmit = () => {
-    if (!rsvp.name || rsvp.attending === null) return;
-    setRsvpSubmitted(true);
-    triggerPetals(40);
+  const handleRsvpSubmit = async () => {
+    if (!rsvp.name || rsvp.attending === null || rsvpSending) return;
+
+    setRsvpError("");
+    setRsvpSending(true);
+
+    const payload = {
+      name: rsvp.name.trim(),
+      attending: rsvp.attending ? "Yes" : "No",
+      hasPlusOne: "No",
+      plusOneName: "",
+      message: (rsvp.note || "").trim().slice(0, 1000),
+    };
+
+    try {
+      if (!APPS_SCRIPT_URL) {
+        throw new Error("RSVP endpoint is not configured. Set VITE_APPS_SCRIPT_URL in .env.local.");
+      }
+
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Submit failed (${res.status})`);
+      }
+
+      const data = await res.json();
+      if (data && data.ok === false) {
+        throw new Error(data.error || "Submit failed");
+      }
+
+      setRsvpSubmitted(true);
+      triggerPetals(40);
+    } catch (err) {
+      setRsvpError(err?.message || "Unable to submit RSVP right now. Please try again.");
+    } finally {
+      setRsvpSending(false);
+    }
   };
 
   const downloadIcs = () => {
@@ -466,7 +535,7 @@ END:VCALENDAR`;
       ))}
 
       {eggMessage && (
-        <div className="fixed top-6 left-1/2 z-[90] px-6 py-3" style={{
+        <div className="fixed top-3 sm:top-6 left-1/2 z-[90] px-4 sm:px-6 py-3" style={{
           transform: "translateX(-50%)",
           background: "var(--cream)", border: "1px solid var(--gold)", borderRadius: 2,
           boxShadow: "0 8px 24px rgba(58,68,56,0.18)",
@@ -526,7 +595,7 @@ END:VCALENDAR`;
 
           <Divider ornament="❀" />
 
-          <h1 className="font-script-flow leading-none" style={{ fontSize: "5.5rem", color: "var(--ink)", lineHeight: 0.85 }}>
+          <h1 className="font-script-flow leading-none" style={{ fontSize: "clamp(3.75rem, 18vw, 5.5rem)", color: "var(--ink)", lineHeight: 0.85 }}>
             Bien
             <span className="font-serif italic text-2xl mx-2" style={{ color: "var(--gold)" }}>&amp;</span>
             <br />
@@ -794,7 +863,7 @@ END:VCALENDAR`;
               padding: "2rem 1.5rem", boxShadow: "0 20px 60px rgba(58,68,56,0.4)",
             }}
             onClick={(e) => e.stopPropagation()}>
-            <button onClick={() => setParkingOpen(false)} className="absolute top-3 right-3 p-1"
+            <button onClick={() => setParkingOpen(false)} className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center"
               style={{ color: "var(--ink-soft)", background: "transparent", border: "none", cursor: "pointer" }}
               aria-label="Close">
               <X size={20} />
@@ -1170,16 +1239,21 @@ END:VCALENDAR`;
                 )}
 
                 <button onClick={handleRsvpSubmit}
-                  disabled={!rsvp.name || rsvp.attending === null}
+                  disabled={!rsvp.name || rsvp.attending === null || rsvpSending}
                   className="btn-organic font-serif-sc text-xs py-4 w-full"
                   style={{
-                    background: (!rsvp.name || rsvp.attending === null) ? "rgba(58,68,56,0.25)" : "var(--ink)",
+                    background: (!rsvp.name || rsvp.attending === null || rsvpSending) ? "rgba(58,68,56,0.25)" : "var(--ink)",
                     color: "var(--cream)", border: "none",
-                    cursor: (!rsvp.name || rsvp.attending === null) ? "not-allowed" : "pointer",
+                    cursor: (!rsvp.name || rsvp.attending === null || rsvpSending) ? "not-allowed" : "pointer",
                     marginTop: 8,
                   }}>
-                  SEND OUR REPLY ✦
+                  {rsvpSending ? "SENDING..." : "SEND OUR REPLY ✦"}
                 </button>
+                {rsvpError && (
+                  <p className="font-serif italic text-xs mt-3" style={{ color: "var(--rose-deep)" }}>
+                    {rsvpError}
+                  </p>
+                )}
               </div>
             </>
           ) : (

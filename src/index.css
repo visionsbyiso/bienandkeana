@@ -9,3 +9,30 @@ body,
   padding: 0;
   min-height: 100%;
 }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+button,
+[role="button"],
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  button,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
