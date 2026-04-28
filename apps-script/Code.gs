@@ -1,26 +1,9 @@
 /**
  * Keana & Bien — RSVP backend (Google Apps Script Web App)
  *
- * Sheet "Guests" columns (row 1 must be these headers, exactly):
- *   A: Name
- *   B: Aliases             (comma-separated nicknames; optional)
- *   C: Side                ("Bride" | "Groom")
- *   D: PlusOneAllowed      (TRUE / FALSE)
- *   E: MaxGuests           (integer; total seats incl. named guest)
- *   F: Attending           (filled by RSVP submission)
- *   G: GuestCount          (filled by RSVP submission)
- *   H: Message             (filled by RSVP submission)
- *   I: RespondedAt         (filled by RSVP submission)
- *
- * Deploy:
- *   1. Open script.google.com → New project → paste this file as Code.gs
- *   2. Open the linked Spreadsheet in the script editor: Resources → Properties:
- *      Project Properties → Script properties → add SHEET_ID = <your spreadsheet id>
- *      OR — easier — just keep this script attached to your Sheet via
- *      Extensions → Apps Script (so SpreadsheetApp.getActive() works).
- *   3. Deploy → New deployment → type: Web app
- *      Execute as: Me · Who has access: Anyone
- *   4. Copy the Web App URL into assets/config.js → appsScriptUrl.
+ * Sheet name: RSVPs
+ * Header row (A1:F1):
+ * Name | Attending | HasPlusOne | PlusOneName | Message | SubmittedAt
  */
 
 const SHEET_NAME = "RSVPs";
@@ -46,16 +29,6 @@ function ensureHeader_() {
   }
 }
 
-function normalize_(s) {
-  return String(s || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9 ]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
 /* =========== GET — service status ============ */
 function doGet(e) {
   try {
@@ -69,7 +42,7 @@ function doGet(e) {
 function doPost(e) {
   try {
     ensureHeader_();
-    const body = JSON.parse(e.postData.contents);
+    const body = parseBody_(e);
     const name = String(body.name || "").trim();
     const attending = String(body.attending || "").trim();
     const hasPlusOne = String(body.hasPlusOne || "No").trim() === "Yes" ? "Yes" : "No";
@@ -88,6 +61,25 @@ function doPost(e) {
   } catch (err) {
     return jsonOut_({ ok: false, error: String(err && err.message || err) });
   }
+}
+
+function parseBody_(e) {
+  const raw = String(e && e.postData && e.postData.contents || "").trim();
+  if (raw) {
+    try {
+      return JSON.parse(raw);
+    } catch (_) {
+      // Fall back to form params below.
+    }
+  }
+  const p = (e && e.parameter) || {};
+  return {
+    name: p.name || "",
+    attending: p.attending || "",
+    hasPlusOne: p.hasPlusOne || "No",
+    plusOneName: p.plusOneName || "",
+    message: p.message || "",
+  };
 }
 
 function jsonOut_(obj) {

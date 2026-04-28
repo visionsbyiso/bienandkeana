@@ -169,6 +169,134 @@ const FontInjection = () => (
     }
     .egg-hint { animation: eggPulse 3.5s ease-in-out infinite; }
 
+    .intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+      background:
+        radial-gradient(circle at 22% 18%, rgba(201, 160, 160, 0.16), transparent 44%),
+        radial-gradient(circle at 78% 82%, rgba(123, 141, 184, 0.14), transparent 42%),
+        rgba(250, 246, 238, 0.97);
+      backdrop-filter: blur(3px);
+      transition: opacity 680ms var(--ease, cubic-bezier(.22,1,.36,1)), visibility 680ms;
+    }
+    .intro-overlay.is-open {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-envelope {
+      width: min(92vw, 430px);
+      perspective: 1200px;
+      transform: translateY(0);
+      transition: transform 600ms ease;
+    }
+    .intro-envelope.is-open { transform: translateY(-8px); }
+    .intro-envelope__shell {
+      position: relative;
+      aspect-ratio: 1.42 / 1;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 24px 54px rgba(58, 68, 56, 0.24);
+      background: linear-gradient(170deg, #f7efdf 0%, #efe4cf 100%);
+      border: 1px solid rgba(184, 151, 90, 0.45);
+    }
+    .intro-envelope__body {
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 72%;
+      background: linear-gradient(180deg, #f4ead7 0%, #ebdcc3 100%);
+      clip-path: polygon(0% 0%, 50% 56%, 100% 0%, 100% 100%, 0% 100%);
+      border-top: 1px solid rgba(184, 151, 90, 0.45);
+    }
+    .intro-envelope__flap {
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 64%;
+      background: linear-gradient(180deg, #faefdc 0%, #efdfc5 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      border-bottom: 1px solid rgba(184, 151, 90, 0.42);
+      transform-origin: top center;
+      transition: transform 900ms cubic-bezier(.34,1.56,.64,1), opacity 700ms ease;
+      z-index: 3;
+    }
+    .intro-envelope.is-open .intro-envelope__flap {
+      transform: rotateX(-165deg);
+      opacity: 0.35;
+    }
+    .intro-envelope__letter {
+      position: absolute;
+      inset: 18% 8% auto 8%;
+      height: 64%;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #fffaf0 0%, #f9f1e2 100%);
+      border: 1px solid rgba(184, 151, 90, 0.3);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 1rem;
+      z-index: 2;
+      transition: transform 900ms cubic-bezier(.2,.82,.2,1), opacity 700ms ease;
+    }
+    .intro-envelope.is-open .intro-envelope__letter {
+      transform: translateY(-46%);
+      opacity: 0;
+    }
+    .intro-envelope__eyebrow {
+      font-family: 'Cormorant SC', serif;
+      letter-spacing: 0.22em;
+      font-size: 10px;
+      color: var(--ink-soft);
+    }
+    .intro-envelope__script {
+      font-family: 'Italianno', cursive;
+      font-size: clamp(2.2rem, 8vw, 3rem);
+      line-height: 0.9;
+      color: var(--ink);
+      margin: 0.35rem 0;
+    }
+    .intro-envelope__seal {
+      position: absolute;
+      left: 50%;
+      bottom: 16%;
+      transform: translateX(-50%);
+      width: 62px;
+      height: 62px;
+      border-radius: 999px;
+      border: 1px solid rgba(184, 151, 90, 0.75);
+      background: radial-gradient(circle at 32% 28%, #e2c892, #b8975a);
+      color: #fff8ec;
+      font-family: 'Cormorant SC', serif;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      box-shadow: 0 8px 16px rgba(58,68,56,0.22);
+      display: grid;
+      place-items: center;
+      z-index: 4;
+      cursor: pointer;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+    .intro-envelope__seal:hover {
+      transform: translateX(-50%) scale(1.04);
+      box-shadow: 0 12px 20px rgba(58,68,56,0.28);
+    }
+    .intro-envelope.is-open .intro-envelope__seal {
+      opacity: 0;
+      transform: translateX(-50%) scale(0.72);
+    }
+    .intro-envelope__hint {
+      margin-top: 1rem;
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--ink-soft);
+      opacity: 0.9;
+    }
+
     @media (hover: none) and (pointer: coarse) {
       .btn-organic:hover,
       .easter-egg:hover {
@@ -193,7 +321,11 @@ const FontInjection = () => (
       .flip-img,
       .btn-organic,
       .swatch-tooltip,
-      .easter-egg {
+      .easter-egg,
+      .intro-overlay,
+      .intro-envelope__flap,
+      .intro-envelope__letter,
+      .intro-envelope__seal {
         transition: none !important;
       }
     }
@@ -333,7 +465,11 @@ const Divider = ({ ornament = "✦" }) => (
 /*  MAIN COMPONENT                                                    */
 /* ================================================================== */
 export default function WeddingEvite() {
-  const APPS_SCRIPT_URL = (import.meta.env.VITE_APPS_SCRIPT_URL || "").trim();
+  const DEFAULT_APPS_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbxOjjaFUnOLD86ozjBhRpzMS2l26ScR_riSFlH4aHQZSsssMOdTA_P0geBZECugLF_jqA/exec";
+  const APPS_SCRIPT_URL = (
+    import.meta.env.VITE_APPS_SCRIPT_URL || DEFAULT_APPS_SCRIPT_URL
+  ).trim();
   const [showOlder, setShowOlder] = useState(false);   // false = babies, true = older kids
   const flipTimer = useRef(null);
 
@@ -354,6 +490,7 @@ export default function WeddingEvite() {
   const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
   const [rsvpSending, setRsvpSending] = useState(false);
   const [rsvpError, setRsvpError] = useState("");
+  const [introOpen, setIntroOpen] = useState(false);
 
   const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
@@ -414,7 +551,18 @@ export default function WeddingEvite() {
     return () => clearInterval(id);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = introOpen ? "" : "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [introOpen]);
+
   const handleFlip = () => setShowOlder((s) => !s);
+  const handleOpenIntro = () => {
+    setIntroOpen(true);
+    triggerPetals(18);
+  };
   const handleLongPressStart = () => {
     flipTimer.current = setTimeout(() => setShowOlder(true), 350);
   };
@@ -521,6 +669,30 @@ END:VCALENDAR`;
   return (
     <div className="evite-root min-h-screen relative overflow-x-hidden paper-grain" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
       <FontInjection />
+      <div className={`intro-overlay ${introOpen ? "is-open" : ""}`} aria-hidden={introOpen}>
+        <div className={`intro-envelope ${introOpen ? "is-open" : ""}`}>
+          <div className="intro-envelope__shell">
+            <div className="intro-envelope__flap" />
+            <div className="intro-envelope__letter">
+              <div>
+                <p className="intro-envelope__eyebrow">You are invited</p>
+                <p className="intro-envelope__script">Bien &amp; Keana</p>
+                <p className="intro-envelope__eyebrow">13 June 2026</p>
+              </div>
+            </div>
+            <div className="intro-envelope__body" />
+            <button
+              type="button"
+              className="intro-envelope__seal"
+              onClick={handleOpenIntro}
+              aria-label="Open invitation"
+            >
+              B&amp;K
+            </button>
+          </div>
+          <p className="intro-envelope__hint">Tap the seal to open</p>
+        </div>
+      </div>
 
       {/* falling petals */}
       {petals.map((p) => (
