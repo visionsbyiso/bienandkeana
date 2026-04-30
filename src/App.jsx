@@ -771,81 +771,113 @@ END:VCALENDAR`;
       )}
 
       {/* ============================================================ */}
-      {/* SECTION 1 — BABY COVER PAGE                                  */}
+      {/* SECTION 1 — COVER PAGE (Canva floral frame + interactive photo) */}
       {/* ============================================================ */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 py-16" data-reveal="cover" ref={setRef(0)}>
+      <section className="relative flex flex-col items-center px-3 sm:px-4 pt-4 pb-8" data-reveal="cover" ref={setRef(0)}>
         <div
-          className={`relative z-10 text-center w-full max-w-md reveal px-6 py-8 rounded-[22px] ${inView.has("cover") ? "in-view" : ""}`}
-          style={{ background: "rgba(255,255,255,0.78)", border: "1px solid rgba(206,164,79,0.42)", boxShadow: "0 20px 42px rgba(47,42,36,0.12)" }}
+          className={`relative w-full max-w-md mx-auto reveal ${inView.has("cover") ? "in-view" : ""}`}
         >
-          <p className="font-serif-sc text-xs mb-3" style={{ color: "var(--rose-deep)" }}>
-            SAVE THE DATE
-          </p>
+          {/*
+            The cover.webp asset is the rasterized Canva frame: floral border,
+            "celebrate" cursive heading, "our love with us as we exchange our
+            vows" subtitle, and the gold wedding-rings illustration.  Its centre
+            is intentionally cleared so we can layer the interactive photo
+            (couplePast / coupleNow) on top.
+          */}
+          <div className="relative" style={{ aspectRatio: "800 / 1088" }}>
+            <img
+              src="/pages/cover.webp"
+              alt="Wedding e-vite cover with floral border, celebrate cursive heading, exchange-our-vows subtitle, and gold wedding rings"
+              width={800}
+              height={1088}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              className="absolute inset-0 w-full h-full object-contain"
+              draggable={false}
+            />
 
-          <div
-            className="relative mx-auto select-none"
-            onClick={handleFlip}
-            style={{
-              cursor: "pointer",
-              maxWidth: 360,
-              aspectRatio: "594 / 622",
-              borderRadius: 24,
-              background: "var(--invite-card)",
-              boxShadow: "0 16px 36px rgba(47,42,36,0.18), 0 0 0 1px rgba(206,164,79,0.28)",
-            }}
-          >
-            <img
-              src={IMAGES.couplePast}
-              alt="Bien and Keana as toddlers, holding ornate gold frames"
-              className="absolute inset-0 w-full h-full object-contain flip-img"
-              style={{ opacity: showOlder ? 0 : 1, filter: "drop-shadow(0 12px 30px rgba(58,68,56,0.15))" }}
-              draggable={false}
-            />
-            <img
-              src={IMAGES.coupleNow}
-              alt="Bien and Keana as kids, holding ornate gold frames"
-              className="absolute inset-0 w-full h-full object-contain flip-img"
-              style={{ opacity: showOlder ? 1 : 0, filter: "drop-shadow(0 12px 30px rgba(58,68,56,0.15))" }}
-              draggable={false}
-            />
-            <div className="absolute bottom-2 right-2 pointer-events-none" style={{
-              width: 12, height: 12, borderRadius: "50%",
-              background: "var(--gold)", opacity: 0.5,
-              animation: "eggPulse 2s ease-in-out infinite",
-            }} />
+            {/* Interactive figures slot — sits inside the cleared centre.
+                Coordinates mirror the eraser bounds in
+                scripts/build-page-assets.mjs (10–91% × 34.5–88.5%). */}
+            <button
+              type="button"
+              onClick={handleFlip}
+              aria-label="Tap photo to reveal younger Bien and Keana"
+              className="absolute select-none"
+              style={{
+                left: "10%",
+                top: "34.5%",
+                width: "81%",
+                height: "54%",
+                background: "transparent",
+                border: "none",
+                padding: 0,
+                cursor: "pointer",
+                touchAction: "manipulation",
+              }}
+            >
+              <img
+                src={IMAGES.coupleNow}
+                alt="Bien and Keana as kids holding ornate gold frames"
+                className="absolute inset-0 w-full h-full object-contain flip-img"
+                style={{ opacity: showOlder ? 0 : 1 }}
+                draggable={false}
+              />
+              <img
+                src={IMAGES.couplePast}
+                alt="Bien and Keana as toddlers holding ornate gold frames"
+                className="absolute inset-0 w-full h-full object-contain flip-img"
+                style={{ opacity: showOlder ? 1 : 0 }}
+                draggable={false}
+              />
+              <span
+                className="absolute pointer-events-none"
+                style={{
+                  right: "6%",
+                  bottom: "6%",
+                  width: 10,
+                  height: 10,
+                  borderRadius: "50%",
+                  background: "var(--gold)",
+                  opacity: 0.55,
+                  animation: "eggPulse 2.4s ease-in-out infinite",
+                }}
+              />
+            </button>
           </div>
 
-          <WeddingRingsIcon />
-
-          <p className="font-serif italic text-sm mt-1 mb-1" style={{ color: "var(--text-on-dark-muted)" }}>
-            {showOlder ? "and now we're getting married" : "tap photo to reveal the surprise"}
+          <p
+            className="font-serif italic text-center text-sm mt-2"
+            style={{ color: "var(--ink-soft)" }}
+          >
+            {showOlder ? "we've come a long way" : "tap the photo to reveal younger us"}
           </p>
 
-          <h1 className="font-script-flow leading-none mt-6" style={{ fontSize: "clamp(3.6rem, 16vw, 5.2rem)", color: "var(--ink)", lineHeight: 0.9 }}>
-            Bien <span className="font-script-flow" style={{ color: "var(--ink)" }}>&amp;</span> Keana
-          </h1>
-
-          <div className="mt-5 flex items-center justify-center gap-4 font-serif-sc text-sm" style={{ color: "var(--text-on-dark)" }}>
+          <div className="mt-5 flex items-center justify-center gap-3 font-serif-sc text-[11px]" style={{ color: "var(--ink)" }}>
             <span>13</span>
             <span style={{ color: "var(--gold)" }}>·</span>
             <span>JUN</span>
             <span style={{ color: "var(--gold)" }}>·</span>
             <span>2026</span>
           </div>
-          <button
-            type="button"
-            onClick={handleCoverOpen}
-            disabled={coverUnlocked}
-            className="btn-organic font-serif-sc text-xs mt-8 px-6 py-3"
-            style={{
-              border: "1px solid var(--gold)",
-              background: coverUnlocked ? "rgba(206,164,79,0.15)" : "var(--gold)",
-              color: coverUnlocked ? "var(--text-on-dark-muted)" : "var(--cream)",
-              cursor: coverUnlocked ? "default" : "pointer",
-            }}
-          >
-            {coverUnlocked ? "OPENED" : "OPEN INVITATION"}
-          </button>
+
+          <div className="mt-6 flex justify-center">
+            <button
+              type="button"
+              onClick={handleCoverOpen}
+              disabled={coverUnlocked}
+              className="btn-organic font-serif-sc text-xs px-6 py-3"
+              style={{
+                border: "1px solid var(--gold)",
+                background: coverUnlocked ? "rgba(206,164,79,0.15)" : "var(--gold)",
+                color: coverUnlocked ? "var(--text-on-dark-muted)" : "var(--cream)",
+                cursor: coverUnlocked ? "default" : "pointer",
+              }}
+            >
+              {coverUnlocked ? "OPENED" : "OPEN INVITATION"}
+            </button>
+          </div>
         </div>
       </section>
 
@@ -862,45 +894,34 @@ END:VCALENDAR`;
       />
 
       {/* ============================================================ */}
-      {/* SECTION 3 — DETAILS (UST, ceremony, reception, parking)      */}
-      {/* ============================================================ */}
-      <SvgPage
-        src="/pages/details.webp"
-        alt="Ceremony at 9:30 AM Santisimo Rosario Parish UST, reception 11:30 AM at UST Central Seminary Gym, with parking instructions"
-        sectionRef={setRef(2)}
-        revealKey="details"
-        isInView={inView.has("details")}
-      />
-
-      {/* ============================================================ */}
-      {/* SECTION 4 — ENTOURAGE                                        */}
+      {/* SECTION 3 — ENTOURAGE                                        */}
       {/* ============================================================ */}
       <SvgPage
         src="/pages/entourage.webp"
         alt="Entourage with groom's parents, bride's parents, and principal sponsors"
-        sectionRef={setRef(3)}
+        sectionRef={setRef(2)}
         revealKey="entourage"
         isInView={inView.has("entourage")}
       />
 
       {/* ============================================================ */}
-      {/* SECTION 5 — ATTIRE                                           */}
+      {/* SECTION 4 — ATTIRE                                           */}
       {/* ============================================================ */}
       <SvgPage
         src="/pages/attire.webp"
         alt="Attire dress code with pastel and vibrant color palettes"
-        sectionRef={setRef(4)}
+        sectionRef={setRef(3)}
         revealKey="attire"
         isInView={inView.has("attire")}
       />
 
       {/* ============================================================ */}
-      {/* SECTION 6 — UNPLUGGED CEREMONY + A NOTE ON GIFTS             */}
+      {/* SECTION 5 — UNPLUGGED CEREMONY + A NOTE ON GIFTS             */}
       {/* ============================================================ */}
       <SvgPage
         src="/pages/unplugged.webp"
         alt="Unplugged ceremony note, photo gallery QR code, and a note on gifts"
-        sectionRef={setRef(5)}
+        sectionRef={setRef(4)}
         revealKey="unplugged"
         isInView={inView.has("unplugged")}
       />
@@ -908,7 +929,7 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* HIDDEN GARDEN GAME (interactive easter eggs)                  */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-10 sm:py-14" data-reveal="game" ref={setRef(6)}>
+      <section className="relative px-4 py-10 sm:py-14" data-reveal="game" ref={setRef(5)}>
         <div
           className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("game") ? "in-view" : ""}`}
           style={{ background: "rgba(255,255,255,0.88)", border: "1px solid rgba(206,164,79,0.38)" }}
@@ -961,10 +982,10 @@ END:VCALENDAR`;
         </div>
       </section>
 
-            {/* ============================================================ */}
+      {/* ============================================================ */}
       {/* SECTION 6 — RSVP                                             */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="rsvp" ref={setRef(7)} style={{ background: "transparent", color: "var(--ink)" }}>
+      <section className="relative px-4 py-14 sm:py-16" data-reveal="rsvp" ref={setRef(6)} style={{ background: "transparent", color: "var(--ink)" }}>
         <div
           className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("rsvp") ? "in-view" : ""}`}
           style={{ color: "var(--ink)", background: "rgba(255,255,255,0.92)", border: "1px solid rgba(206,164,79,0.38)" }}
@@ -1105,7 +1126,18 @@ END:VCALENDAR`;
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 7 — MAP / LOCATION / PARKING GUIDE                  */}
+      {/* SECTION 7 — DETAILS (UST, ceremony, reception, parking)      */}
+      {/* ============================================================ */}
+      <SvgPage
+        src="/pages/details.webp"
+        alt="Ceremony at 9:30 AM Santisimo Rosario Parish UST, reception 11:30 AM at UST Central Seminary Gym, with parking instructions"
+        sectionRef={setRef(7)}
+        revealKey="details"
+        isInView={inView.has("details")}
+      />
+
+      {/* ============================================================ */}
+      {/* SECTION 8 — MAP / LOCATION / PARKING GUIDE                  */}
       {/* ============================================================ */}
       <section className="relative px-4 py-10 sm:py-14" data-reveal="map" ref={setRef(8)}>
         <div
