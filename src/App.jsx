@@ -233,6 +233,7 @@ const FontInjection = () => (
       height: 100%;
       object-fit: contain;
       display: block;
+      contain: layout paint size;
     }
     .celebrate-overlays {
       position: absolute;
@@ -246,17 +247,18 @@ const FontInjection = () => (
       left: 50%;
       transform: translateX(-50%);
       pointer-events: auto;
-      width: 82%;
-      max-width: 318px;
+      width: 70%;
+      max-width: 268px;
     }
-    .ov-open { top: 14.7%; }
-    .ov-game { top: 49.6%; }
-    .ov-rsvp { top: 74.2%; }
+    .ov-open { top: 15.4%; width: 56%; max-width: 178px; }
+    .ov-game { top: 50.8%; width: 66%; max-width: 240px; }
+    .ov-rsvp { top: 74.8%; width: 72%; max-width: 276px; }
     .svg-overlay-card {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.72);
       border: 1px solid rgba(206,164,79,0.45);
       border-radius: 12px;
-      box-shadow: 0 12px 24px rgba(47,42,36,0.16);
+      box-shadow: 0 8px 20px rgba(47,42,36,0.15);
+      backdrop-filter: blur(2px);
     }
     .svg-overlay-card--light {
       background: rgba(255,255,255,0.78);
@@ -268,6 +270,13 @@ const FontInjection = () => (
       color: var(--rose-deep);
       text-align: center;
       margin-bottom: 0.5rem;
+    }
+    .overlay-chip {
+      background: rgba(255,255,255,0.66);
+      border: 1px solid rgba(206,164,79,0.38);
+      border-radius: 10px;
+      box-shadow: 0 6px 16px rgba(47,42,36,0.11);
+      backdrop-filter: blur(1.5px);
     }
 
     /* the hint pulse around easter eggs (only before found) */
@@ -454,9 +463,9 @@ const FontInjection = () => (
       .mobile-map-image { max-height: 285px; }
       .floral-rail { width: 19px; top: 6%; bottom: 8.5%; }
       .celebrate-artboard { width: min(100%, 364px); }
-      .ov-open { top: 14.55%; width: 80%; }
-      .ov-game { top: 49.9%; width: 85%; }
-      .ov-rsvp { top: 74.7%; width: 86%; }
+      .ov-open { top: 15.35%; width: 58%; max-width: 170px; }
+      .ov-game { top: 51.2%; width: 70%; max-width: 230px; }
+      .ov-rsvp { top: 75.15%; width: 75%; max-width: 266px; }
     }
 
     @media (min-width: 376px) and (max-width: 420px) {
@@ -497,9 +506,36 @@ const FontInjection = () => (
       .mobile-map-image { max-height: 300px; }
       .floral-rail { width: 20px; top: 5.8%; bottom: 8%; }
       .celebrate-artboard { width: min(100%, 392px); }
-      .ov-open { top: 14.65%; width: 80%; }
-      .ov-game { top: 49.55%; width: 84%; }
-      .ov-rsvp { top: 74.4%; width: 84%; }
+      .ov-open { top: 15.45%; width: 56%; max-width: 178px; }
+      .ov-game { top: 50.85%; width: 66%; max-width: 240px; }
+      .ov-rsvp { top: 74.8%; width: 72%; max-width: 276px; }
+    }
+
+    @media (min-width: 768px) {
+      .celebrate-stage {
+        padding: 1rem 1rem 3rem;
+      }
+      .celebrate-artboard {
+        width: min(100%, 516px);
+      }
+      .ov-open { top: 15.1%; width: 42%; max-width: 210px; }
+      .ov-game { top: 50.1%; width: 54%; max-width: 290px; }
+      .ov-rsvp { top: 74.2%; width: 58%; max-width: 320px; }
+      .svg-overlay-title {
+        font-size: 11px;
+      }
+      .garden-field {
+        height: 11rem;
+      }
+    }
+
+    @media (min-width: 1080px) {
+      .celebrate-artboard {
+        width: min(100%, 590px);
+      }
+      .ov-open { top: 15%; width: 38%; max-width: 220px; }
+      .ov-game { top: 49.9%; width: 49%; max-width: 300px; }
+      .ov-rsvp { top: 74%; width: 54%; max-width: 332px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -900,7 +936,14 @@ END:VCALENDAR`;
 
       <main className="celebrate-stage">
         <div className="celebrate-artboard">
-          <img src="/celebrate.svg" alt="Celebrate invitation layout" className="celebrate-svg" />
+          <img
+            src="/celebrate.svg"
+            alt="Celebrate invitation layout"
+            className="celebrate-svg"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
 
           <div className="celebrate-overlays">
             <div className="ov-open text-center">
@@ -920,9 +963,10 @@ END:VCALENDAR`;
               </button>
             </div>
 
-            <div className="ov-game svg-overlay-card svg-overlay-card--light p-3">
+            <div className="ov-game">
               <p className="svg-overlay-title">HIDDEN GARDEN GAME</p>
-              <div className="garden-field relative rounded-lg" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.3), rgba(149,199,145,0.16))", border: "1px solid rgba(92,141,88,0.25)" }}>
+              <div className="overlay-chip p-2.5">
+                <div className="garden-field relative rounded-lg" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.3), rgba(149,199,145,0.16))", border: "1px solid rgba(92,141,88,0.25)" }}>
                 <div className="absolute left-2 bottom-0"><Sprig size={62} rotate={165} /></div>
                 <div className="absolute right-3 bottom-0"><Sprig size={66} rotate={195} /></div>
 
@@ -942,15 +986,16 @@ END:VCALENDAR`;
                 >
                   🎮
                 </button>
+                </div>
               </div>
             </div>
 
-            <div className="ov-rsvp svg-overlay-card p-3 sm:p-4">
+            <div className="ov-rsvp">
               {!rsvpSubmitted ? (
                 <>
-                  <p className="svg-overlay-title">THE FAVOR OF YOUR REPLY</p>
-                  <div className="space-y-3">
-                    <div>
+                  <div className="overlay-chip p-2.5">
+                    <p className="svg-overlay-title">THE FAVOR OF YOUR REPLY</p>
+                    <div className="space-y-2.5">
                       <label className="font-serif-sc text-[9px]" style={{ color: "var(--ink-soft)", letterSpacing: "1.2px" }}>
                         COMPLETE FULL NAME
                       </label>
@@ -960,8 +1005,10 @@ END:VCALENDAR`;
                         value={rsvp.name}
                         onChange={(e) => setRsvp({ ...rsvp, name: e.target.value })}
                       />
-                    </div>
+                    </div>                  
+                  </div>
 
+                  <div className="overlay-chip p-2.5 mt-1.5">
                     <div className="flex gap-2">
                       {[
                         { val: true, label: "Accept", icon: <Check size={12} /> },
@@ -982,7 +1029,9 @@ END:VCALENDAR`;
                         </button>
                       ))}
                     </div>
+                  </div>
 
+                  <div className="overlay-chip p-2.5 mt-1.5">
                     {rsvp.attending === true && (
                       <input
                         className="ev-input"
@@ -991,11 +1040,10 @@ END:VCALENDAR`;
                         onChange={(e) => setRsvp({ ...rsvp, note: e.target.value })}
                       />
                     )}
-
                     <button
                       onClick={handleRsvpSubmit}
                       disabled={!rsvp.name || rsvp.attending === null || rsvpSending}
-                      className="btn-organic font-serif-sc text-[9px] py-2.5 w-full"
+                      className="btn-organic font-serif-sc text-[9px] py-2.5 w-full mt-2"
                       style={{
                         background: (!rsvp.name || rsvp.attending === null || rsvpSending) ? "rgba(58,68,56,0.25)" : "var(--ink)",
                         color: "var(--cream)",
@@ -1011,9 +1059,9 @@ END:VCALENDAR`;
                       </p>
                     )}
                   </div>
-                </>
+                </> 
               ) : (
-                <div className="text-center">
+                <div className="overlay-chip p-2.5 text-center">
                   <p className="svg-overlay-title">THANK YOU, {rsvp.name.toUpperCase()}</p>
                   {rsvp.attending && (
                     <>
