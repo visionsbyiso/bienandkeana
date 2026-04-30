@@ -35,6 +35,13 @@ const FontInjection = () => (
       --gold-light: #e8c983;
       --ink: #2f2a24;
       --ink-soft: #6f665d;
+      /* Celebrate / dark-invite shell (content cards stay light for readability) */
+      --page-bg: #0a0a0a;
+      --text-on-dark: #f3ece2;
+      --text-on-dark-muted: rgba(243,236,226,0.7);
+      --invite-card: #faf7f0;
+      --floral-ph-border: rgba(206,164,79,0.35);
+      --floral-ph-fill: rgba(206,164,79,0.07);
     }
 
     .font-script    { font-family: 'Pinyon Script', cursive; font-weight: 400; }
@@ -42,12 +49,13 @@ const FontInjection = () => (
     .font-serif     { font-family: 'CMU Serif', 'Cormorant Garamond', serif; }
     .font-serif-sc  { font-family: 'Cormorant SC', serif; letter-spacing: 0.18em; }
 
-    body, .evite-root { background: var(--cream); color: var(--ink); }
+    body, .evite-root { background: var(--page-bg); color: var(--text-on-dark); }
 
     .paper-grain {
+      background-color: var(--page-bg);
       background-image:
-        radial-gradient(rgba(184,151,90,0.04) 1px, transparent 1px),
-        radial-gradient(rgba(58,68,56,0.025) 1px, transparent 1px);
+        radial-gradient(rgba(255,248,235,0.04) 1px, transparent 1px),
+        radial-gradient(rgba(206,164,79,0.045) 1px, transparent 1px);
       background-size: 3px 3px, 7px 7px;
       background-position: 0 0, 1px 2px;
     }
@@ -461,10 +469,78 @@ const Divider = ({ ornament = "✦" }) => (
   </div>
 );
 
+/** Reserved regions for future Canva floral assets (no artwork yet). */
+const FloralPlaceholder = ({ variant = "divider", label = "Floral art — coming soon" }) => {
+  const common = {
+    borderColor: "var(--floral-ph-border)",
+    background: "linear-gradient(180deg, var(--floral-ph-fill), transparent)",
+  };
+  if (variant === "vineL") {
+    return (
+      <div
+        className="hidden sm:block absolute left-0 top-[8%] w-10 md:w-12 bottom-[20%] rounded-r-md pointer-events-none"
+        style={{ ...common, borderWidth: 1, borderStyle: "dashed", borderLeft: "none" }}
+        aria-hidden="true"
+        title={label}
+      />
+    );
+  }
+  if (variant === "vineR") {
+    return (
+      <div
+        className="hidden sm:block absolute right-0 top-[8%] w-10 md:w-12 bottom-[20%] rounded-l-md pointer-events-none"
+        style={{ ...common, borderWidth: 1, borderStyle: "dashed", borderRight: "none" }}
+        aria-hidden="true"
+        title={label}
+      />
+    );
+  }
+  return (
+    <div
+      className="w-full max-w-sm mx-auto h-12 md:h-14 my-6 md:my-8 rounded-md pointer-events-none"
+      style={{ ...common, borderWidth: 1, borderStyle: "dashed" }}
+      aria-hidden="true"
+      title={label}
+    />
+  );
+};
+
+const WeddingRingsIcon = () => (
+  <svg width="64" height="44" viewBox="0 0 64 44" className="mx-auto mt-5" aria-hidden="true">
+    <circle cx="26" cy="22" r="16" fill="none" stroke="var(--gold)" strokeWidth="2.4" opacity="0.95" />
+    <circle cx="38" cy="22" r="16" fill="none" stroke="var(--gold-light)" strokeWidth="2.4" opacity="0.9" />
+  </svg>
+);
+
+const HexSwatch = ({ color }) => (
+  <div
+    className="shrink-0"
+    style={{
+      width: 26,
+      height: 30,
+      background: color,
+      clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
+      boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.12)",
+    }}
+  />
+);
+
+const BoldSwatch = ({ color }) => (
+  <div
+    className="rounded-full shrink-0 w-7 h-7 md:w-8 md:h-8"
+    style={{ background: color, boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)" }}
+  />
+);
+
 /* ================================================================== */
 /*  MAIN COMPONENT                                                    */
 /* ================================================================== */
 export default function WeddingEvite() {
+  const PUBLIC_SITE_URL = (
+    import.meta.env.VITE_PUBLIC_SITE_URL || "https://bienandkeana.visionsbyiso.com"
+  ).trim();
+  const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=12&color=0a0a0a&bgcolor=faf7f0&data=${encodeURIComponent(PUBLIC_SITE_URL)}`;
+
   const DEFAULT_APPS_SCRIPT_URL =
     "https://script.google.com/macros/s/AKfycbxOjjaFUnOLD86ozjBhRpzMS2l26ScR_riSFlH4aHQZSsssMOdTA_P0geBZECugLF_jqA/exec";
   const APPS_SCRIPT_URL = (
@@ -482,7 +558,6 @@ export default function WeddingEvite() {
   const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
   const [rsvpSending, setRsvpSending] = useState(false);
   const [rsvpError, setRsvpError] = useState("");
-  const [introOpen, setIntroOpen] = useState(false);
 
   const [countdown, setCountdown] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
@@ -631,7 +706,7 @@ END:VCALENDAR`;
   const setRef = (i) => (el) => { sectionRefs.current[i] = el; };
 
   return (
-    <div className="evite-root min-h-screen relative overflow-x-hidden paper-grain" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+    <div className="evite-root min-h-screen relative overflow-x-hidden paper-grain" style={{ fontFamily: "'Cormorant Garamond', serif", color: "var(--text-on-dark)" }}>
       <FontInjection />
 
       {/* falling petals */}
@@ -649,8 +724,8 @@ END:VCALENDAR`;
       {eggMessage && (
         <div className="fixed top-3 sm:top-6 left-1/2 z-[90] px-4 sm:px-6 py-3" style={{
           transform: "translateX(-50%)",
-          background: "var(--cream)", border: "1px solid var(--gold)", borderRadius: 2,
-          boxShadow: "0 8px 24px rgba(58,68,56,0.18)",
+          background: "var(--invite-card)", border: "1px solid var(--gold)", borderRadius: 2,
+          boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
           fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", color: "var(--ink)",
         }}>
           {eggMessage}
@@ -661,8 +736,10 @@ END:VCALENDAR`;
       {/* SECTION 1 — BABY COVER PAGE                                  */}
       {/* ============================================================ */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-14" data-reveal="cover" ref={setRef(0)}>
+        <FloralPlaceholder variant="vineL" />
+        <FloralPlaceholder variant="vineR" />
         <div className={`relative z-10 text-center w-full max-w-md reveal ${inView.has("cover") ? "in-view" : ""}`}>
-          <p className="font-serif-sc text-xs mb-3" style={{ color: "var(--rose-deep)" }}>
+          <p className="font-serif-sc text-xs mb-3" style={{ color: "var(--gold-light)" }}>
             SAVE THE DATE
           </p>
 
@@ -673,9 +750,9 @@ END:VCALENDAR`;
               cursor: "pointer",
               maxWidth: 360,
               aspectRatio: "594 / 622",
-              borderRadius: 20,
-              background: "var(--cream)",
-              boxShadow: "0 18px 40px rgba(47,42,36,0.13)",
+              borderRadius: 24,
+              background: "var(--invite-card)",
+              boxShadow: "0 24px 56px rgba(0,0,0,0.45), 0 0 0 1px rgba(206,164,79,0.25)",
             }}
           >
             <img
@@ -699,15 +776,17 @@ END:VCALENDAR`;
             }} />
           </div>
 
-          <p className="font-serif italic text-sm mt-3 mb-1" style={{ color: "var(--ink-soft)" }}>
+          <WeddingRingsIcon />
+
+          <p className="font-serif italic text-sm mt-1 mb-1" style={{ color: "var(--text-on-dark-muted)" }}>
             {showOlder ? "and now we're getting married" : "tap photo to reveal the surprise"}
           </p>
 
           <h1 className="font-script-flow leading-none mt-6" style={{ fontSize: "clamp(3.6rem, 16vw, 5.2rem)", color: "var(--gold)", lineHeight: 0.9 }}>
-            Bien <span className="font-serif italic text-2xl" style={{ color: "var(--rose-deep)" }}>&amp;</span> Keana
+            Bien <span className="font-serif italic text-2xl" style={{ color: "var(--rose-soft)" }}>&amp;</span> Keana
           </h1>
 
-          <div className="mt-5 flex items-center justify-center gap-4 font-serif-sc text-sm" style={{ color: "var(--ink)" }}>
+          <div className="mt-5 flex items-center justify-center gap-4 font-serif-sc text-sm" style={{ color: "var(--text-on-dark)" }}>
             <span>13</span>
             <span style={{ color: "var(--gold)" }}>·</span>
             <span>JUN</span>
@@ -721,8 +800,8 @@ END:VCALENDAR`;
             className="btn-organic font-serif-sc text-xs mt-8 px-6 py-3"
             style={{
               border: "1px solid var(--gold)",
-              background: coverUnlocked ? "rgba(206,164,79,0.2)" : "var(--gold)",
-              color: coverUnlocked ? "var(--ink-soft)" : "var(--cream)",
+              background: coverUnlocked ? "rgba(206,164,79,0.15)" : "var(--gold)",
+              color: coverUnlocked ? "var(--text-on-dark-muted)" : "var(--page-bg)",
               cursor: coverUnlocked ? "default" : "pointer",
             }}
           >
@@ -735,33 +814,31 @@ END:VCALENDAR`;
       {/* SECTION 2 — MAIN PAGE                                        */}
       {/* ============================================================ */}
       <section className="relative px-6 py-20" data-reveal="main" ref={setRef(1)}>
+        <FloralPlaceholder />
         <div className={`max-w-md mx-auto text-center reveal ${inView.has("main") ? "in-view" : ""}`}>
-          <div className="flex justify-center mb-6">
-            <Daisy size={48} />
-          </div>
-          <div className="font-serif italic text-lg leading-relaxed mb-8" style={{ color: "var(--ink-soft)" }}>
+          <div className="font-serif italic text-lg leading-relaxed mb-8" style={{ color: "var(--text-on-dark-muted)" }}>
             <p>To everything there's a reason,</p>
             <p>a time and a purpose.</p>
             <p className="mt-3">On this day, we will marry our best friend</p>
             <p>the one I will laugh with.</p>
-            <p className="mt-3" style={{ color: "var(--ink)" }}>Live for. Love.</p>
+            <p className="mt-3" style={{ color: "var(--text-on-dark)" }}>Live for. Love.</p>
           </div>
 
           <h2 className="font-script-flow leading-none" style={{ fontSize: "clamp(3.2rem, 15vw, 5rem)", color: "var(--gold)", lineHeight: 0.88 }}>
             Bien &amp; Keana
           </h2>
-          <p className="font-serif italic text-base mt-4" style={{ color: "var(--ink-soft)" }}>
+          <p className="font-serif italic text-base mt-4" style={{ color: "var(--text-on-dark-muted)" }}>
             request the honor of your presence
             <br />as we become united in marriage
           </p>
 
-          <div className="mt-8 p-5" style={{ border: "1px solid rgba(206,164,79,0.38)", background: "rgba(216,224,255,0.14)", borderRadius: 10 }}>
-            <p className="font-serif-sc text-xs" style={{ color: "var(--rose-deep)" }}>SATURDAY · JUNE 13 · 2026</p>
-            <p className="font-serif italic text-sm mt-2" style={{ color: "var(--ink-soft)" }}>
+          <div className="mt-8 p-5" style={{ border: "1px solid rgba(206,164,79,0.45)", background: "rgba(250,247,240,0.06)", borderRadius: 12 }}>
+            <p className="font-serif-sc text-xs" style={{ color: "var(--gold-light)" }}>SATURDAY · JUNE 13 · 2026</p>
+            <p className="font-serif italic text-sm mt-2" style={{ color: "var(--text-on-dark-muted)" }}>
               10:00 AM
               <br />Santisimo Rosario Parish, UST
             </p>
-            <p className="font-serif italic text-sm mt-3" style={{ color: "var(--ink-soft)" }}>
+            <p className="font-serif italic text-sm mt-3" style={{ color: "var(--text-on-dark-muted)" }}>
               Reception to follow at
               <br />UST Central Seminary Gym
             </p>
@@ -773,24 +850,25 @@ END:VCALENDAR`;
       {/* SECTION 3 — ENTOURAGE                                       */}
       {/* ============================================================ */}
       <section className="relative px-6 py-20" data-reveal="entourage" ref={setRef(2)}>
+        <FloralPlaceholder />
         <div className={`max-w-md mx-auto text-center reveal ${inView.has("entourage") ? "in-view" : ""}`}>
-          <p className="text-center font-serif-sc text-xs mb-2" style={{ color: "var(--rose-deep)" }}>WITH OUR FAMILIES</p>
+          <p className="text-center font-serif-sc text-xs mb-2" style={{ color: "var(--gold-light)" }}>WITH OUR FAMILIES</p>
           <h2 className="font-script text-5xl mb-6" style={{ color: "var(--gold)" }}>Entourage</h2>
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <p className="font-serif-sc text-[10px]" style={{ color: "var(--ink-soft)" }}>GROOM'S PARENTS</p>
-              <p className="font-serif italic text-sm mt-2" style={{ color: "var(--ink)" }}>Bonifacio H. Lagmay †</p>
-              <p className="font-serif italic text-sm" style={{ color: "var(--ink)" }}>Maria Luisa H. Lagmay</p>
+              <p className="font-serif-sc text-[10px]" style={{ color: "var(--text-on-dark-muted)" }}>GROOM'S PARENTS</p>
+              <p className="font-serif italic text-sm mt-2" style={{ color: "var(--text-on-dark)" }}>Bonifacio H. Lagmay †</p>
+              <p className="font-serif italic text-sm" style={{ color: "var(--text-on-dark)" }}>Maria Luisa H. Lagmay</p>
             </div>
             <div>
-              <p className="font-serif-sc text-[10px]" style={{ color: "var(--ink-soft)" }}>BRIDE'S PARENTS</p>
-              <p className="font-serif italic text-sm mt-2" style={{ color: "var(--ink)" }}>Marvin M. Rivera</p>
-              <p className="font-serif italic text-sm" style={{ color: "var(--ink)" }}>Imee M. Rivera</p>
+              <p className="font-serif-sc text-[10px]" style={{ color: "var(--text-on-dark-muted)" }}>BRIDE'S PARENTS</p>
+              <p className="font-serif italic text-sm mt-2" style={{ color: "var(--text-on-dark)" }}>Marvin M. Rivera</p>
+              <p className="font-serif italic text-sm" style={{ color: "var(--text-on-dark)" }}>Imee M. Rivera</p>
             </div>
           </div>
-          <div className="mt-7 p-5" style={{ background: "rgba(255,212,234,0.22)", border: "1px solid rgba(227,90,166,0.35)", borderRadius: 10 }}>
-            <p className="font-serif-sc text-[10px]" style={{ color: "var(--ink-soft)" }}>PRINCIPAL SPONSORS</p>
-            <p className="font-serif italic text-sm mt-2 leading-relaxed" style={{ color: "var(--ink)" }}>
+          <div className="mt-7 p-5" style={{ background: "rgba(255,212,234,0.08)", border: "1px solid rgba(227,90,166,0.35)", borderRadius: 10 }}>
+            <p className="font-serif-sc text-[10px]" style={{ color: "var(--text-on-dark-muted)" }}>PRINCIPAL SPONSORS</p>
+            <p className="font-serif italic text-sm mt-2 leading-relaxed" style={{ color: "var(--text-on-dark)" }}>
               Dr. Leovino Ma. Garcia, Mrs. Irene M. Makalintal,
               <br />Mrs. Janet C. Mendoza, Mrs. Lilia A. Hernandez,
               <br />Mr. Steve Paul Anthony T. Baltao, Mrs. Winnie Marianne L. Hernandez
@@ -803,22 +881,30 @@ END:VCALENDAR`;
       {/* SECTION 4 — ATTIRE                                           */}
       {/* ============================================================ */}
       <section className="relative px-6 py-20" data-reveal="attire" ref={setRef(3)}>
+        <FloralPlaceholder />
         <div className={`max-w-md mx-auto reveal ${inView.has("attire") ? "in-view" : ""}`}>
           <h2 className="text-center font-script text-5xl mb-2" style={{ color: "var(--gold)" }}>Attire</h2>
-          <p className="text-center font-serif italic text-sm mb-7" style={{ color: "var(--ink-soft)" }}>
+          <p className="text-center font-serif italic text-sm mb-6" style={{ color: "var(--text-on-dark-muted)" }}>
             Plain and floral prints are welcome in these colors.
           </p>
-          <div className="grid grid-cols-6 gap-2 mb-8">
-            {["#f5d1cb","#f2b0c8","#d5e0ff","#cde8d1","#fff0a9","#c9b7ff","#ff95b5","#7ca1ff","#8ccf80","#ffd27f","#d679ba","#f09d5f"].map((c) => (
-              <span key={c} className="block w-full h-7 rounded-full" style={{ background: c, border: "1px solid rgba(47,42,36,0.1)" }} />
+          <p className="font-serif-sc text-[10px] text-center mb-3" style={{ color: "var(--gold-light)", letterSpacing: "0.2em" }}>PASTELS</p>
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8">
+            {["#e8dcc8","#c4a574","#d4a5a5","#c9c0e8","#a8c8e8","#b8dcc4","#f5eab0"].map((c) => (
+              <HexSwatch key={c} color={c} />
             ))}
           </div>
-          <div className="p-5 text-center" style={{ border: "1px solid rgba(110,136,216,0.38)", borderRadius: 10, background: "rgba(216,224,255,0.18)" }}>
-            <p className="font-serif italic text-sm" style={{ color: "var(--ink)" }}>
+          <p className="font-serif-sc text-[10px] text-center mb-3" style={{ color: "var(--gold-light)", letterSpacing: "0.2em" }}>BOLD ACCENTS</p>
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8">
+            {["#ff7eb6","#c82687","#c41e3a","#e87d32","#d4af37","#6b3fa0","#1e4ba0","#0d7377","#1b4d3e"].map((c) => (
+              <BoldSwatch key={c} color={c} />
+            ))}
+          </div>
+          <div className="p-5 text-center" style={{ border: "1px solid rgba(110,136,216,0.45)", borderRadius: 12, background: "rgba(250,247,240,0.06)" }}>
+            <p className="font-serif italic text-sm" style={{ color: "var(--text-on-dark)" }}>
               Ladies: Mid- to ankle-length dresses
               <br />Gentlemen: Long-sleeved shirt or modern Barong Tagalog
             </p>
-            <p className="font-serif italic text-xs mt-3" style={{ color: "var(--rose-deep)" }}>
+            <p className="font-serif italic text-xs mt-3" style={{ color: "var(--rose-soft)" }}>
               Kindly avoid white, off-white, and full black.
             </p>
           </div>
@@ -829,20 +915,21 @@ END:VCALENDAR`;
       {/* SECTION 5 — GIFTS + INTERACTIVE EASTER EGGS                  */}
       {/* ============================================================ */}
       <section className="relative px-6 py-20" data-reveal="gifts" ref={setRef(4)}>
+        <FloralPlaceholder />
         <div className={`max-w-md mx-auto reveal ${inView.has("gifts") ? "in-view" : ""}`}>
           <h2 className="text-center font-script text-5xl mb-3" style={{ color: "var(--gold)" }}>Gifts</h2>
-          <p className="text-center font-serif italic text-sm leading-relaxed" style={{ color: "var(--ink-soft)" }}>
+          <p className="text-center font-serif italic text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
             Your presence at our wedding is present enough.
             <br />If you wish to bless us further, a monetary gift would be deeply appreciated.
           </p>
-          <div className="mt-8 p-6 text-center" style={{ border: "1px dashed rgba(191,63,133,0.45)", borderRadius: 10, background: "rgba(255,212,234,0.15)" }}>
-            <p className="font-serif-sc text-[10px]" style={{ color: "var(--ink-soft)" }}>INTERACTIVE SURPRISE</p>
+          <div className="mt-8 p-6 text-center" style={{ border: "1px dashed rgba(191,63,133,0.45)", borderRadius: 10, background: "rgba(255,212,234,0.08)" }}>
+            <p className="font-serif-sc text-[10px]" style={{ color: "var(--text-on-dark-muted)" }}>INTERACTIVE SURPRISE</p>
             <div className="flex items-center justify-center gap-6 mt-3">
               <button className={`easter-egg ${foundCat ? "found" : "egg-hint"}`} onClick={() => handleEggClick("cat")} style={{ border: "none", background: "transparent", fontSize: 28 }}>🐈</button>
               <button className={`easter-egg ${foundController ? "found" : "egg-hint"}`} onClick={() => handleEggClick("controller")} style={{ border: "none", background: "transparent", fontSize: 28 }}>🎮</button>
             </div>
           </div>
-          <p className="text-center font-serif italic text-xs mt-3" style={{ color: "var(--ink-soft)" }}>
+          <p className="text-center font-serif italic text-xs mt-3" style={{ color: "var(--text-on-dark-muted)" }}>
             {foundCat && foundController
               ? "you found both hidden icons."
               : "find the hidden cat and controller."}
@@ -851,12 +938,35 @@ END:VCALENDAR`;
       </section>
 
       {/* ============================================================ */}
+      {/* SECTION — SAVE INVITE (QR)                                   */}
+      {/* ============================================================ */}
+      <section className="relative px-6 py-16" data-reveal="qr" ref={setRef(5)}>
+        <FloralPlaceholder />
+        <div className={`max-w-md mx-auto text-center reveal ${inView.has("qr") ? "in-view" : ""}`}>
+          <p className="font-serif-sc text-xs mb-2" style={{ color: "var(--gold-light)" }}>SAVE THIS INVITE</p>
+          <h2 className="font-script text-4xl mb-4" style={{ color: "var(--gold)" }}>Quick link</h2>
+          <p className="font-serif italic text-sm mb-6" style={{ color: "var(--text-on-dark-muted)" }}>
+            Scan to open this page anytime.
+          </p>
+          <div
+            className="inline-block p-4 rounded-xl mx-auto"
+            style={{
+              background: "var(--invite-card)",
+              boxShadow: "0 0 0 1px rgba(206,164,79,0.35), 0 16px 40px rgba(0,0,0,0.35)",
+            }}
+          >
+            <img src={qrSrc} alt={`QR code linking to ${PUBLIC_SITE_URL}`} width={220} height={220} className="block w-[min(72vw,220px)] h-auto" loading="lazy" decoding="async" />
+          </div>
+          <p className="font-serif text-xs mt-4 break-all px-2" style={{ color: "var(--text-on-dark-muted)" }}>{PUBLIC_SITE_URL}</p>
+        </div>
+        <FloralPlaceholder />
+      </section>
+
+      {/* ============================================================ */}
       {/* SECTION 6 — RSVP                                             */}
       {/* ============================================================ */}
-      <section className="relative px-6 py-20" data-reveal="rsvp" ref={setRef(5)} style={{ background: "var(--paper)" }}>
-        <div className={`max-w-md mx-auto reveal ${inView.has("rsvp") ? "in-view" : ""}`}>
-          <div className="flex justify-center mb-3"><Cornflower size={56} /></div>
-
+      <section className="relative px-6 py-20" data-reveal="rsvp" ref={setRef(6)} style={{ background: "var(--invite-card)", color: "var(--ink)" }}>
+        <div className={`max-w-md mx-auto reveal ${inView.has("rsvp") ? "in-view" : ""}`} style={{ color: "var(--ink)" }}>
           {!rsvpSubmitted ? (
             <>
               <p className="text-center font-serif-sc text-xs mb-2" style={{ color: "var(--sage-deep)" }}>
@@ -935,7 +1045,7 @@ END:VCALENDAR`;
             </>
           ) : (
             <div className="text-center">
-              <div className="flex justify-center mb-4"><Daisy size={70} /></div>
+              <div className="flex justify-center mb-4" style={{ color: "var(--gold)" }} aria-hidden="true">✦</div>
               <p className="font-serif-sc text-xs mb-2" style={{ color: "var(--sage-deep)" }}>
                 THANK YOU, {rsvp.name.toUpperCase()}
               </p>
@@ -995,33 +1105,50 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* SECTION 7 — MAP / LOCATION / PARKING GUIDE                  */}
       {/* ============================================================ */}
-      <section className="relative px-6 py-20" data-reveal="map" ref={setRef(6)}>
+      <section className="relative px-6 py-20" data-reveal="map" ref={setRef(7)}>
+        <FloralPlaceholder variant="vineL" />
+        <FloralPlaceholder variant="vineR" />
         <div className={`max-w-md mx-auto reveal ${inView.has("map") ? "in-view" : ""}`}>
+          <FloralPlaceholder />
           <h2 className="text-center font-script text-5xl mb-2" style={{ color: "var(--gold)" }}>
             Map & Parking
           </h2>
-          <p className="text-center font-serif italic text-sm mb-7" style={{ color: "var(--ink-soft)" }}>
+          <p className="text-center font-serif italic text-sm mb-7" style={{ color: "var(--text-on-dark-muted)" }}>
             Ceremony: Santisimo Rosario Parish
             <br />Reception: UST Central Seminary Gym
           </p>
           <div
+            className="w-full mb-6 overflow-hidden rounded-xl"
+            style={{
+              filter: "drop-shadow(0 0 28px rgba(255,255,255,0.2))",
+              border: "1px solid rgba(206,164,79,0.35)",
+            }}
+          >
+            <img
+              src={IMAGES.ustBuilding}
+              alt="University of Santo Tomas campus"
+              className="w-full h-auto object-cover max-h-[240px] sm:max-h-[280px]"
+              loading="lazy"
+            />
+          </div>
+          <div
             className="w-full grid place-items-center"
             style={{
-              minHeight: 260,
-              border: "1px solid rgba(110,136,216,0.35)",
-              background: "rgba(216,224,255,0.16)",
-              borderRadius: 10,
+              minHeight: 200,
+              border: "1px solid rgba(110,136,216,0.4)",
+              background: "rgba(250,247,240,0.05)",
+              borderRadius: 12,
               padding: 18,
               textAlign: "center",
             }}
           >
-            <p className="font-serif italic text-sm" style={{ color: "var(--ink-soft)" }}>
+            <p className="font-serif italic text-sm" style={{ color: "var(--text-on-dark-muted)" }}>
               TomasinoWeb parking infographic
               <br />to be inserted here
             </p>
           </div>
           <div className="mt-4 flex flex-col gap-2">
-            <p className="font-serif text-sm flex items-center justify-center gap-2" style={{ color: "var(--ink)" }}>
+            <p className="font-serif text-sm flex items-center justify-center gap-2" style={{ color: "var(--text-on-dark)" }}>
               <ParkingCircle size={14} /> Parking guide available on UST map
             </p>
             <a
