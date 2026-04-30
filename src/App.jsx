@@ -168,6 +168,9 @@ const FontInjection = () => (
     }
     .ev-input:focus { border-bottom-color: var(--gold); }
     .ev-input::placeholder { color: var(--ink-soft); opacity: 0.55; font-style: italic; }
+    .invite-panel {
+      backdrop-filter: blur(1px);
+    }
 
     /* the hint pulse around easter eggs (only before found) */
     @keyframes eggPulse {
@@ -310,6 +313,33 @@ const FontInjection = () => (
         letter-spacing: inherit;
         transform: none;
         filter: none;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .invite-panel {
+        padding: 1.15rem 0.95rem !important;
+        border-radius: 16px !important;
+      }
+      .btn-organic {
+        letter-spacing: 0.12em;
+        min-height: 44px;
+      }
+      .btn-organic:hover { letter-spacing: 0.12em; }
+      .font-serif-sc {
+        letter-spacing: 0.14em;
+      }
+      .ev-input {
+        font-size: 1rem;
+        padding-top: 0.62rem;
+        padding-bottom: 0.62rem;
+      }
+      .easter-egg {
+        min-width: 38px;
+        min-height: 38px;
+      }
+      .mobile-map-image {
+        max-height: 300px;
       }
     }
 
@@ -743,7 +773,7 @@ END:VCALENDAR`;
         <FloralPlaceholder variant="vineL" />
         <FloralPlaceholder variant="vineR" />
         <div
-          className={`relative z-10 text-center w-full max-w-md reveal px-6 py-8 rounded-[22px] ${inView.has("cover") ? "in-view" : ""}`}
+          className={`invite-panel relative z-10 text-center w-full max-w-md reveal px-6 py-8 rounded-[22px] ${inView.has("cover") ? "in-view" : ""}`}
           style={{ background: "rgba(255,255,255,0.78)", border: "1px solid rgba(206,164,79,0.42)", boxShadow: "0 20px 42px rgba(47,42,36,0.12)" }}
         >
           <p className="font-serif-sc text-xs mb-3" style={{ color: "var(--rose-deep)" }}>
@@ -823,7 +853,7 @@ END:VCALENDAR`;
       <section className="relative px-4 py-14 sm:py-16" data-reveal="main" ref={setRef(1)}>
         <FloralPlaceholder />
         <div
-          className={`max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("main") ? "in-view" : ""}`}
+          className={`invite-panel max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("main") ? "in-view" : ""}`}
           style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(206,164,79,0.38)" }}
         >
           <div className="font-serif italic text-lg leading-relaxed mb-8" style={{ color: "var(--text-on-dark-muted)" }}>
@@ -862,7 +892,7 @@ END:VCALENDAR`;
       <section className="relative px-4 py-14 sm:py-16" data-reveal="entourage" ref={setRef(2)}>
         <FloralPlaceholder />
         <div
-          className={`max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("entourage") ? "in-view" : ""}`}
+          className={`invite-panel max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("entourage") ? "in-view" : ""}`}
           style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(206,164,79,0.38)" }}
         >
           <p className="text-center font-serif-sc text-xs mb-2" style={{ color: "var(--rose-deep)" }}>WITH OUR FAMILIES</p>
@@ -896,7 +926,7 @@ END:VCALENDAR`;
       <section className="relative px-4 py-14 sm:py-16" data-reveal="attire" ref={setRef(3)}>
         <FloralPlaceholder />
         <div
-          className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("attire") ? "in-view" : ""}`}
+          className={`invite-panel max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("attire") ? "in-view" : ""}`}
           style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(206,164,79,0.38)" }}
         >
           <h2 className="text-center font-script text-5xl mb-2" style={{ color: "var(--gold)" }}>Attire</h2>
@@ -933,7 +963,7 @@ END:VCALENDAR`;
       <section className="relative px-4 py-14 sm:py-16" data-reveal="gifts" ref={setRef(4)}>
         <FloralPlaceholder />
         <div
-          className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("gifts") ? "in-view" : ""}`}
+          className={`invite-panel max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("gifts") ? "in-view" : ""}`}
           style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(206,164,79,0.38)" }}
         >
           <h2 className="text-center font-script text-5xl mb-3" style={{ color: "var(--gold)" }}>Gifts</h2>
@@ -956,7 +986,7 @@ END:VCALENDAR`;
               <button
                 onClick={() => handleEggClick("cat")}
                 className={`easter-egg absolute ${foundCat ? "found" : "egg-hint"}`}
-                style={{ left: "17%", bottom: "26%", border: "none", background: "transparent", fontSize: 18, opacity: foundCat ? 1 : 0.26 }}
+                style={{ left: "17%", bottom: "26%", border: "none", background: "transparent", fontSize: 22, opacity: foundCat ? 1 : 0.4 }}
                 aria-label="Hidden cat"
               >
                 🐈
@@ -964,7 +994,7 @@ END:VCALENDAR`;
               <button
                 onClick={() => handleEggClick("controller")}
                 className={`easter-egg absolute ${foundController ? "found" : "egg-hint"}`}
-                style={{ right: "20%", top: "24%", border: "none", background: "transparent", fontSize: 18, opacity: foundController ? 1 : 0.26 }}
+                style={{ right: "20%", top: "24%", border: "none", background: "transparent", fontSize: 22, opacity: foundController ? 1 : 0.4 }}
                 aria-label="Hidden controller"
               >
                 🎮
@@ -985,7 +1015,7 @@ END:VCALENDAR`;
       <section className="relative px-4 py-14 sm:py-16" data-reveal="qr" ref={setRef(5)}>
         <FloralPlaceholder />
         <div
-          className={`max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("qr") ? "in-view" : ""}`}
+          className={`invite-panel max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("qr") ? "in-view" : ""}`}
           style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(206,164,79,0.38)" }}
         >
           <p className="font-serif-sc text-xs mb-2" style={{ color: "var(--rose-deep)" }}>SAVE THIS INVITE</p>
@@ -1012,7 +1042,7 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       <section className="relative px-4 py-14 sm:py-16" data-reveal="rsvp" ref={setRef(6)} style={{ background: "transparent", color: "var(--ink)" }}>
         <div
-          className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("rsvp") ? "in-view" : ""}`}
+          className={`invite-panel max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("rsvp") ? "in-view" : ""}`}
           style={{ color: "var(--ink)", background: "rgba(255,255,255,0.92)", border: "1px solid rgba(206,164,79,0.38)" }}
         >
           {!rsvpSubmitted ? (
@@ -1157,7 +1187,7 @@ END:VCALENDAR`;
         <FloralPlaceholder variant="vineL" />
         <FloralPlaceholder variant="vineR" />
         <div
-          className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("map") ? "in-view" : ""}`}
+          className={`invite-panel max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("map") ? "in-view" : ""}`}
           style={{ background: "rgba(255,255,255,0.78)", border: "1px solid rgba(206,164,79,0.38)" }}
         >
           <FloralPlaceholder />
@@ -1183,7 +1213,7 @@ END:VCALENDAR`;
             <img
               src="/tomasinoweb-guide.png"
               alt="TomasinoWeb map and parking guide for UST Manila"
-              className="w-full h-auto object-contain"
+              className="mobile-map-image w-full h-auto object-contain"
               loading="lazy"
             />
           </div>
