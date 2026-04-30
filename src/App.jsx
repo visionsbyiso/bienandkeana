@@ -19,27 +19,27 @@ const FontInjection = () => (
     @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Italianno&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cormorant+SC:wght@400;500;600&display=swap');
 
     :root {
-      --cream: #FAF6EE;
-      --cream-deep: #F0E9D8;
-      --paper: #F6F0E2;
-      --sage: #9CAD8F;
-      --sage-deep: #6B7B5E;
-      --sage-soft: #C7D2BC;
-      --rose: #C9A0A0;
-      --rose-deep: #A87B7B;
-      --rose-soft: #E8CECE;
-      --cornflower: #7B8DB8;
-      --cornflower-deep: #5A6E94;
-      --cornflower-soft: #BCC8DE;
-      --gold: #B8975A;
-      --gold-light: #D9BD7E;
-      --ink: #3A4438;
-      --ink-soft: #5A6155;
+      --cream: #ffffff;
+      --cream-deep: #f8f3ea;
+      --paper: #fffdf8;
+      --sage: #95c791;
+      --sage-deep: #5c8d58;
+      --sage-soft: #d8ecd2;
+      --rose: #e35aa6;
+      --rose-deep: #bf3f85;
+      --rose-soft: #ffd4ea;
+      --cornflower: #6e88d8;
+      --cornflower-deep: #4a67bc;
+      --cornflower-soft: #d8e0ff;
+      --gold: #cea44f;
+      --gold-light: #e8c983;
+      --ink: #2f2a24;
+      --ink-soft: #6f665d;
     }
 
     .font-script    { font-family: 'Pinyon Script', cursive; font-weight: 400; }
-    .font-script-flow { font-family: 'Italianno', cursive; font-weight: 400; }
-    .font-serif     { font-family: 'Cormorant Garamond', serif; }
+    .font-script-flow { font-family: 'Slight', 'Italianno', cursive; font-weight: 400; }
+    .font-serif     { font-family: 'CMU Serif', 'Cormorant Garamond', serif; }
     .font-serif-sc  { font-family: 'Cormorant SC', serif; letter-spacing: 0.18em; }
 
     body, .evite-root { background: var(--cream); color: var(--ink); }
@@ -470,16 +470,8 @@ export default function WeddingEvite() {
   const APPS_SCRIPT_URL = (
     import.meta.env.VITE_APPS_SCRIPT_URL || DEFAULT_APPS_SCRIPT_URL
   ).trim();
-  const [showOlder, setShowOlder] = useState(false);   // false = babies, true = older kids
-  const flipTimer = useRef(null);
-
-  const [tilt, setTilt] = useState({ beta: 0, gamma: 0 });
-
-  const [venue, setVenue] = useState("ceremony");
-  const [parkingOpen, setParkingOpen] = useState(false);
-
-  const [attireCategory, setAttireCategory] = useState("sponsors");
-  const [activeSwatch, setActiveSwatch] = useState(null);
+  const [showOlder, setShowOlder] = useState(false);
+  const [coverUnlocked, setCoverUnlocked] = useState(false);
 
   const [foundCat, setFoundCat] = useState(false);
   const [foundController, setFoundController] = useState(false);
@@ -497,27 +489,6 @@ export default function WeddingEvite() {
   const sectionRefs = useRef([]);
   const [inView, setInView] = useState(new Set());
 
-  /* gyroscope + mouse fallback */
-  useEffect(() => {
-    const handler = (e) => {
-      setTilt({ beta: Math.max(-25, Math.min(25, e.beta || 0)), gamma: Math.max(-25, Math.min(25, e.gamma || 0)) });
-    };
-    if (typeof window !== "undefined" && window.DeviceOrientationEvent) {
-      window.addEventListener("deviceorientation", handler);
-    }
-    const mouse = (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 30;
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      setTilt({ gamma: x, beta: y });
-    };
-    window.addEventListener("mousemove", mouse);
-    return () => {
-      window.removeEventListener("deviceorientation", handler);
-      window.removeEventListener("mousemove", mouse);
-    };
-  }, []);
-
-  /* in-view observer */
   useEffect(() => {
     const obs = new IntersectionObserver(
       (entries) => {
@@ -551,22 +522,7 @@ export default function WeddingEvite() {
     return () => clearInterval(id);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = introOpen ? "" : "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [introOpen]);
-
   const handleFlip = () => setShowOlder((s) => !s);
-  const handleOpenIntro = () => {
-    setIntroOpen(true);
-    triggerPetals(18);
-  };
-  const handleLongPressStart = () => {
-    flipTimer.current = setTimeout(() => setShowOlder(true), 350);
-  };
-  const handleLongPressEnd = () => clearTimeout(flipTimer.current);
 
   const triggerPetals = (count = 24) => {
     const palette = ["var(--rose)", "var(--rose-soft)", "var(--cornflower)", "var(--cornflower-soft)", "var(--sage)", "var(--gold-light)"];
@@ -664,35 +620,19 @@ END:VCALENDAR`;
     URL.revokeObjectURL(url);
   };
 
+  const handleCoverOpen = () => {
+    setCoverUnlocked(true);
+    triggerPetals(36);
+    setTimeout(() => {
+      sectionRefs.current[1]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 240);
+  };
+
   const setRef = (i) => (el) => { sectionRefs.current[i] = el; };
 
   return (
     <div className="evite-root min-h-screen relative overflow-x-hidden paper-grain" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
       <FontInjection />
-      <div className={`intro-overlay ${introOpen ? "is-open" : ""}`} aria-hidden={introOpen}>
-        <div className={`intro-envelope ${introOpen ? "is-open" : ""}`}>
-          <div className="intro-envelope__shell">
-            <div className="intro-envelope__flap" />
-            <div className="intro-envelope__letter">
-              <div>
-                <p className="intro-envelope__eyebrow">You are invited</p>
-                <p className="intro-envelope__script">Bien &amp; Keana</p>
-                <p className="intro-envelope__eyebrow">13 June 2026</p>
-              </div>
-            </div>
-            <div className="intro-envelope__body" />
-            <button
-              type="button"
-              className="intro-envelope__seal"
-              onClick={handleOpenIntro}
-              aria-label="Open invitation"
-            >
-              B&amp;K
-            </button>
-          </div>
-          <p className="intro-envelope__hint">Tap the seal to open</p>
-        </div>
-      </div>
 
       {/* falling petals */}
       {petals.map((p) => (
@@ -718,26 +658,25 @@ END:VCALENDAR`;
       )}
 
       {/* ============================================================ */}
-      {/* SECTION 1 — HERO with flip illustrations                       */}
+      {/* SECTION 1 — BABY COVER PAGE                                  */}
       {/* ============================================================ */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-16" data-reveal="hero" ref={setRef(0)}>
-        <FloralBorder tilt={tilt} />
-
-        <div className={`relative z-10 text-center w-full max-w-md reveal ${inView.has("hero") ? "in-view" : ""}`}>
-          <p className="font-serif-sc text-xs mb-4" style={{ color: "var(--sage-deep)" }}>
-            BIEN &amp; KEANA — A WEDDING
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-14" data-reveal="cover" ref={setRef(0)}>
+        <div className={`relative z-10 text-center w-full max-w-md reveal ${inView.has("cover") ? "in-view" : ""}`}>
+          <p className="font-serif-sc text-xs mb-3" style={{ color: "var(--rose-deep)" }}>
+            SAVE THE DATE
           </p>
 
-          {/* THE COUPLE ILLUSTRATION (cross-fade between two stages) */}
           <div
             className="relative mx-auto select-none"
             onClick={handleFlip}
-            onTouchStart={handleLongPressStart}
-            onTouchEnd={handleLongPressEnd}
-            onMouseDown={handleLongPressStart}
-            onMouseUp={handleLongPressEnd}
-            onMouseLeave={handleLongPressEnd}
-            style={{ cursor: "pointer", maxWidth: 360, aspectRatio: "594 / 622" }}
+            style={{
+              cursor: "pointer",
+              maxWidth: 360,
+              aspectRatio: "594 / 622",
+              borderRadius: 20,
+              background: "var(--cream)",
+              boxShadow: "0 18px 40px rgba(47,42,36,0.13)",
+            }}
           >
             <img
               src={IMAGES.couplePast}
@@ -753,7 +692,6 @@ END:VCALENDAR`;
               style={{ opacity: showOlder ? 1 : 0, filter: "drop-shadow(0 12px 30px rgba(58,68,56,0.15))" }}
               draggable={false}
             />
-            {/* gentle tap-hint pulse on first load */}
             <div className="absolute bottom-2 right-2 pointer-events-none" style={{
               width: 12, height: 12, borderRadius: "50%",
               background: "var(--gold)", opacity: 0.5,
@@ -762,593 +700,160 @@ END:VCALENDAR`;
           </div>
 
           <p className="font-serif italic text-sm mt-3 mb-1" style={{ color: "var(--ink-soft)" }}>
-            {showOlder ? "celebrate with us!" : "tap the photos"}
+            {showOlder ? "and now we're getting married" : "tap photo to reveal the surprise"}
           </p>
 
-          <Divider ornament="❀" />
-
-          <h1 className="font-script-flow leading-none" style={{ fontSize: "clamp(3.75rem, 18vw, 5.5rem)", color: "var(--ink)", lineHeight: 0.85 }}>
-            Bien
-            <span className="font-serif italic text-2xl mx-2" style={{ color: "var(--gold)" }}>&amp;</span>
-            <br />
-            Keana
+          <h1 className="font-script-flow leading-none mt-6" style={{ fontSize: "clamp(3.6rem, 16vw, 5.2rem)", color: "var(--gold)", lineHeight: 0.9 }}>
+            Bien <span className="font-serif italic text-2xl" style={{ color: "var(--rose-deep)" }}>&amp;</span> Keana
           </h1>
 
-          <div className="mt-6 flex items-center justify-center gap-4 font-serif-sc text-sm" style={{ color: "var(--ink)" }}>
+          <div className="mt-5 flex items-center justify-center gap-4 font-serif-sc text-sm" style={{ color: "var(--ink)" }}>
             <span>13</span>
             <span style={{ color: "var(--gold)" }}>·</span>
             <span>JUN</span>
             <span style={{ color: "var(--gold)" }}>·</span>
             <span>2026</span>
           </div>
-          <p className="font-serif italic text-xs mt-3" style={{ color: "var(--ink-soft)" }}>
-            University of Santo Tomas — Manila
-          </p>
-
-          <div className="mt-10 font-serif-sc text-xs" style={{ color: "var(--sage-deep)" }}>
-            ↓ &nbsp; SCROLL &nbsp; ↓
-          </div>
+          <button
+            type="button"
+            onClick={handleCoverOpen}
+            disabled={coverUnlocked}
+            className="btn-organic font-serif-sc text-xs mt-8 px-6 py-3"
+            style={{
+              border: "1px solid var(--gold)",
+              background: coverUnlocked ? "rgba(206,164,79,0.2)" : "var(--gold)",
+              color: coverUnlocked ? "var(--ink-soft)" : "var(--cream)",
+              cursor: coverUnlocked ? "default" : "pointer",
+            }}
+          >
+            {coverUnlocked ? "OPENED" : "OPEN INVITATION"}
+          </button>
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 2 — FORMAL INVITATION                                  */}
+      {/* SECTION 2 — MAIN PAGE                                        */}
       {/* ============================================================ */}
-      <section className="relative px-6 py-20" data-reveal="invite" ref={setRef(1)}>
-        <div className={`max-w-md mx-auto text-center reveal ${inView.has("invite") ? "in-view" : ""}`}>
+      <section className="relative px-6 py-20" data-reveal="main" ref={setRef(1)}>
+        <div className={`max-w-md mx-auto text-center reveal ${inView.has("main") ? "in-view" : ""}`}>
           <div className="flex justify-center mb-6">
             <Daisy size={48} />
           </div>
-
-          {/* THE QUOTE — exact wording from the invitation */}
           <div className="font-serif italic text-lg leading-relaxed mb-8" style={{ color: "var(--ink-soft)" }}>
             <p>To everything there's a reason,</p>
             <p>a time and a purpose.</p>
-            <p className="mt-3">On this day, I will marry my best friend</p>
+            <p className="mt-3">On this day, we will marry our best friend</p>
             <p>the one I will laugh with.</p>
             <p className="mt-3" style={{ color: "var(--ink)" }}>Live for. Love.</p>
           </div>
 
-          <p className="font-script text-3xl mb-2" style={{ color: "var(--gold)" }}>We,</p>
-
-          {/* THE NAMES — handwriting wipe reveal */}
-          <div className="relative inline-block mx-auto" style={{ width: "100%" }}>
-            <div className={`handwrite-reveal ${inView.has("invite") ? "in-view" : ""}`}>
-              <h2 className="font-script-flow leading-none" style={{ fontSize: "5rem", color: "var(--ink)", lineHeight: 0.9 }}>
-                Bien
-              </h2>
-              <p className="font-serif italic text-3xl my-1" style={{ color: "var(--gold)" }}>&amp;</p>
-              <h2 className="font-script-flow leading-none" style={{ fontSize: "5rem", color: "var(--ink)", lineHeight: 0.9 }}>
-                Keana
-              </h2>
-            </div>
-            {/* the pen-tip dot tracing the wipe */}
-            <span className={`pen-tip ${inView.has("invite") ? "in-view" : ""}`} />
-          </div>
-
-          <p className="font-serif italic mt-8 mb-4 text-base" style={{ color: "var(--ink-soft)" }}>
-            together with our parents
-          </p>
-
-          {/* PARENTS — Bonifacio Lagmay marked deceased */}
-          <div className="grid grid-cols-2 gap-6 my-4">
-            <div>
-              <p className="font-serif italic text-base leading-snug" style={{ color: "var(--ink)" }}>
-                Bonifacio Lagmay&nbsp;
-                <span style={{ color: "var(--gold)", fontStyle: "normal" }} title="In loving memory">†</span>
-              </p>
-              <p className="font-serif italic text-base leading-snug" style={{ color: "var(--ink)" }}>
-                Maria Luisa Lagmay
-              </p>
-            </div>
-            <div>
-              <p className="font-serif italic text-base leading-snug" style={{ color: "var(--ink)" }}>
-                Marvin Rivera
-              </p>
-              <p className="font-serif italic text-base leading-snug" style={{ color: "var(--ink)" }}>
-                Imee Rivera
-              </p>
-            </div>
-          </div>
-
-          <Divider ornament="✦" />
-
-          {/* BRIDGE TEXT — exact wording */}
-          <p className="font-serif italic leading-relaxed text-base" style={{ color: "var(--ink)" }}>
+          <h2 className="font-script-flow leading-none" style={{ fontSize: "clamp(3.2rem, 15vw, 5rem)", color: "var(--gold)", lineHeight: 0.88 }}>
+            Bien &amp; Keana
+          </h2>
+          <p className="font-serif italic text-base mt-4" style={{ color: "var(--ink-soft)" }}>
             request the honor of your presence
-            <br />to share with us a day of happy beginnings
             <br />as we become united in marriage
           </p>
 
-          {/* DATE BLOCK */}
-          <div className="mt-8 font-serif-sc text-sm" style={{ color: "var(--ink)" }}>
-            <div className="text-3xl font-script mb-1" style={{ color: "var(--gold)" }}>Saturday</div>
-            <div>THE THIRTEENTH OF JUNE</div>
-            <div>TWO THOUSAND TWENTY-SIX</div>
-            <div className="mt-3 text-base font-serif italic" style={{ color: "var(--rose-deep)" }}>
-              · ten o'clock in the morning ·
-            </div>
+          <div className="mt-8 p-5" style={{ border: "1px solid rgba(206,164,79,0.38)", background: "rgba(216,224,255,0.14)", borderRadius: 10 }}>
+            <p className="font-serif-sc text-xs" style={{ color: "var(--rose-deep)" }}>SATURDAY · JUNE 13 · 2026</p>
+            <p className="font-serif italic text-sm mt-2" style={{ color: "var(--ink-soft)" }}>
+              10:00 AM
+              <br />Santisimo Rosario Parish, UST
+            </p>
+            <p className="font-serif italic text-sm mt-3" style={{ color: "var(--ink-soft)" }}>
+              Reception to follow at
+              <br />UST Central Seminary Gym
+            </p>
           </div>
-
-          <Divider ornament="❋" />
-
-          {/* CEREMONY VENUE BLOCK */}
-          <p className="font-serif text-xl mb-1" style={{ color: "var(--ink)" }}>Santisimo Rosario Parish</p>
-          <p className="font-serif italic text-sm" style={{ color: "var(--ink-soft)" }}>
-            University of Santo Tomas
-          </p>
-          <p className="font-serif italic text-sm" style={{ color: "var(--ink-soft)" }}>
-            España Blvd., Sampaloc, Manila
-          </p>
-
-          <p className="font-serif italic text-base mt-6" style={{ color: "var(--ink-soft)" }}>
-            Reception immediately follows at
-          </p>
-          <p className="font-serif text-xl mb-1" style={{ color: "var(--ink)" }}>UST Central Seminary Gym</p>
-          <p className="font-serif italic text-sm" style={{ color: "var(--ink-soft)" }}>
-            España Blvd., Sampaloc
-          </p>
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 3 — LOGISTICS & CAMPUS GUIDE                           */}
+      {/* SECTION 3 — ENTOURAGE                                       */}
       {/* ============================================================ */}
-      <section className="relative px-6 py-20" data-reveal="logistics" ref={setRef(2)} style={{ background: "var(--paper)" }}>
-        <div className={`max-w-md mx-auto reveal ${inView.has("logistics") ? "in-view" : ""}`}>
-          {/* Real watercolor UST building */}
-          <div className="flex justify-center mb-6">
-            <img
-              src={IMAGES.ustBuilding}
-              alt="Watercolor of the UST Main Building with floral arches"
-              className="w-full"
-              style={{ maxWidth: 380, filter: "drop-shadow(0 8px 18px rgba(58,68,56,0.12))" }}
-              draggable={false}
-            />
-          </div>
-
-          <p className="text-center font-serif-sc text-xs mb-6" style={{ color: "var(--sage-deep)" }}>
-            THE CELEBRATION
-          </p>
-
-          {/* venue toggle */}
-          <div className="flex justify-center mb-8">
-            <div className="inline-flex" style={{ border: "1px solid var(--gold)", borderRadius: 2 }}>
-              {[
-                { k: "ceremony", label: "Ceremony" },
-                { k: "reception", label: "Reception" }
-              ].map((v) => (
-                <button key={v.k} onClick={() => setVenue(v.k)}
-                  className="font-serif-sc text-xs px-5 py-2 btn-organic"
-                  style={{
-                    background: venue === v.k ? "var(--gold)" : "transparent",
-                    color: venue === v.k ? "var(--cream)" : "var(--gold)",
-                  }}>
-                  {v.label.toUpperCase()}
-                </button>
-              ))}
+      <section className="relative px-6 py-20" data-reveal="entourage" ref={setRef(2)}>
+        <div className={`max-w-md mx-auto text-center reveal ${inView.has("entourage") ? "in-view" : ""}`}>
+          <p className="text-center font-serif-sc text-xs mb-2" style={{ color: "var(--rose-deep)" }}>WITH OUR FAMILIES</p>
+          <h2 className="font-script text-5xl mb-6" style={{ color: "var(--gold)" }}>Entourage</h2>
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <p className="font-serif-sc text-[10px]" style={{ color: "var(--ink-soft)" }}>GROOM'S PARENTS</p>
+              <p className="font-serif italic text-sm mt-2" style={{ color: "var(--ink)" }}>Bonifacio H. Lagmay †</p>
+              <p className="font-serif italic text-sm" style={{ color: "var(--ink)" }}>Maria Luisa H. Lagmay</p>
+            </div>
+            <div>
+              <p className="font-serif-sc text-[10px]" style={{ color: "var(--ink-soft)" }}>BRIDE'S PARENTS</p>
+              <p className="font-serif italic text-sm mt-2" style={{ color: "var(--ink)" }}>Marvin M. Rivera</p>
+              <p className="font-serif italic text-sm" style={{ color: "var(--ink)" }}>Imee M. Rivera</p>
             </div>
           </div>
-
-          <div className="text-center px-2" style={{ minHeight: 200 }}>
-            {venue === "ceremony" ? (
-              <div className="reveal in-view">
-                <p className="font-script text-3xl mb-2" style={{ color: "var(--gold)" }}>The Vows</p>
-                <h3 className="font-serif text-2xl mb-1" style={{ color: "var(--ink)" }}>
-                  Santisimo Rosario Parish
-                </h3>
-                <p className="font-serif italic text-sm mb-3" style={{ color: "var(--ink-soft)" }}>
-                  the UST Chapel
-                </p>
-                <p className="font-serif-sc text-xs mb-1" style={{ color: "var(--sage-deep)" }}>
-                  10:00 AM
-                </p>
-                <p className="font-serif italic text-xs" style={{ color: "var(--ink-soft)" }}>
-                  España Blvd., Sampaloc, Manila
-                </p>
-              </div>
-            ) : (
-              <div className="reveal in-view">
-                <p className="font-script text-3xl mb-2" style={{ color: "var(--gold)" }}>The Feast</p>
-                <h3 className="font-serif text-2xl mb-1" style={{ color: "var(--ink)" }}>
-                  UST Central Seminary Gym
-                </h3>
-                <p className="font-serif italic text-sm mb-3" style={{ color: "var(--ink-soft)" }}>
-                  reception immediately follows
-                </p>
-                <p className="font-serif-sc text-xs mb-1" style={{ color: "var(--sage-deep)" }}>
-                  AFTER THE CEREMONY
-                </p>
-                <p className="font-serif italic text-xs" style={{ color: "var(--ink-soft)" }}>
-                  España Blvd., Sampaloc
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* mini schematic map with gates */}
-          <div className="mt-2 mx-auto" style={{
-            border: "1px solid var(--sage)", borderRadius: 2, padding: 12,
-            background: "rgba(156,173,143,0.08)",
-          }}>
-            <svg viewBox="0 0 300 160" width="100%">
-              <rect x="0" y="0" width="300" height="160" fill="var(--cream)" />
-              <path d="M0 80 L300 75" stroke="var(--ink-soft)" strokeWidth="6" opacity="0.25" />
-              <path d="M0 80 L300 75" stroke="var(--cream)" strokeWidth="1" strokeDasharray="6 6" />
-              <path d="M150 0 L155 160" stroke="var(--ink-soft)" strokeWidth="4" opacity="0.2" />
-              <rect x="80" y="40" width="160" height="90" fill="var(--sage-soft)" opacity="0.4" stroke="var(--sage)" strokeDasharray="3 3" />
-              <text x="160" y="90" textAnchor="middle" className="font-serif-sc" fill="var(--sage-deep)" fontSize="9" letterSpacing="2">
-                UST CAMPUS
-              </text>
-              {venue === "ceremony" ? (
-                <g transform="translate(140 60)">
-                  <circle r="14" fill="var(--rose)" opacity="0.3" />
-                  <circle r="7" fill="var(--rose-deep)" />
-                  <text x="0" y="-22" textAnchor="middle" className="font-serif-sc" fill="var(--rose-deep)" fontSize="8" letterSpacing="1.5">CHAPEL</text>
-                </g>
-              ) : (
-                <g transform="translate(190 100)">
-                  <circle r="14" fill="var(--cornflower)" opacity="0.3" />
-                  <circle r="7" fill="var(--cornflower-deep)" />
-                  <text x="0" y="-22" textAnchor="middle" className="font-serif-sc" fill="var(--cornflower-deep)" fontSize="8" letterSpacing="1.5">GYM</text>
-                </g>
-              )}
-              <g transform="translate(72 130)">
-                <circle r="4" fill="var(--gold)" />
-                <text x="0" y="14" textAnchor="middle" className="font-serif-sc" fill="var(--gold)" fontSize="7" letterSpacing="1">GATE 7</text>
-              </g>
-              <g transform="translate(248 50)">
-                <circle r="4" fill="var(--gold)" />
-                <text x="0" y="-9" textAnchor="middle" className="font-serif-sc" fill="var(--gold)" fontSize="7" letterSpacing="1">GATE 14</text>
-              </g>
-            </svg>
-
-            <div className="flex flex-col gap-2 mt-3">
-              <button onClick={() => setParkingOpen(true)}
-                className="btn-organic font-serif-sc text-xs py-3 flex items-center justify-center gap-2"
-                style={{ background: "var(--gold)", color: "var(--cream)", border: "none", cursor: "pointer" }}>
-                <ParkingCircle size={14} />
-                PARKING GUIDE
-              </button>
-              <a href="https://www.ust.edu.ph/campus-map/" target="_blank" rel="noopener noreferrer"
-                className="btn-organic font-serif-sc text-xs py-3 flex items-center justify-center gap-2 no-underline"
-                style={{
-                  background: "transparent", color: "var(--sage-deep)",
-                  border: "1px solid var(--sage)", textDecoration: "none",
-                }}>
-                <ExternalLink size={12} />
-                OFFICIAL UST CAMPUS MAP
-              </a>
-            </div>
+          <div className="mt-7 p-5" style={{ background: "rgba(255,212,234,0.22)", border: "1px solid rgba(227,90,166,0.35)", borderRadius: 10 }}>
+            <p className="font-serif-sc text-[10px]" style={{ color: "var(--ink-soft)" }}>PRINCIPAL SPONSORS</p>
+            <p className="font-serif italic text-sm mt-2 leading-relaxed" style={{ color: "var(--ink)" }}>
+              Dr. Leovino Ma. Garcia, Mrs. Irene M. Makalintal,
+              <br />Mrs. Janet C. Mendoza, Mrs. Lilia A. Hernandez,
+              <br />Mr. Steve Paul Anthony T. Baltao, Mrs. Winnie Marianne L. Hernandez
+            </p>
           </div>
         </div>
       </section>
 
-      {/* PARKING MODAL */}
-      {parkingOpen && (
-        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center px-4 pb-4"
-          style={{ background: "rgba(58,68,56,0.55)", backdropFilter: "blur(4px)" }}
-          onClick={() => setParkingOpen(false)}>
-          <div className="relative w-full max-w-md max-h-[88vh] overflow-y-auto"
-            style={{
-              background: "var(--cream)", border: "1px solid var(--gold)", borderRadius: 4,
-              padding: "2rem 1.5rem", boxShadow: "0 20px 60px rgba(58,68,56,0.4)",
-            }}
-            onClick={(e) => e.stopPropagation()}>
-            <button onClick={() => setParkingOpen(false)} className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center"
-              style={{ color: "var(--ink-soft)", background: "transparent", border: "none", cursor: "pointer" }}
-              aria-label="Close">
-              <X size={20} />
-            </button>
-
-            <div className="text-center mb-2"><Sprig size={50} rotate={0} /></div>
-            <p className="text-center font-script text-3xl mb-1" style={{ color: "var(--gold)" }}>Parking</p>
-            <p className="text-center font-serif italic text-sm mb-6" style={{ color: "var(--ink-soft)" }}>
-              a small navigation guide for our guests
-            </p>
-
-            <div className="mb-6 p-4" style={{
-              border: "1px solid var(--rose)", borderLeft: "3px solid var(--rose-deep)",
-              background: "rgba(201,160,160,0.08)",
-            }}>
-              <div className="flex items-baseline justify-between mb-2">
-                <p className="font-script text-2xl" style={{ color: "var(--rose-deep)" }}>Gate 7</p>
-                <p className="font-serif-sc text-xs" style={{ color: "var(--rose-deep)" }}>P. NOVAL</p>
-              </div>
-              <p className="font-serif text-sm leading-snug mb-2" style={{ color: "var(--ink)" }}>
-                Closest to <em>Santisimo Rosario Parish</em>. Limited chapel parking — ideal for early arrivals and elderly guests.
-              </p>
-              <p className="font-serif italic text-xs" style={{ color: "var(--ink-soft)" }}>
-                Mention you are with the Lagmay–Rivera wedding to the guard.
-              </p>
-            </div>
-
-            <div className="mb-6 p-4" style={{
-              border: "1px solid var(--cornflower)", borderLeft: "3px solid var(--cornflower-deep)",
-              background: "rgba(123,141,184,0.08)",
-            }}>
-              <div className="flex items-baseline justify-between mb-2">
-                <p className="font-script text-2xl" style={{ color: "var(--cornflower-deep)" }}>Gate 14</p>
-                <p className="font-serif-sc text-xs" style={{ color: "var(--cornflower-deep)" }}>LACSON AVE</p>
-              </div>
-              <p className="font-serif text-sm leading-snug mb-2" style={{ color: "var(--ink)" }}>
-                Recommended general parking — leads directly to the <em>UST Carpark (multi-level)</em>. Best option for most guests, especially during reception hours.
-              </p>
-              <p className="font-serif italic text-xs" style={{ color: "var(--ink-soft)" }}>
-                Standard hourly rates apply at the carpark.
-              </p>
-            </div>
-
-            <a href="https://www.ust.edu.ph/campus-map/" target="_blank" rel="noopener noreferrer"
-              className="btn-organic font-serif-sc text-xs py-3 flex items-center justify-center gap-2 w-full no-underline"
-              style={{ background: "var(--ink)", color: "var(--cream)", border: "none", textDecoration: "none" }}>
-              <ExternalLink size={12} />
-              OPEN OFFICIAL CAMPUS MAP
-            </a>
-
-            <p className="text-center font-serif italic text-xs mt-4" style={{ color: "var(--ink-soft)" }}>
-              if it gets confusing, message us — we will guide you in 💌
-            </p>
-          </div>
-        </div>
-      )}
-
       {/* ============================================================ */}
-      {/* SECTION 4 — ATTIRE PALETTE                                     */}
+      {/* SECTION 4 — ATTIRE                                           */}
       {/* ============================================================ */}
       <section className="relative px-6 py-20" data-reveal="attire" ref={setRef(3)}>
         <div className={`max-w-md mx-auto reveal ${inView.has("attire") ? "in-view" : ""}`}>
-          <p className="text-center font-serif-sc text-xs mb-3" style={{ color: "var(--sage-deep)" }}>
-            A NOTE ON DRESS
+          <h2 className="text-center font-script text-5xl mb-2" style={{ color: "var(--gold)" }}>Attire</h2>
+          <p className="text-center font-serif italic text-sm mb-7" style={{ color: "var(--ink-soft)" }}>
+            Plain and floral prints are welcome in these colors.
           </p>
-          <h2 className="text-center font-script text-5xl mb-2" style={{ color: "var(--gold)" }}>
-            Attire
-          </h2>
-          <p className="text-center font-serif italic text-sm mb-8" style={{ color: "var(--ink-soft)" }}>
-            help us paint our wildflower meadow — <br />
-            tap a swatch to discover its meaning.
-          </p>
-
-          <div className="flex justify-center mb-8 gap-1">
-            {[
-              { k: "sponsors", label: "Family & Sponsors" },
-              { k: "guests", label: "Guests & Visitors" }
-            ].map((t) => (
-              <button key={t.k}
-                onClick={() => { setAttireCategory(t.k); setActiveSwatch(null); }}
-                className="font-serif-sc text-[10px] px-4 py-2 btn-organic"
-                style={{
-                  background: attireCategory === t.k ? "var(--ink)" : "transparent",
-                  color: attireCategory === t.k ? "var(--cream)" : "var(--ink)",
-                  border: "1px solid var(--ink)", cursor: "pointer",
-                }}>
-                {t.label.toUpperCase()}
-              </button>
+          <div className="grid grid-cols-6 gap-2 mb-8">
+            {["#f5d1cb","#f2b0c8","#d5e0ff","#cde8d1","#fff0a9","#c9b7ff","#ff95b5","#7ca1ff","#8ccf80","#ffd27f","#d679ba","#f09d5f"].map((c) => (
+              <span key={c} className="block w-full h-7 rounded-full" style={{ background: c, border: "1px solid rgba(47,42,36,0.1)" }} />
             ))}
           </div>
-
-          <div className="flex flex-col items-center">
-            <div className="grid grid-cols-4 gap-3 w-full mb-4">
-              {(attireCategory === "sponsors"
-                ? [
-                    { name: "Sage Mist",      color: "#C7D2BC", label: "Soft sage — for matrons & ninangs" },
-                    { name: "Dusty Rose",     color: "#E8CECE", label: "Powder rose — for principal sponsors" },
-                    { name: "Cornflower",     color: "#BCC8DE", label: "Pale blue — ninongs & best men" },
-                    { name: "Champagne",      color: "#E8DCC4", label: "Warm champagne — parents of the couple" },
-                    { name: "Linen",          color: "#EFE7D7", label: "Ivory linen — for the bridal party" },
-                    { name: "Sand",           color: "#D9C9A8", label: "Sand — gentlemen's barong" },
-                    { name: "Heather",        color: "#C8B8C2", label: "Soft heather — secondary sponsors" },
-                    { name: "Wheat",          color: "#D9C684", label: "Pale wheat — accent option" },
-                  ]
-                : [
-                    { name: "Poppy",          color: "#C9706A", label: "Poppy red — bold guest gowns" },
-                    { name: "Cornflower Deep",color: "#5A6E94", label: "Deep cornflower — gentlemen's polo barong" },
-                    { name: "Sage Deep",      color: "#6B7B5E", label: "Forest sage — for ladies & men alike" },
-                    { name: "Marigold",       color: "#D9A35A", label: "Marigold — vibrant ladies' gowns" },
-                    { name: "Wine",           color: "#8E4B5E", label: "Wine — formal cocktail option" },
-                    { name: "Olive",          color: "#857A4A", label: "Olive — earthy & sophisticated" },
-                    { name: "Cobalt",         color: "#3D5A8C", label: "Cobalt blue — striking & elegant" },
-                    { name: "Terracotta",     color: "#B86C4A", label: "Terracotta — warm earth hue" },
-                  ]
-              ).map((s) => {
-                const isActive = activeSwatch?.name === s.name;
-                return (
-                  <button key={s.name} onClick={() => setActiveSwatch(isActive ? null : s)}
-                    className="relative flex flex-col items-center"
-                    style={{ background: "transparent", border: "none", cursor: "pointer" }}>
-                    <div className="w-14 h-14" style={{
-                      background: s.color, borderRadius: "50%",
-                      border: isActive ? "2px solid var(--ink)" : "2px solid transparent",
-                      boxShadow: isActive
-                        ? "0 0 0 3px var(--cream), 0 6px 16px rgba(58,68,56,0.25)"
-                        : "0 2px 8px rgba(58,68,56,0.15)",
-                      transition: "all 300ms ease",
-                      transform: isActive ? "scale(1.1)" : "scale(1)",
-                    }} />
-                    <p className="font-serif-sc text-[8px] mt-2"
-                      style={{ color: "var(--ink-soft)", letterSpacing: "1.2px" }}>
-                      {s.name.toUpperCase()}
-                    </p>
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="swatch-tooltip text-center px-4 py-3 mt-2 max-w-xs"
-              style={{
-                opacity: activeSwatch ? 1 : 0,
-                transform: activeSwatch ? "translateY(0)" : "translateY(-6px)",
-                background: "var(--cream-deep)",
-                border: "1px solid " + (activeSwatch?.color || "var(--gold)"),
-                borderRadius: 2, minHeight: 52,
-              }}>
-              {activeSwatch ? (
-                <>
-                  <p className="font-script text-xl mb-1" style={{ color: "var(--ink)" }}>{activeSwatch.name}</p>
-                  <p className="font-serif italic text-sm" style={{ color: "var(--ink-soft)" }}>{activeSwatch.label}</p>
-                </>
-              ) : (
-                <p className="font-serif italic text-xs" style={{ color: "var(--ink-soft)" }}>tap a swatch to see its description</p>
-              )}
-            </div>
-
-            <Divider ornament="✿" />
-
-            <p className="font-serif italic text-xs text-center px-6" style={{ color: "var(--ink-soft)" }}>
-              Ladies — floor-length gowns. Gentlemen — Modern Barong or long-sleeves.
-              <br />
-              <span style={{ color: "var(--rose-deep)" }}>Kindly avoid white, off-white, or full black.</span>
+          <div className="p-5 text-center" style={{ border: "1px solid rgba(110,136,216,0.38)", borderRadius: 10, background: "rgba(216,224,255,0.18)" }}>
+            <p className="font-serif italic text-sm" style={{ color: "var(--ink)" }}>
+              Ladies: Mid- to ankle-length dresses
+              <br />Gentlemen: Long-sleeved shirt or modern Barong Tagalog
+            </p>
+            <p className="font-serif italic text-xs mt-3" style={{ color: "var(--rose-deep)" }}>
+              Kindly avoid white, off-white, and full black.
             </p>
           </div>
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 5 — FLORAL FOOTER WITH HIDDEN EASTER EGGS              */}
+      {/* SECTION 5 — GIFTS + INTERACTIVE EASTER EGGS                  */}
       {/* ============================================================ */}
-      <section className="relative px-6 pt-12 pb-8" data-reveal="garden" ref={setRef(4)} style={{ background: "var(--paper)" }}>
-        <div className={`max-w-md mx-auto reveal ${inView.has("garden") ? "in-view" : ""}`}>
-          <p className="text-center font-serif-sc text-xs mb-2" style={{ color: "var(--sage-deep)" }}>
-            A LITTLE GARDEN
+      <section className="relative px-6 py-20" data-reveal="gifts" ref={setRef(4)}>
+        <div className={`max-w-md mx-auto reveal ${inView.has("gifts") ? "in-view" : ""}`}>
+          <h2 className="text-center font-script text-5xl mb-3" style={{ color: "var(--gold)" }}>Gifts</h2>
+          <p className="text-center font-serif italic text-sm leading-relaxed" style={{ color: "var(--ink-soft)" }}>
+            Your presence at our wedding is present enough.
+            <br />If you wish to bless us further, a monetary gift would be deeply appreciated.
           </p>
-          <p className="text-center font-script text-3xl mb-6" style={{ color: "var(--gold)" }}>
-            of our small joys
-          </p>
-
-          <div className="relative" style={{ height: 300 }}>
-            <svg viewBox="0 0 320 300" width="100%" height="100%" style={{ overflow: "visible" }}>
-              {/* meadow ground wash */}
-              <ellipse cx="160" cy="290" rx="180" ry="22" fill="var(--sage)" opacity="0.2" />
-
-              {/* sprigs */}
-              <g transform="translate(20 110)"><Sprig size={130} rotate={-15} /></g>
-              <g transform="translate(220 100)"><Sprig size={140} rotate={20} /></g>
-              <g transform="translate(120 140)"><Sprig size={110} rotate={5} /></g>
-
-              {/* flowers */}
-              <g transform="translate(50 170)"><Poppy size={70} hue="rose" /></g>
-              <g transform="translate(180 150)"><Daisy size={60} /></g>
-              <g transform="translate(240 190)"><Cornflower size={55} /></g>
-              <g transform="translate(110 210)"><Berries size={50} /></g>
-              <g transform="translate(150 180)"><Poppy size={50} hue="blue" /></g>
-              <g transform="translate(80 140)"><Daisy size={45} /></g>
-              <g transform="translate(220 230)"><Poppy size={55} hue="sage" /></g>
-
-              {/* HIDDEN LAVENDER CAT — curled up watercolor */}
-              <g
-                className={`easter-egg ${foundCat ? "found" : "egg-hint"}`}
-                transform="translate(40 240)"
-                onClick={() => handleEggClick("cat")}
-                style={{ pointerEvents: "all" }}
-              >
-                {/* curled body - watercolor wash */}
-                <ellipse cx="22" cy="22" rx="22" ry="13" fill="#C8B8C8"
-                  opacity={foundCat ? 0.95 : 0.6} />
-                <ellipse cx="22" cy="20" rx="20" ry="11" fill="#B8A4BC"
-                  opacity={foundCat ? 0.75 : 0.4} />
-                {/* tucked tail wrapping around */}
-                <path d="M44 22 Q48 14 36 8 Q28 6 22 12"
-                  stroke="#9D8AA0" strokeWidth="3" fill="none"
-                  opacity={foundCat ? 0.9 : 0.55} strokeLinecap="round" />
-                {/* head tucked on paws */}
-                <ellipse cx="12" cy="18" rx="9" ry="7" fill="#C8B8C8"
-                  opacity={foundCat ? 0.95 : 0.6} />
-                <ellipse cx="12" cy="17" rx="8" ry="6" fill="#B8A4BC"
-                  opacity={foundCat ? 0.7 : 0.35} />
-                {/* ears */}
-                <path d="M5 14 L7 8 L10 13 Z" fill="#9D8AA0" opacity={foundCat ? 0.9 : 0.55} />
-                <path d="M14 13 L16 8 L18 13 Z" fill="#9D8AA0" opacity={foundCat ? 0.9 : 0.55} />
-                {/* sleepy eyes */}
-                <path d="M9 18 Q10.5 19 12 18" stroke="#3A2418" strokeWidth="0.7" fill="none"
-                  opacity={foundCat ? 1 : 0.55} strokeLinecap="round" />
-                <path d="M14 18 Q15.5 19 17 18" stroke="#3A2418" strokeWidth="0.7" fill="none"
-                  opacity={foundCat ? 1 : 0.55} strokeLinecap="round" />
-                {/* tiny pink nose */}
-                <ellipse cx="13" cy="20.5" rx="0.8" ry="0.6" fill="#C9706A"
-                  opacity={foundCat ? 0.9 : 0.5} />
-                {/* whiskers */}
-                <g stroke="#3A2418" strokeWidth="0.3" opacity={foundCat ? 0.7 : 0.35}>
-                  <line x1="6" y1="20" x2="2" y2="19" />
-                  <line x1="6" y1="21" x2="2" y2="22" />
-                  <line x1="20" y1="20" x2="24" y2="19" />
-                  <line x1="20" y1="21" x2="24" y2="22" />
-                </g>
-              </g>
-
-              {/* HIDDEN PLAYSTATION CONTROLLER — watercolor white/blue */}
-              <g
-                className={`easter-egg ${foundController ? "found" : "egg-hint"}`}
-                transform="translate(225 250)"
-                onClick={() => handleEggClick("controller")}
-                style={{ pointerEvents: "all" }}
-              >
-                {/* main body - PS DualShock-ish silhouette */}
-                <path
-                  d="M8 10 Q2 12 2 22 Q2 30 8 32 Q14 32 16 28 L30 28 Q32 32 38 32 Q44 30 44 22 Q44 12 38 10 Q33 9 30 12 L16 12 Q13 9 8 10 Z"
-                  fill="#F0EBE2"
-                  opacity={foundController ? 0.95 : 0.6}
-                  stroke="#7B8DB8"
-                  strokeWidth="0.6"
-                />
-                {/* watercolor blue wash on top */}
-                <path
-                  d="M8 10 Q2 12 2 22 L44 22 Q44 12 38 10 Q33 9 30 12 L16 12 Q13 9 8 10 Z"
-                  fill="#BCC8DE"
-                  opacity={foundController ? 0.45 : 0.25}
-                />
-                {/* d-pad (left) */}
-                <rect x="6" y="17" width="6" height="2" fill="#5A6E94"
-                  opacity={foundController ? 0.95 : 0.55} rx="0.3" />
-                <rect x="8" y="15" width="2" height="6" fill="#5A6E94"
-                  opacity={foundController ? 0.95 : 0.55} rx="0.3" />
-                {/* face buttons (right) - PS triangle/circle/cross/square */}
-                <circle cx="36" cy="15" r="1.5" fill="none" stroke="#9CAD8F" strokeWidth="0.6"
-                  opacity={foundController ? 1 : 0.55} />
-                <text x="36" y="16.6" textAnchor="middle" fontSize="2" fill="#6B7B5E"
-                  opacity={foundController ? 1 : 0.55}>△</text>
-                <circle cx="40" cy="19" r="1.5" fill="none" stroke="#C9706A" strokeWidth="0.6"
-                  opacity={foundController ? 1 : 0.55} />
-                <circle cx="40" cy="19" r="0.6" fill="#C9706A" opacity={foundController ? 0.9 : 0.5} />
-                <circle cx="36" cy="23" r="1.5" fill="none" stroke="#7B8DB8" strokeWidth="0.6"
-                  opacity={foundController ? 1 : 0.55} />
-                <text x="36" y="24.4" textAnchor="middle" fontSize="2" fill="#5A6E94"
-                  opacity={foundController ? 1 : 0.55}>×</text>
-                <circle cx="32" cy="19" r="1.5" fill="none" stroke="#C8B8C2" strokeWidth="0.6"
-                  opacity={foundController ? 1 : 0.55} />
-                <text x="32" y="20.4" textAnchor="middle" fontSize="2" fill="#9D8AA0"
-                  opacity={foundController ? 1 : 0.55}>□</text>
-                {/* analog sticks */}
-                <circle cx="14" cy="24" r="2.5" fill="#E0DAD0" stroke="#7B8DB8" strokeWidth="0.4"
-                  opacity={foundController ? 0.95 : 0.55} />
-                <circle cx="14" cy="24" r="1.4" fill="#C8C2B6" opacity={foundController ? 0.9 : 0.5} />
-                <circle cx="32" cy="24" r="2.5" fill="#E0DAD0" stroke="#7B8DB8" strokeWidth="0.4"
-                  opacity={foundController ? 0.95 : 0.55} />
-                <circle cx="32" cy="24" r="1.4" fill="#C8C2B6" opacity={foundController ? 0.9 : 0.5} />
-                {/* center touchpad */}
-                <rect x="20" y="14" width="6" height="3" rx="0.5" fill="#E8E2D6" stroke="#9CAD8F"
-                  strokeWidth="0.3" opacity={foundController ? 0.9 : 0.5} />
-              </g>
-
-              {/* additional foliage on top to camouflage */}
-              <g transform="translate(50 250)" opacity="0.7"><Sprig size={70} rotate={-30} /></g>
-              <g transform="translate(240 260)" opacity="0.7"><Sprig size={70} rotate={40} /></g>
-            </svg>
+          <div className="mt-8 p-6 text-center" style={{ border: "1px dashed rgba(191,63,133,0.45)", borderRadius: 10, background: "rgba(255,212,234,0.15)" }}>
+            <p className="font-serif-sc text-[10px]" style={{ color: "var(--ink-soft)" }}>INTERACTIVE SURPRISE</p>
+            <div className="flex items-center justify-center gap-6 mt-3">
+              <button className={`easter-egg ${foundCat ? "found" : "egg-hint"}`} onClick={() => handleEggClick("cat")} style={{ border: "none", background: "transparent", fontSize: 28 }}>🐈</button>
+              <button className={`easter-egg ${foundController ? "found" : "egg-hint"}`} onClick={() => handleEggClick("controller")} style={{ border: "none", background: "transparent", fontSize: 28 }}>🎮</button>
+            </div>
           </div>
-
-          <p className="text-center font-serif italic text-xs mt-2" style={{ color: "var(--ink-soft)" }}>
+          <p className="text-center font-serif italic text-xs mt-3" style={{ color: "var(--ink-soft)" }}>
             {foundCat && foundController
-              ? "you found them all 🌸 thank you for looking carefully."
-              : foundCat || foundController
-                ? "one of two found — keep looking among the petals…"
-                : "psst — there are two small things hidden in this garden."}
+              ? "you found both hidden icons."
+              : "find the hidden cat and controller."}
           </p>
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 6 — RSVP                                               */}
+      {/* SECTION 6 — RSVP                                             */}
       {/* ============================================================ */}
-      <section className="relative px-6 py-20" data-reveal="rsvp" ref={setRef(5)}>
+      <section className="relative px-6 py-20" data-reveal="rsvp" ref={setRef(5)} style={{ background: "var(--paper)" }}>
         <div className={`max-w-md mx-auto reveal ${inView.has("rsvp") ? "in-view" : ""}`}>
           <div className="flex justify-center mb-3"><Cornflower size={56} /></div>
 
@@ -1367,9 +872,9 @@ END:VCALENDAR`;
               <div className="space-y-6">
                 <div>
                   <label className="font-serif-sc text-[10px]" style={{ color: "var(--ink-soft)", letterSpacing: "1.5px" }}>
-                    YOUR NAME
+                    COMPLETE FULL NAME
                   </label>
-                  <input className="ev-input" placeholder="as printed on your invitation..."
+                  <input className="ev-input" placeholder="Type your complete full name"
                     value={rsvp.name} onChange={(e) => setRsvp({ ...rsvp, name: e.target.value })} />
                 </div>
 
@@ -1484,6 +989,57 @@ END:VCALENDAR`;
               )}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* SECTION 7 — MAP / LOCATION / PARKING GUIDE                  */}
+      {/* ============================================================ */}
+      <section className="relative px-6 py-20" data-reveal="map" ref={setRef(6)}>
+        <div className={`max-w-md mx-auto reveal ${inView.has("map") ? "in-view" : ""}`}>
+          <h2 className="text-center font-script text-5xl mb-2" style={{ color: "var(--gold)" }}>
+            Map & Parking
+          </h2>
+          <p className="text-center font-serif italic text-sm mb-7" style={{ color: "var(--ink-soft)" }}>
+            Ceremony: Santisimo Rosario Parish
+            <br />Reception: UST Central Seminary Gym
+          </p>
+          <div
+            className="w-full grid place-items-center"
+            style={{
+              minHeight: 260,
+              border: "1px solid rgba(110,136,216,0.35)",
+              background: "rgba(216,224,255,0.16)",
+              borderRadius: 10,
+              padding: 18,
+              textAlign: "center",
+            }}
+          >
+            <p className="font-serif italic text-sm" style={{ color: "var(--ink-soft)" }}>
+              TomasinoWeb parking infographic
+              <br />to be inserted here
+            </p>
+          </div>
+          <div className="mt-4 flex flex-col gap-2">
+            <p className="font-serif text-sm flex items-center justify-center gap-2" style={{ color: "var(--ink)" }}>
+              <ParkingCircle size={14} /> Parking guide available on UST map
+            </p>
+            <a
+              href="https://www.ust.edu.ph/campus-map/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-organic font-serif-sc text-xs py-3 flex items-center justify-center gap-2 no-underline"
+              style={{
+                background: "transparent",
+                color: "var(--cornflower-deep)",
+                border: "1px solid var(--cornflower-deep)",
+                textDecoration: "none",
+              }}
+            >
+              <ExternalLink size={12} />
+              OPEN OFFICIAL UST WEBSITE MAP
+            </a>
+          </div>
         </div>
       </section>
 
