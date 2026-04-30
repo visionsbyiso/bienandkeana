@@ -543,6 +543,33 @@ const BoldSwatch = ({ color }) => (
   />
 );
 
+/* Renders a rasterized invitation page (from the Canva SVGs).
+   Each page is 800x1127 (5:7), shown at full column width with a soft card shadow. */
+const SvgPage = ({ src, alt, eager = false, sectionRef, revealKey, isInView }) => (
+  <section
+    className="relative px-3 sm:px-4 py-3 sm:py-5"
+    data-reveal={revealKey}
+    ref={sectionRef}
+  >
+    <div className={`mx-auto reveal max-w-md w-full ${isInView ? "in-view" : ""}`}>
+      <img
+        src={src}
+        alt={alt}
+        width={800}
+        height={1127}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        fetchPriority={eager ? "high" : "auto"}
+        className="block w-full h-auto rounded-[14px]"
+        style={{
+          boxShadow: "0 22px 44px rgba(47,42,36,0.16), 0 0 0 1px rgba(206,164,79,0.22)",
+          background: "var(--invite-card)",
+        }}
+      />
+    </div>
+  </section>
+);
+
 /* ================================================================== */
 /*  MAIN COMPONENT                                                    */
 /* ================================================================== */
@@ -592,7 +619,7 @@ export default function WeddingEvite() {
 
   /* countdown — wedding day 13 June 2026 at 10:00 AM Manila (UTC+8) */
   useEffect(() => {
-    const target = new Date("2026-06-13T10:00:00+08:00").getTime();
+    const target = new Date("2026-06-13T09:30:00+08:00").getTime();
     const tick = () => {
       const now = Date.now();
       const diff = Math.max(0, target - now);
@@ -690,10 +717,10 @@ PRODID:-//Bien & Keana Wedding//EN
 BEGIN:VEVENT
 UID:bien-keana-2026@wedding
 DTSTAMP:20260613T020000Z
-DTSTART:20260613T020000Z
+DTSTART:20260613T013000Z
 DTEND:20260613T080000Z
 SUMMARY:Bien & Keana's Wedding
-DESCRIPTION:Ceremony 10:00 AM at Santisimo Rosario Parish - UST. Reception immediately follows at UST Central Seminary Gym.
+DESCRIPTION:Ceremony 9:30 AM at Santisimo Rosario Parish - UST. Reception 11:30 AM at UST Central Seminary Gym.
 LOCATION:Santisimo Rosario Parish\, UST\, Espana Blvd.\, Sampaloc\, Manila
 END:VEVENT
 END:VCALENDAR`;
@@ -747,8 +774,6 @@ END:VCALENDAR`;
       {/* SECTION 1 — BABY COVER PAGE                                  */}
       {/* ============================================================ */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 py-16" data-reveal="cover" ref={setRef(0)}>
-        <FloralPlaceholder variant="vineL" />
-        <FloralPlaceholder variant="vineR" />
         <div
           className={`relative z-10 text-center w-full max-w-md reveal px-6 py-8 rounded-[22px] ${inView.has("cover") ? "in-view" : ""}`}
           style={{ background: "rgba(255,255,255,0.78)", border: "1px solid rgba(206,164,79,0.42)", boxShadow: "0 20px 42px rgba(47,42,36,0.12)" }}
@@ -796,8 +821,8 @@ END:VCALENDAR`;
             {showOlder ? "and now we're getting married" : "tap photo to reveal the surprise"}
           </p>
 
-          <h1 className="font-script-flow leading-none mt-6" style={{ fontSize: "clamp(3.6rem, 16vw, 5.2rem)", color: "var(--gold)", lineHeight: 0.9 }}>
-            Bien <span className="font-serif italic text-2xl" style={{ color: "var(--rose-deep)" }}>&amp;</span> Keana
+          <h1 className="font-script-flow leading-none mt-6" style={{ fontSize: "clamp(3.6rem, 16vw, 5.2rem)", color: "var(--ink)", lineHeight: 0.9 }}>
+            Bien <span className="font-script-flow" style={{ color: "var(--ink)" }}>&amp;</span> Keana
           </h1>
 
           <div className="mt-5 flex items-center justify-center gap-4 font-serif-sc text-sm" style={{ color: "var(--text-on-dark)" }}>
@@ -825,199 +850,121 @@ END:VCALENDAR`;
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 2 — MAIN PAGE                                        */}
+      {/* SECTION 2 — MAIN PAGE (Canva SVG, rasterized)                */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="main" ref={setRef(1)}>
-        <FloralPlaceholder />
-        <div
-          className={`max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("main") ? "in-view" : ""}`}
-          style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(206,164,79,0.38)" }}
-        >
-          <div className="font-serif italic text-lg leading-relaxed mb-8" style={{ color: "var(--text-on-dark-muted)" }}>
-            <p>To everything there's a reason,</p>
-            <p>a time and a purpose.</p>
-            <p className="mt-3">On this day, we will marry our best friend</p>
-            <p>the one I will laugh with.</p>
-            <p className="mt-3" style={{ color: "var(--text-on-dark)" }}>Live for. Love.</p>
-          </div>
+      <SvgPage
+        src="/pages/main.webp"
+        alt="Bien and Keana wedding invitation main page with verse, names, and ceremony details"
+        eager
+        sectionRef={setRef(1)}
+        revealKey="main"
+        isInView={inView.has("main")}
+      />
 
-          <h2 className="font-script-flow leading-none" style={{ fontSize: "clamp(3.2rem, 15vw, 5rem)", color: "var(--gold)", lineHeight: 0.88 }}>
-            Bien &amp; Keana
+      {/* ============================================================ */}
+      {/* SECTION 3 — DETAILS (UST, ceremony, reception, parking)      */}
+      {/* ============================================================ */}
+      <SvgPage
+        src="/pages/details.webp"
+        alt="Ceremony at 9:30 AM Santisimo Rosario Parish UST, reception 11:30 AM at UST Central Seminary Gym, with parking instructions"
+        sectionRef={setRef(2)}
+        revealKey="details"
+        isInView={inView.has("details")}
+      />
+
+      {/* ============================================================ */}
+      {/* SECTION 4 — ENTOURAGE                                        */}
+      {/* ============================================================ */}
+      <SvgPage
+        src="/pages/entourage.webp"
+        alt="Entourage with groom's parents, bride's parents, and principal sponsors"
+        sectionRef={setRef(3)}
+        revealKey="entourage"
+        isInView={inView.has("entourage")}
+      />
+
+      {/* ============================================================ */}
+      {/* SECTION 5 — ATTIRE                                           */}
+      {/* ============================================================ */}
+      <SvgPage
+        src="/pages/attire.webp"
+        alt="Attire dress code with pastel and vibrant color palettes"
+        sectionRef={setRef(4)}
+        revealKey="attire"
+        isInView={inView.has("attire")}
+      />
+
+      {/* ============================================================ */}
+      {/* SECTION 6 — UNPLUGGED CEREMONY + A NOTE ON GIFTS             */}
+      {/* ============================================================ */}
+      <SvgPage
+        src="/pages/unplugged.webp"
+        alt="Unplugged ceremony note, photo gallery QR code, and a note on gifts"
+        sectionRef={setRef(5)}
+        revealKey="unplugged"
+        isInView={inView.has("unplugged")}
+      />
+
+      {/* ============================================================ */}
+      {/* HIDDEN GARDEN GAME (interactive easter eggs)                  */}
+      {/* ============================================================ */}
+      <section className="relative px-4 py-10 sm:py-14" data-reveal="game" ref={setRef(6)}>
+        <div
+          className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("game") ? "in-view" : ""}`}
+          style={{ background: "rgba(255,255,255,0.88)", border: "1px solid rgba(206,164,79,0.38)" }}
+        >
+          <p className="text-center font-serif-sc text-[11px] mb-2" style={{ color: "var(--rose-deep)", letterSpacing: "0.3em" }}>
+            HIDDEN GARDEN GAME
+          </p>
+          <h2 className="text-center font-script text-4xl mb-1" style={{ color: "var(--ink)" }}>
+            for the curious
           </h2>
-          <p className="font-serif italic text-base mt-4" style={{ color: "var(--text-on-dark-muted)" }}>
-            request the honor of your presence
-            <br />as we become united in marriage
-          </p>
-
-          <div className="mt-8 p-5" style={{ border: "1px solid rgba(206,164,79,0.45)", background: "rgba(250,247,240,0.82)", borderRadius: 12 }}>
-            <p className="font-serif-sc text-xs" style={{ color: "var(--rose-deep)" }}>SATURDAY · JUNE 13 · 2026</p>
-            <p className="font-serif italic text-sm mt-2" style={{ color: "var(--text-on-dark-muted)" }}>
-              10:00 AM
-              <br />Santisimo Rosario Parish, UST
-            </p>
-            <p className="font-serif italic text-sm mt-3" style={{ color: "var(--text-on-dark-muted)" }}>
-              Reception to follow at
-              <br />UST Central Seminary Gym
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* SECTION 3 — ENTOURAGE                                       */}
-      {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="entourage" ref={setRef(2)}>
-        <FloralPlaceholder />
-        <div
-          className={`max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("entourage") ? "in-view" : ""}`}
-          style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(206,164,79,0.38)" }}
-        >
-          <p className="text-center font-serif-sc text-xs mb-2" style={{ color: "var(--rose-deep)" }}>WITH OUR FAMILIES</p>
-          <h2 className="font-script text-5xl mb-6" style={{ color: "var(--gold)" }}>Entourage</h2>
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <p className="font-serif-sc text-[10px]" style={{ color: "var(--text-on-dark-muted)" }}>GROOM'S PARENTS</p>
-              <p className="font-serif italic text-sm mt-2" style={{ color: "var(--text-on-dark)" }}>Bonifacio H. Lagmay †</p>
-              <p className="font-serif italic text-sm" style={{ color: "var(--text-on-dark)" }}>Maria Luisa H. Lagmay</p>
-            </div>
-            <div>
-              <p className="font-serif-sc text-[10px]" style={{ color: "var(--text-on-dark-muted)" }}>BRIDE'S PARENTS</p>
-              <p className="font-serif italic text-sm mt-2" style={{ color: "var(--text-on-dark)" }}>Marvin M. Rivera</p>
-              <p className="font-serif italic text-sm" style={{ color: "var(--text-on-dark)" }}>Imee M. Rivera</p>
-            </div>
-          </div>
-          <div className="mt-7 p-5" style={{ background: "rgba(255,212,234,0.2)", border: "1px solid rgba(227,90,166,0.35)", borderRadius: 10 }}>
-            <p className="font-serif-sc text-[10px]" style={{ color: "var(--text-on-dark-muted)" }}>PRINCIPAL SPONSORS</p>
-            <p className="font-serif italic text-sm mt-2 leading-relaxed" style={{ color: "var(--text-on-dark)" }}>
-              Dr. Leovino Ma. Garcia, Mrs. Irene M. Makalintal,
-              <br />Mrs. Janet C. Mendoza, Mrs. Lilia A. Hernandez,
-              <br />Mr. Steve Paul Anthony T. Baltao, Mrs. Winnie Marianne L. Hernandez
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* SECTION 4 — ATTIRE                                           */}
-      {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="attire" ref={setRef(3)}>
-        <FloralPlaceholder />
-        <div
-          className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("attire") ? "in-view" : ""}`}
-          style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(206,164,79,0.38)" }}
-        >
-          <h2 className="text-center font-script text-5xl mb-2" style={{ color: "var(--gold)" }}>Attire</h2>
-          <p className="text-center font-serif italic text-sm mb-6" style={{ color: "var(--text-on-dark-muted)" }}>
-            Plain and floral prints are welcome in these colors.
-          </p>
-          <p className="font-serif-sc text-[10px] text-center mb-3" style={{ color: "var(--gold-light)", letterSpacing: "0.2em" }}>PASTELS</p>
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8">
-            {["#e8dcc8","#c4a574","#d4a5a5","#c9c0e8","#a8c8e8","#b8dcc4","#f5eab0"].map((c) => (
-              <HexSwatch key={c} color={c} />
-            ))}
-          </div>
-          <p className="font-serif-sc text-[10px] text-center mb-3" style={{ color: "var(--gold-light)", letterSpacing: "0.2em" }}>BOLD ACCENTS</p>
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8">
-            {["#ff7eb6","#c82687","#c41e3a","#e87d32","#d4af37","#6b3fa0","#1e4ba0","#0d7377","#1b4d3e"].map((c) => (
-              <BoldSwatch key={c} color={c} />
-            ))}
-          </div>
-          <div className="p-5 text-center" style={{ border: "1px solid rgba(110,136,216,0.45)", borderRadius: 12, background: "rgba(250,247,240,0.85)" }}>
-            <p className="font-serif italic text-sm" style={{ color: "var(--text-on-dark)" }}>
-              Ladies: Mid- to ankle-length dresses
-              <br />Gentlemen: Long-sleeved shirt or modern Barong Tagalog
-            </p>
-            <p className="font-serif italic text-xs mt-3" style={{ color: "var(--rose-soft)" }}>
-              Kindly avoid white, off-white, and full black.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* SECTION 5 — GIFTS + INTERACTIVE EASTER EGGS                  */}
-      {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="gifts" ref={setRef(4)}>
-        <FloralPlaceholder />
-        <div
-          className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("gifts") ? "in-view" : ""}`}
-          style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(206,164,79,0.38)" }}
-        >
-          <h2 className="text-center font-script text-5xl mb-3" style={{ color: "var(--gold)" }}>Gifts</h2>
-          <p className="text-center font-serif italic text-sm leading-relaxed" style={{ color: "var(--text-on-dark-muted)" }}>
-            Your presence at our wedding is present enough.
-            <br />If you wish to bless us further, a monetary gift would be deeply appreciated.
-          </p>
-          <div className="mt-8 p-6 text-center relative overflow-hidden" style={{ border: "1px dashed rgba(191,63,133,0.45)", borderRadius: 12, background: "linear-gradient(180deg, rgba(216,236,210,0.55), rgba(255,244,229,0.85))" }}>
-            <p className="font-serif-sc text-[10px]" style={{ color: "var(--ink-soft)" }}>HIDDEN GARDEN GAME</p>
-            <p className="font-serif italic text-xs mt-2" style={{ color: "var(--ink-soft)" }}>
-              Look closely for the cat and controller.
-            </p>
-            <div className="relative h-40 sm:h-44 mt-4 rounded-lg" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.32), rgba(149,199,145,0.18))", border: "1px solid rgba(92,141,88,0.25)" }}>
-              <div className="absolute left-2 bottom-0"><Sprig size={72} rotate={165} /></div>
-              <div className="absolute left-10 bottom-1"><Daisy size={40} /></div>
-              <div className="absolute right-3 bottom-0"><Sprig size={78} rotate={195} /></div>
-              <div className="absolute right-14 bottom-1"><Poppy size={42} hue="rose" /></div>
-              <div className="absolute left-1/2 -translate-x-1/2 bottom-1"><Cornflower size={36} /></div>
-
-              <button
-                onClick={() => handleEggClick("cat")}
-                className={`easter-egg absolute ${foundCat ? "found" : "egg-hint"}`}
-                style={{ left: "17%", bottom: "26%", border: "none", background: "transparent", fontSize: 18, opacity: foundCat ? 1 : 0.26 }}
-                aria-label="Hidden cat"
-              >
-                🐈
-              </button>
-              <button
-                onClick={() => handleEggClick("controller")}
-                className={`easter-egg absolute ${foundController ? "found" : "egg-hint"}`}
-                style={{ right: "20%", top: "24%", border: "none", background: "transparent", fontSize: 18, opacity: foundController ? 1 : 0.26 }}
-                aria-label="Hidden controller"
-              >
-                🎮
-              </button>
-            </div>
-          </div>
-          <p className="text-center font-serif italic text-xs mt-3" style={{ color: "var(--text-on-dark-muted)" }}>
-            {foundCat && foundController
-              ? "you found both hidden icons."
-              : "find the hidden cat and controller."}
-          </p>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* SECTION — SAVE INVITE (QR)                                   */}
-      {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="qr" ref={setRef(5)}>
-        <FloralPlaceholder />
-        <div
-          className={`max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("qr") ? "in-view" : ""}`}
-          style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(206,164,79,0.38)" }}
-        >
-          <p className="font-serif-sc text-xs mb-2" style={{ color: "var(--rose-deep)" }}>SAVE THIS INVITE</p>
-          <h2 className="font-script text-4xl mb-4" style={{ color: "var(--gold)" }}>Quick link</h2>
-          <p className="font-serif italic text-sm mb-6" style={{ color: "var(--text-on-dark-muted)" }}>
-            Scan to open this page anytime.
+          <p className="text-center font-serif italic text-sm mb-5" style={{ color: "var(--ink-soft)" }}>
+            a tiny cat and a tiny controller are hiding among the flowers — tap to find them.
           </p>
           <div
-            className="inline-block p-4 rounded-xl mx-auto"
+            className="relative h-44 rounded-lg"
             style={{
-              background: "var(--invite-card)",
-              boxShadow: "0 0 0 1px rgba(206,164,79,0.35), 0 16px 34px rgba(47,42,36,0.22)",
+              background: "linear-gradient(180deg, rgba(255,255,255,0.32), rgba(149,199,145,0.18))",
+              border: "1px solid rgba(92,141,88,0.25)",
             }}
           >
-            <img src={qrSrc} alt={`QR code linking to ${PUBLIC_SITE_URL}`} width={220} height={220} className="block w-[min(72vw,220px)] h-auto" loading="lazy" decoding="async" />
+            <div className="absolute left-2 bottom-0"><Sprig size={72} rotate={165} /></div>
+            <div className="absolute left-10 bottom-1"><Daisy size={40} /></div>
+            <div className="absolute right-3 bottom-0"><Sprig size={78} rotate={195} /></div>
+            <div className="absolute right-14 bottom-1"><Poppy size={42} hue="rose" /></div>
+            <div className="absolute left-1/2 -translate-x-1/2 bottom-1"><Cornflower size={36} /></div>
+            <button
+              onClick={() => handleEggClick("cat")}
+              className={`easter-egg absolute ${foundCat ? "found" : "egg-hint"}`}
+              style={{ left: "17%", bottom: "26%", border: "none", background: "transparent", fontSize: 20, opacity: foundCat ? 1 : 0.32 }}
+              aria-label="Hidden cat"
+            >
+              🐈
+            </button>
+            <button
+              onClick={() => handleEggClick("controller")}
+              className={`easter-egg absolute ${foundController ? "found" : "egg-hint"}`}
+              style={{ right: "20%", top: "24%", border: "none", background: "transparent", fontSize: 20, opacity: foundController ? 1 : 0.32 }}
+              aria-label="Hidden controller"
+            >
+              🎮
+            </button>
           </div>
-          <p className="font-serif text-xs mt-4 break-all px-2" style={{ color: "var(--text-on-dark-muted)" }}>{PUBLIC_SITE_URL}</p>
+          <p className="text-center font-serif italic text-xs mt-3" style={{ color: "var(--ink-soft)" }}>
+            {foundCat && foundController
+              ? "you found both hidden icons."
+              : foundCat || foundController
+                ? "one down, one to go."
+                : "find the hidden cat and controller."}
+          </p>
         </div>
-        <FloralPlaceholder />
       </section>
 
-      {/* ============================================================ */}
+            {/* ============================================================ */}
       {/* SECTION 6 — RSVP                                             */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="rsvp" ref={setRef(6)} style={{ background: "transparent", color: "var(--ink)" }}>
+      <section className="relative px-4 py-14 sm:py-16" data-reveal="rsvp" ref={setRef(7)} style={{ background: "transparent", color: "var(--ink)" }}>
         <div
           className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("rsvp") ? "in-view" : ""}`}
           style={{ color: "var(--ink)", background: "rgba(255,255,255,0.92)", border: "1px solid rgba(206,164,79,0.38)" }}
@@ -1160,26 +1107,20 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* SECTION 7 — MAP / LOCATION / PARKING GUIDE                  */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="map" ref={setRef(7)}>
-        <FloralPlaceholder variant="vineL" />
-        <FloralPlaceholder variant="vineR" />
+      <section className="relative px-4 py-10 sm:py-14" data-reveal="map" ref={setRef(8)}>
         <div
           className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("map") ? "in-view" : ""}`}
-          style={{ background: "rgba(255,255,255,0.78)", border: "1px solid rgba(206,164,79,0.38)" }}
+          style={{ background: "rgba(255,255,255,0.88)", border: "1px solid rgba(206,164,79,0.38)" }}
         >
-          <FloralPlaceholder />
-          <h2 className="text-center font-script text-5xl mb-2" style={{ color: "var(--gold)" }}>
-            Map & Parking
-          </h2>
-          <p className="text-center font-serif italic text-sm mb-7" style={{ color: "var(--text-on-dark-muted)" }}>
-            Ceremony: Santisimo Rosario Parish
-            <br />Reception: UST Central Seminary Gym
+          <p className="text-center font-serif-sc text-[11px] mb-2" style={{ color: "var(--rose-deep)", letterSpacing: "0.3em" }}>
+            TOMASINOWEB PARKING GUIDE
           </p>
-          <div className="mb-2 text-center">
-            <span className="font-serif-sc text-[10px]" style={{ color: "var(--rose-deep)", letterSpacing: "0.2em" }}>
-              TOMASINOWEB GUIDE
-            </span>
-          </div>
+          <h2 className="text-center font-script text-4xl mb-2" style={{ color: "var(--ink)" }}>
+            getting there
+          </h2>
+          <p className="text-center font-serif italic text-sm mb-5" style={{ color: "var(--ink-soft)" }}>
+            Visual reference for entry points around UST Manila.
+          </p>
           <div
             className="w-full mb-6 overflow-hidden rounded-xl"
             style={{
