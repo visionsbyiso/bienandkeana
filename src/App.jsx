@@ -789,14 +789,15 @@ END:VCALENDAR`;
             type="button"
             onClick={handleFlip}
             aria-label="Tap to reveal younger Bien and Keana inside the wedding frames"
-            className="relative block w-full select-none"
+            className="relative block w-full select-none rounded-[14px] overflow-hidden"
             style={{
               aspectRatio: "800 / 1127",
-              background: "transparent",
+              background: "var(--invite-card)",
               border: "none",
               padding: 0,
               cursor: "pointer",
               touchAction: "manipulation",
+              boxShadow: "0 22px 44px rgba(47,42,36,0.16), 0 0 0 1px rgba(206,164,79,0.22)",
             }}
           >
             <img
@@ -991,7 +992,7 @@ END:VCALENDAR`;
                     cursor: (!rsvp.name || rsvp.attending === null || rsvpSending) ? "not-allowed" : "pointer",
                     marginTop: 8,
                   }}>
-                  {rsvpSending ? "SENDING..." : "SEND OUR REPLY ✦"}
+                  {rsvpSending ? "SENDING..." : "SEND WITH LOVE ✦"}
                 </button>
                 {rsvpError && (
                   <p className="font-serif italic text-xs mt-3" style={{ color: "var(--rose-deep)" }}>
