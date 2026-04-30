@@ -171,6 +171,52 @@ const FontInjection = () => (
     .invite-panel {
       backdrop-filter: blur(1px);
     }
+    .section-shell {
+      position: relative;
+      padding: 3.4rem 1rem;
+    }
+    .section-shell--cover {
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 3.7rem;
+      padding-bottom: 3.7rem;
+    }
+    .cover-title {
+      font-size: 4.1rem;
+      line-height: 0.9;
+    }
+    .main-title {
+      font-size: 3.55rem;
+      line-height: 0.88;
+    }
+    .qr-frame {
+      padding: 0.85rem;
+    }
+    .qr-image {
+      width: min(64vw, 210px);
+      height: auto;
+    }
+    .garden-field {
+      height: 10.2rem;
+    }
+    .hidden-cat {
+      left: 17%;
+      bottom: 26%;
+    }
+    .hidden-controller {
+      right: 20%;
+      top: 24%;
+    }
+    .mobile-map-image {
+      max-height: 320px;
+    }
+    .floral-rail {
+      width: 22px;
+      top: 5.5%;
+      bottom: 7%;
+    }
 
     /* the hint pulse around easter eggs (only before found) */
     @keyframes eggPulse {
@@ -316,31 +362,84 @@ const FontInjection = () => (
       }
     }
 
-    @media (max-width: 420px) {
+    @media (max-width: 375px) {
       .invite-panel {
-        padding: 1.15rem 0.95rem !important;
-        border-radius: 16px !important;
+        padding: 1.06rem 0.88rem !important;
+        border-radius: 14px !important;
       }
+      .section-shell {
+        padding-top: 2.75rem;
+        padding-bottom: 2.75rem;
+      }
+      .section-shell--cover {
+        padding-top: 2.95rem;
+        padding-bottom: 2.95rem;
+      }
+      .cover-title { font-size: 3.48rem; }
+      .main-title { font-size: 3.06rem; }
       .btn-organic {
-        letter-spacing: 0.12em;
+        letter-spacing: 0.1em;
         min-height: 44px;
       }
-      .btn-organic:hover { letter-spacing: 0.12em; }
+      .btn-organic:hover { letter-spacing: 0.1em; }
       .font-serif-sc {
-        letter-spacing: 0.14em;
+        letter-spacing: 0.13em;
       }
+      .ev-input {
+        font-size: 0.98rem;
+        padding-top: 0.58rem;
+        padding-bottom: 0.58rem;
+      }
+      .easter-egg {
+        min-width: 40px;
+        min-height: 40px;
+      }
+      .garden-field { height: 9.25rem; }
+      .hidden-cat { left: 13%; bottom: 22%; }
+      .hidden-controller { right: 16%; top: 20%; }
+      .qr-frame { padding: 0.72rem; }
+      .qr-image { width: min(61vw, 192px); }
+      .mobile-map-image { max-height: 285px; }
+      .floral-rail { width: 19px; top: 6%; bottom: 8.5%; }
+    }
+
+    @media (min-width: 376px) and (max-width: 420px) {
+      .invite-panel {
+        padding: 1.22rem 1rem !important;
+        border-radius: 16px !important;
+      }
+      .section-shell {
+        padding-top: 3.1rem;
+        padding-bottom: 3.1rem;
+      }
+      .section-shell--cover {
+        padding-top: 3.2rem;
+        padding-bottom: 3.2rem;
+      }
+      .cover-title { font-size: 3.72rem; }
+      .main-title { font-size: 3.26rem; }
+      .btn-organic {
+        letter-spacing: 0.115em;
+        min-height: 44px;
+      }
+      .btn-organic:hover { letter-spacing: 0.115em; }
+      .font-serif-sc { letter-spacing: 0.14em; }
       .ev-input {
         font-size: 1rem;
         padding-top: 0.62rem;
         padding-bottom: 0.62rem;
       }
       .easter-egg {
-        min-width: 38px;
-        min-height: 38px;
+        min-width: 40px;
+        min-height: 40px;
       }
-      .mobile-map-image {
-        max-height: 300px;
-      }
+      .garden-field { height: 9.7rem; }
+      .hidden-cat { left: 15%; bottom: 24%; }
+      .hidden-controller { right: 18%; top: 22%; }
+      .qr-frame { padding: 0.8rem; }
+      .qr-image { width: min(63vw, 202px); }
+      .mobile-map-image { max-height: 300px; }
+      .floral-rail { width: 20px; top: 5.8%; bottom: 8%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -503,7 +602,7 @@ const FloralPlaceholder = ({ variant = "divider", label = "Floral art — coming
   if (variant === "vineL") {
     return (
       <div
-        className="hidden sm:flex absolute left-0 top-[6%] bottom-[8%] w-11 md:w-12 pointer-events-none items-center justify-center"
+        className="floral-rail absolute left-0 pointer-events-none flex items-center justify-center"
         aria-hidden="true"
         title={label}
       >
@@ -517,7 +616,7 @@ const FloralPlaceholder = ({ variant = "divider", label = "Floral art — coming
   if (variant === "vineR") {
     return (
       <div
-        className="hidden sm:flex absolute right-0 top-[6%] bottom-[8%] w-11 md:w-12 pointer-events-none items-center justify-center"
+        className="floral-rail absolute right-0 pointer-events-none flex items-center justify-center"
         aria-hidden="true"
         title={label}
       >
@@ -769,7 +868,7 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* SECTION 1 — BABY COVER PAGE                                  */}
       {/* ============================================================ */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 py-16" data-reveal="cover" ref={setRef(0)}>
+      <section className="section-shell section-shell--cover" data-reveal="cover" ref={setRef(0)}>
         <FloralPlaceholder variant="vineL" />
         <FloralPlaceholder variant="vineR" />
         <div
@@ -819,7 +918,7 @@ END:VCALENDAR`;
             {showOlder ? "and now we're getting married" : "tap photo to reveal the surprise"}
           </p>
 
-          <h1 className="font-script-flow leading-none mt-6" style={{ fontSize: "clamp(3.6rem, 16vw, 5.2rem)", color: "var(--gold)", lineHeight: 0.9 }}>
+          <h1 className="cover-title font-script-flow leading-none mt-6" style={{ color: "var(--gold)" }}>
             Bien <span className="font-serif italic text-2xl" style={{ color: "var(--rose-deep)" }}>&amp;</span> Keana
           </h1>
 
@@ -850,7 +949,7 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* SECTION 2 — MAIN PAGE                                        */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="main" ref={setRef(1)}>
+      <section className="section-shell" data-reveal="main" ref={setRef(1)}>
         <FloralPlaceholder />
         <div
           className={`invite-panel max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("main") ? "in-view" : ""}`}
@@ -864,7 +963,7 @@ END:VCALENDAR`;
             <p className="mt-3" style={{ color: "var(--text-on-dark)" }}>Live for. Love.</p>
           </div>
 
-          <h2 className="font-script-flow leading-none" style={{ fontSize: "clamp(3.2rem, 15vw, 5rem)", color: "var(--gold)", lineHeight: 0.88 }}>
+          <h2 className="main-title font-script-flow leading-none" style={{ color: "var(--gold)" }}>
             Bien &amp; Keana
           </h2>
           <p className="font-serif italic text-base mt-4" style={{ color: "var(--text-on-dark-muted)" }}>
@@ -889,7 +988,7 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* SECTION 3 — ENTOURAGE                                       */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="entourage" ref={setRef(2)}>
+      <section className="section-shell" data-reveal="entourage" ref={setRef(2)}>
         <FloralPlaceholder />
         <div
           className={`invite-panel max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("entourage") ? "in-view" : ""}`}
@@ -923,7 +1022,7 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* SECTION 4 — ATTIRE                                           */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="attire" ref={setRef(3)}>
+      <section className="section-shell" data-reveal="attire" ref={setRef(3)}>
         <FloralPlaceholder />
         <div
           className={`invite-panel max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("attire") ? "in-view" : ""}`}
@@ -960,7 +1059,7 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* SECTION 5 — GIFTS + INTERACTIVE EASTER EGGS                  */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="gifts" ref={setRef(4)}>
+      <section className="section-shell" data-reveal="gifts" ref={setRef(4)}>
         <FloralPlaceholder />
         <div
           className={`invite-panel max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("gifts") ? "in-view" : ""}`}
@@ -976,7 +1075,7 @@ END:VCALENDAR`;
             <p className="font-serif italic text-xs mt-2" style={{ color: "var(--ink-soft)" }}>
               Look closely for the cat and controller.
             </p>
-            <div className="relative h-40 sm:h-44 mt-4 rounded-lg" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.32), rgba(149,199,145,0.18))", border: "1px solid rgba(92,141,88,0.25)" }}>
+            <div className="garden-field relative mt-4 rounded-lg" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.32), rgba(149,199,145,0.18))", border: "1px solid rgba(92,141,88,0.25)" }}>
               <div className="absolute left-2 bottom-0"><Sprig size={72} rotate={165} /></div>
               <div className="absolute left-10 bottom-1"><Daisy size={40} /></div>
               <div className="absolute right-3 bottom-0"><Sprig size={78} rotate={195} /></div>
@@ -985,16 +1084,16 @@ END:VCALENDAR`;
 
               <button
                 onClick={() => handleEggClick("cat")}
-                className={`easter-egg absolute ${foundCat ? "found" : "egg-hint"}`}
-                style={{ left: "17%", bottom: "26%", border: "none", background: "transparent", fontSize: 22, opacity: foundCat ? 1 : 0.4 }}
+                className={`hidden-cat easter-egg absolute ${foundCat ? "found" : "egg-hint"}`}
+                style={{ border: "none", background: "transparent", fontSize: 22, opacity: foundCat ? 1 : 0.4 }}
                 aria-label="Hidden cat"
               >
                 🐈
               </button>
               <button
                 onClick={() => handleEggClick("controller")}
-                className={`easter-egg absolute ${foundController ? "found" : "egg-hint"}`}
-                style={{ right: "20%", top: "24%", border: "none", background: "transparent", fontSize: 22, opacity: foundController ? 1 : 0.4 }}
+                className={`hidden-controller easter-egg absolute ${foundController ? "found" : "egg-hint"}`}
+                style={{ border: "none", background: "transparent", fontSize: 22, opacity: foundController ? 1 : 0.4 }}
                 aria-label="Hidden controller"
               >
                 🎮
@@ -1012,7 +1111,7 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* SECTION — SAVE INVITE (QR)                                   */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="qr" ref={setRef(5)}>
+      <section className="section-shell" data-reveal="qr" ref={setRef(5)}>
         <FloralPlaceholder />
         <div
           className={`invite-panel max-w-md mx-auto text-center reveal px-6 py-8 rounded-[20px] ${inView.has("qr") ? "in-view" : ""}`}
@@ -1024,13 +1123,13 @@ END:VCALENDAR`;
             Scan to open this page anytime.
           </p>
           <div
-            className="inline-block p-4 rounded-xl mx-auto"
+            className="qr-frame inline-block rounded-xl mx-auto"
             style={{
               background: "var(--invite-card)",
               boxShadow: "0 0 0 1px rgba(206,164,79,0.35), 0 16px 34px rgba(47,42,36,0.22)",
             }}
           >
-            <img src={qrSrc} alt={`QR code linking to ${PUBLIC_SITE_URL}`} width={220} height={220} className="block w-[min(72vw,220px)] h-auto" loading="lazy" decoding="async" />
+            <img src={qrSrc} alt={`QR code linking to ${PUBLIC_SITE_URL}`} width={220} height={220} className="qr-image block" loading="lazy" decoding="async" />
           </div>
           <p className="font-serif text-xs mt-4 break-all px-2" style={{ color: "var(--text-on-dark-muted)" }}>{PUBLIC_SITE_URL}</p>
         </div>
@@ -1040,7 +1139,7 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* SECTION 6 — RSVP                                             */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="rsvp" ref={setRef(6)} style={{ background: "transparent", color: "var(--ink)" }}>
+      <section className="section-shell" data-reveal="rsvp" ref={setRef(6)} style={{ background: "transparent", color: "var(--ink)" }}>
         <div
           className={`invite-panel max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("rsvp") ? "in-view" : ""}`}
           style={{ color: "var(--ink)", background: "rgba(255,255,255,0.92)", border: "1px solid rgba(206,164,79,0.38)" }}
@@ -1183,7 +1282,7 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* SECTION 7 — MAP / LOCATION / PARKING GUIDE                  */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="map" ref={setRef(7)}>
+      <section className="section-shell" data-reveal="map" ref={setRef(7)}>
         <FloralPlaceholder variant="vineL" />
         <FloralPlaceholder variant="vineR" />
         <div
