@@ -223,36 +223,38 @@ const FontInjection = () => (
       justify-content: center;
       padding: 0.6rem 0.35rem 2rem;
     }
-    .celebrate-artboard {
-      position: relative;
+    .celebrate-column {
       width: min(100%, 408px);
-      aspect-ratio: 567 / 4818.749935;
     }
-    .celebrate-svg {
+    .celebrate-slice {
+      position: relative;
       width: 100%;
-      height: 100%;
-      object-fit: contain;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .celebrate-slice__img {
+      width: 100%;
+      height: auto;
       display: block;
+      transform-origin: top center;
+      user-select: none;
+      pointer-events: none;
       contain: layout paint size;
     }
-    .celebrate-overlays {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
+    .overlay-row {
+      display: flex;
+      justify-content: center;
+      margin: 0.5rem 0;
     }
-    .ov-open,
-    .ov-game,
-    .ov-rsvp {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      pointer-events: auto;
-      width: 70%;
-      max-width: 268px;
+    .overlay-row--open .btn-organic {
+      min-width: 170px;
     }
-    .ov-open { top: 15.4%; width: 56%; max-width: 178px; }
-    .ov-game { top: 50.8%; width: 66%; max-width: 240px; }
-    .ov-rsvp { top: 74.8%; width: 72%; max-width: 276px; }
+    .overlay-row--game .overlay-chip {
+      width: min(86%, 280px);
+    }
+    .overlay-row--rsvp .overlay-chip {
+      width: min(90%, 300px);
+    }
     .svg-overlay-card {
       background: rgba(255, 255, 255, 0.72);
       border: 1px solid rgba(206,164,79,0.45);
@@ -462,10 +464,11 @@ const FontInjection = () => (
       .qr-image { width: min(61vw, 192px); }
       .mobile-map-image { max-height: 285px; }
       .floral-rail { width: 19px; top: 6%; bottom: 8.5%; }
-      .celebrate-artboard { width: min(100%, 364px); }
-      .ov-open { top: 15.35%; width: 58%; max-width: 170px; }
-      .ov-game { top: 51.2%; width: 70%; max-width: 230px; }
-      .ov-rsvp { top: 75.15%; width: 75%; max-width: 266px; }
+      .celebrate-column { width: min(100%, 364px); }
+      .overlay-row { margin: 0.42rem 0; }
+      .overlay-row--open .btn-organic { min-width: 160px; }
+      .overlay-row--game .overlay-chip { width: min(90%, 260px); }
+      .overlay-row--rsvp .overlay-chip { width: min(93%, 286px); }
     }
 
     @media (min-width: 376px) and (max-width: 420px) {
@@ -505,22 +508,25 @@ const FontInjection = () => (
       .qr-image { width: min(63vw, 202px); }
       .mobile-map-image { max-height: 300px; }
       .floral-rail { width: 20px; top: 5.8%; bottom: 8%; }
-      .celebrate-artboard { width: min(100%, 392px); }
-      .ov-open { top: 15.45%; width: 56%; max-width: 178px; }
-      .ov-game { top: 50.85%; width: 66%; max-width: 240px; }
-      .ov-rsvp { top: 74.8%; width: 72%; max-width: 276px; }
+      .celebrate-column { width: min(100%, 392px); }
+      .overlay-row--open .btn-organic { min-width: 170px; }
+      .overlay-row--game .overlay-chip { width: min(86%, 280px); }
+      .overlay-row--rsvp .overlay-chip { width: min(90%, 300px); }
     }
 
     @media (min-width: 768px) {
       .celebrate-stage {
         padding: 1rem 1rem 3rem;
       }
-      .celebrate-artboard {
+      .celebrate-column {
         width: min(100%, 516px);
       }
-      .ov-open { top: 15.1%; width: 42%; max-width: 210px; }
-      .ov-game { top: 50.1%; width: 54%; max-width: 290px; }
-      .ov-rsvp { top: 74.2%; width: 58%; max-width: 320px; }
+      .overlay-row {
+        margin: 0.7rem 0;
+      }
+      .overlay-row--open .btn-organic { min-width: 188px; }
+      .overlay-row--game .overlay-chip { width: min(74%, 312px); }
+      .overlay-row--rsvp .overlay-chip { width: min(78%, 340px); }
       .svg-overlay-title {
         font-size: 11px;
       }
@@ -530,12 +536,11 @@ const FontInjection = () => (
     }
 
     @media (min-width: 1080px) {
-      .celebrate-artboard {
+      .celebrate-column {
         width: min(100%, 590px);
       }
-      .ov-open { top: 15%; width: 38%; max-width: 220px; }
-      .ov-game { top: 49.9%; width: 49%; max-width: 300px; }
-      .ov-rsvp { top: 74%; width: 54%; max-width: 332px; }
+      .overlay-row--game .overlay-chip { width: min(68%, 320px); }
+      .overlay-row--rsvp .overlay-chip { width: min(72%, 350px); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -761,6 +766,25 @@ const BoldSwatch = ({ color }) => (
   />
 );
 
+const CELEBRATE_VIEWBOX_H = 4818.749935;
+
+const CelebrateSlice = ({ start, end }) => {
+  const span = Math.max(0.01, end - start);
+  return (
+    <div className="celebrate-slice" style={{ aspectRatio: `567 / ${CELEBRATE_VIEWBOX_H * span}` }}>
+      <img
+        src="/celebrate.svg"
+        alt=""
+        aria-hidden="true"
+        className="celebrate-slice__img"
+        style={{ transform: `translateY(-${start * 100}%)` }}
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+  );
+};
+
 /* ================================================================== */
 /*  MAIN COMPONENT                                                    */
 /* ================================================================== */
@@ -935,18 +959,10 @@ END:VCALENDAR`;
       )}
 
       <main className="celebrate-stage">
-        <div className="celebrate-artboard">
-          <img
-            src="/celebrate.svg"
-            alt="Celebrate invitation layout"
-            className="celebrate-svg"
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-          />
+        <div className="celebrate-column">
+          <CelebrateSlice start={0} end={0.265} />
 
-          <div className="celebrate-overlays">
-            <div className="ov-open text-center">
+          <div className="overlay-row overlay-row--open">
               <button
                 type="button"
                 onClick={handleCoverOpen}
@@ -961,9 +977,12 @@ END:VCALENDAR`;
               >
                 {coverUnlocked ? "OPENED" : "OPEN INVITATION"}
               </button>
-            </div>
+          </div>
 
-            <div className="ov-game">
+          <CelebrateSlice start={0.265} end={0.54} />
+
+          <div className="overlay-row overlay-row--game">
+            <div>
               <p className="svg-overlay-title">HIDDEN GARDEN GAME</p>
               <div className="overlay-chip p-2.5">
                 <div className="garden-field relative rounded-lg" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.3), rgba(149,199,145,0.16))", border: "1px solid rgba(92,141,88,0.25)" }}>
@@ -989,8 +1008,12 @@ END:VCALENDAR`;
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="ov-rsvp">
+          <CelebrateSlice start={0.54} end={0.725} />
+
+          <div className="overlay-row overlay-row--rsvp">
+            <div>
               {!rsvpSubmitted ? (
                 <>
                   <div className="overlay-chip p-2.5">
@@ -1093,6 +1116,8 @@ END:VCALENDAR`;
               )}
             </div>
           </div>
+
+          <CelebrateSlice start={0.725} end={1} />
         </div>
       </main>
     </div>
