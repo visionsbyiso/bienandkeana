@@ -771,81 +771,69 @@ END:VCALENDAR`;
       )}
 
       {/* ============================================================ */}
-      {/* SECTION 1 — COVER PAGE (Canva floral frame + interactive photo) */}
+      {/* SECTION 1 — COVER PAGE (Web Hero Page SVG, rasterized)       */}
       {/* ============================================================ */}
       <section className="relative flex flex-col items-center px-3 sm:px-4 pt-4 pb-8" data-reveal="cover" ref={setRef(0)}>
         <div
           className={`relative w-full max-w-md mx-auto reveal ${inView.has("cover") ? "in-view" : ""}`}
         >
           {/*
-            The cover.webp asset is the rasterized Canva frame: floral border,
-            "celebrate" cursive heading, "our love with us as we exchange our
-            vows" subtitle, and the gold wedding-rings illustration.  Its centre
-            is intentionally cleared so we can layer the interactive photo
-            (couplePast / coupleNow) on top.
+            The Web Hero Page SVG is rasterized into TWO WebP variants — the
+            frames, figures, florals, rings, cat, and controller stay baked
+            into the artwork; only the rectangular photos inside the gold
+            frames change between the kid (default) and toddler (tap) state.
           */}
-          <div className="relative" style={{ aspectRatio: "800 / 1088" }}>
+          <button
+            type="button"
+            onClick={handleFlip}
+            aria-label="Tap to reveal younger Bien and Keana inside the wedding frames"
+            className="relative block w-full select-none"
+            style={{
+              aspectRatio: "800 / 1127",
+              background: "transparent",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+              touchAction: "manipulation",
+            }}
+          >
             <img
               src="/pages/cover.webp"
-              alt="Wedding e-vite cover with floral border, celebrate cursive heading, exchange-our-vows subtitle, and gold wedding rings"
+              alt="Wedding e-vite cover: oval floral wreath, gold rings, celebrate cursive heading, and Bien and Keana as kids holding gold frames"
               width={800}
-              height={1088}
+              height={1127}
               loading="eager"
               decoding="async"
               fetchPriority="high"
-              className="absolute inset-0 w-full h-full object-contain"
+              className="absolute inset-0 w-full h-full object-contain flip-img"
+              style={{ opacity: showOlder ? 0 : 1 }}
               draggable={false}
             />
-
-            {/* Interactive figures slot — sits inside the cleared centre.
-                Coordinates mirror the eraser bounds in
-                scripts/build-page-assets.mjs (10–91% × 34.5–88.5%). */}
-            <button
-              type="button"
-              onClick={handleFlip}
-              aria-label="Tap photo to reveal younger Bien and Keana"
-              className="absolute select-none"
+            <img
+              src="/pages/cover-past.webp"
+              alt="Wedding e-vite cover with toddler photos of Bien and Keana inside the gold frames"
+              width={800}
+              height={1127}
+              loading="eager"
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-contain flip-img"
+              style={{ opacity: showOlder ? 1 : 0 }}
+              draggable={false}
+            />
+            <span
+              className="absolute pointer-events-none"
               style={{
-                left: "10%",
-                top: "34.5%",
-                width: "81%",
-                height: "54%",
-                background: "transparent",
-                border: "none",
-                padding: 0,
-                cursor: "pointer",
-                touchAction: "manipulation",
+                right: "8%",
+                bottom: "12%",
+                width: 10,
+                height: 10,
+                borderRadius: "50%",
+                background: "var(--gold)",
+                opacity: 0.55,
+                animation: "eggPulse 2.4s ease-in-out infinite",
               }}
-            >
-              <img
-                src={IMAGES.coupleNow}
-                alt="Bien and Keana as kids holding ornate gold frames"
-                className="absolute inset-0 w-full h-full object-contain flip-img"
-                style={{ opacity: showOlder ? 0 : 1 }}
-                draggable={false}
-              />
-              <img
-                src={IMAGES.couplePast}
-                alt="Bien and Keana as toddlers holding ornate gold frames"
-                className="absolute inset-0 w-full h-full object-contain flip-img"
-                style={{ opacity: showOlder ? 1 : 0 }}
-                draggable={false}
-              />
-              <span
-                className="absolute pointer-events-none"
-                style={{
-                  right: "6%",
-                  bottom: "6%",
-                  width: 10,
-                  height: 10,
-                  borderRadius: "50%",
-                  background: "var(--gold)",
-                  opacity: 0.55,
-                  animation: "eggPulse 2.4s ease-in-out infinite",
-                }}
-              />
-            </button>
-          </div>
+            />
+          </button>
 
           <p
             className="font-serif italic text-center text-sm mt-2"
@@ -927,65 +915,9 @@ END:VCALENDAR`;
       />
 
       {/* ============================================================ */}
-      {/* HIDDEN GARDEN GAME (interactive easter eggs)                  */}
-      {/* ============================================================ */}
-      <section className="relative px-4 py-10 sm:py-14" data-reveal="game" ref={setRef(5)}>
-        <div
-          className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("game") ? "in-view" : ""}`}
-          style={{ background: "rgba(255,255,255,0.88)", border: "1px solid rgba(206,164,79,0.38)" }}
-        >
-          <p className="text-center font-serif-sc text-[11px] mb-2" style={{ color: "var(--rose-deep)", letterSpacing: "0.3em" }}>
-            HIDDEN GARDEN GAME
-          </p>
-          <h2 className="text-center font-script text-4xl mb-1" style={{ color: "var(--ink)" }}>
-            for the curious
-          </h2>
-          <p className="text-center font-serif italic text-sm mb-5" style={{ color: "var(--ink-soft)" }}>
-            a tiny cat and a tiny controller are hiding among the flowers — tap to find them.
-          </p>
-          <div
-            className="relative h-44 rounded-lg"
-            style={{
-              background: "linear-gradient(180deg, rgba(255,255,255,0.32), rgba(149,199,145,0.18))",
-              border: "1px solid rgba(92,141,88,0.25)",
-            }}
-          >
-            <div className="absolute left-2 bottom-0"><Sprig size={72} rotate={165} /></div>
-            <div className="absolute left-10 bottom-1"><Daisy size={40} /></div>
-            <div className="absolute right-3 bottom-0"><Sprig size={78} rotate={195} /></div>
-            <div className="absolute right-14 bottom-1"><Poppy size={42} hue="rose" /></div>
-            <div className="absolute left-1/2 -translate-x-1/2 bottom-1"><Cornflower size={36} /></div>
-            <button
-              onClick={() => handleEggClick("cat")}
-              className={`easter-egg absolute ${foundCat ? "found" : "egg-hint"}`}
-              style={{ left: "17%", bottom: "26%", border: "none", background: "transparent", fontSize: 20, opacity: foundCat ? 1 : 0.32 }}
-              aria-label="Hidden cat"
-            >
-              🐈
-            </button>
-            <button
-              onClick={() => handleEggClick("controller")}
-              className={`easter-egg absolute ${foundController ? "found" : "egg-hint"}`}
-              style={{ right: "20%", top: "24%", border: "none", background: "transparent", fontSize: 20, opacity: foundController ? 1 : 0.32 }}
-              aria-label="Hidden controller"
-            >
-              🎮
-            </button>
-          </div>
-          <p className="text-center font-serif italic text-xs mt-3" style={{ color: "var(--ink-soft)" }}>
-            {foundCat && foundController
-              ? "you found both hidden icons."
-              : foundCat || foundController
-                ? "one down, one to go."
-                : "find the hidden cat and controller."}
-          </p>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
       {/* SECTION 6 — RSVP                                             */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-14 sm:py-16" data-reveal="rsvp" ref={setRef(6)} style={{ background: "transparent", color: "var(--ink)" }}>
+      <section className="relative px-4 py-14 sm:py-16" data-reveal="rsvp" ref={setRef(5)} style={{ background: "transparent", color: "var(--ink)" }}>
         <div
           className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("rsvp") ? "in-view" : ""}`}
           style={{ color: "var(--ink)", background: "rgba(255,255,255,0.92)", border: "1px solid rgba(206,164,79,0.38)" }}
@@ -1131,7 +1063,7 @@ END:VCALENDAR`;
       <SvgPage
         src="/pages/details.webp"
         alt="Ceremony at 9:30 AM Santisimo Rosario Parish UST, reception 11:30 AM at UST Central Seminary Gym, with parking instructions"
-        sectionRef={setRef(7)}
+        sectionRef={setRef(6)}
         revealKey="details"
         isInView={inView.has("details")}
       />
@@ -1139,7 +1071,7 @@ END:VCALENDAR`;
       {/* ============================================================ */}
       {/* SECTION 8 — MAP / LOCATION / PARKING GUIDE                  */}
       {/* ============================================================ */}
-      <section className="relative px-4 py-10 sm:py-14" data-reveal="map" ref={setRef(8)}>
+      <section className="relative px-4 py-10 sm:py-14" data-reveal="map" ref={setRef(7)}>
         <div
           className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("map") ? "in-view" : ""}`}
           style={{ background: "rgba(255,255,255,0.88)", border: "1px solid rgba(206,164,79,0.38)" }}
@@ -1187,6 +1119,62 @@ END:VCALENDAR`;
               OPEN OFFICIAL UST WEBSITE MAP
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* SECTION 9 — HIDDEN GARDEN GAME (interactive easter eggs)     */}
+      {/* ============================================================ */}
+      <section className="relative px-4 py-10 sm:py-14" data-reveal="game" ref={setRef(8)}>
+        <div
+          className={`max-w-md mx-auto reveal px-6 py-8 rounded-[20px] ${inView.has("game") ? "in-view" : ""}`}
+          style={{ background: "rgba(255,255,255,0.88)", border: "1px solid rgba(206,164,79,0.38)" }}
+        >
+          <p className="text-center font-serif-sc text-[11px] mb-2" style={{ color: "var(--rose-deep)", letterSpacing: "0.3em" }}>
+            HIDDEN GARDEN GAME
+          </p>
+          <h2 className="text-center font-script text-4xl mb-1" style={{ color: "var(--ink)" }}>
+            for the curious
+          </h2>
+          <p className="text-center font-serif italic text-sm mb-5" style={{ color: "var(--ink-soft)" }}>
+            a tiny cat and a tiny controller are hiding among the flowers — tap to find them.
+          </p>
+          <div
+            className="relative h-44 rounded-lg"
+            style={{
+              background: "linear-gradient(180deg, rgba(255,255,255,0.32), rgba(149,199,145,0.18))",
+              border: "1px solid rgba(92,141,88,0.25)",
+            }}
+          >
+            <div className="absolute left-2 bottom-0"><Sprig size={72} rotate={165} /></div>
+            <div className="absolute left-10 bottom-1"><Daisy size={40} /></div>
+            <div className="absolute right-3 bottom-0"><Sprig size={78} rotate={195} /></div>
+            <div className="absolute right-14 bottom-1"><Poppy size={42} hue="rose" /></div>
+            <div className="absolute left-1/2 -translate-x-1/2 bottom-1"><Cornflower size={36} /></div>
+            <button
+              onClick={() => handleEggClick("cat")}
+              className={`easter-egg absolute ${foundCat ? "found" : "egg-hint"}`}
+              style={{ left: "17%", bottom: "26%", border: "none", background: "transparent", fontSize: 20, opacity: foundCat ? 1 : 0.32 }}
+              aria-label="Hidden cat"
+            >
+              🐈
+            </button>
+            <button
+              onClick={() => handleEggClick("controller")}
+              className={`easter-egg absolute ${foundController ? "found" : "egg-hint"}`}
+              style={{ right: "20%", top: "24%", border: "none", background: "transparent", fontSize: 20, opacity: foundController ? 1 : 0.32 }}
+              aria-label="Hidden controller"
+            >
+              🎮
+            </button>
+          </div>
+          <p className="text-center font-serif italic text-xs mt-3" style={{ color: "var(--ink-soft)" }}>
+            {foundCat && foundController
+              ? "you found both hidden icons."
+              : foundCat || foundController
+                ? "one down, one to go."
+                : "find the hidden cat and controller."}
+          </p>
         </div>
       </section>
 

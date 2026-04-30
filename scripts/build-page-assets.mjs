@@ -35,57 +35,85 @@ for (const p of PAGES) {
 }
 
 // ────────────────────────────────────────────────────────────────────
-// Cover page — sourced from Celebrate.png (full Canva spread) so we
-// can clear the figures area and overlay the interactive couple photo.
+// Cover page — rasterized from the new "Web Hero Page" SVG (full
+// floral wreath + rings + figures + cat & controller cameos).  We
+// export TWO versions so the React layer can cross-fade between them
+// for the "tap to reveal younger us" interaction:
+//   • cover.webp       → kid photos in the gold frames (default state)
+//   • cover-past.webp  → toddler photos baked over the figures region
 // ────────────────────────────────────────────────────────────────────
-const COVER_SRC = "/Users/coleen/Downloads/Celebrate.png";
+const COVER_SRC = "/Users/coleen/Downloads/Web Hero Page.svg";
 try {
-  const fullMeta = await sharp(COVER_SRC).metadata();
-  // Crop top portion: floral border + "celebrate" + subtitle + figures + rings
-  // Empirically: cover ends ~16% down the full Canva spread.
-  const COVER_H = Math.round(fullMeta.height * 0.16); // ~3212 px when full is 20077
-  const cropped = await sharp(COVER_SRC)
-    .extract({ left: 0, top: 0, width: fullMeta.width, height: COVER_H })
-    .flatten({ background: "#ffffff" }) // composite over white so it's a solid page
+  const heroBuf = await fs.readFile(COVER_SRC);
+  // Render at high DPI so we have plenty of pixels to work with before resizing
+  const heroPng = await sharp(heroBuf, { density: 240 })
+    .flatten({ background: "#ffffff" })
     .png()
     .toBuffer();
-  const croppedMeta = await sharp(cropped).metadata();
-  console.log("cropped dims:", croppedMeta.width, "x", croppedMeta.height);
+  const heroMeta = await sharp(heroPng).metadata();
+  console.log(`cover source: ${heroMeta.width}×${heroMeta.height}`);
 
-  // Build a soft-edged white "eraser" SVG for the figures+card region.
-  // Bounds expressed as % of the cropped cover (figures+card live ~13–84% × ~34–84%).
-  const cropW = fullMeta.width;
-  const cropH = COVER_H;
-  const eraseLeft = Math.round(cropW * 0.10);
-  const eraseTop = Math.round(cropH * 0.345);
-  const eraseW = Math.round(cropW * (0.91 - 0.10));
-  const eraseH = Math.round(cropH * (0.885 - 0.345));
-  // Eraser: solid white rounded rect (no blur — sharp's SVG renderer expands
-  // the canvas when filters overflow, which breaks the composite step).
-  const eraserSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${cropW}" height="${cropH}"><rect x="${eraseLeft}" y="${eraseTop}" rx="80" ry="80" width="${eraseW}" height="${eraseH}" fill="#ffffff"/></svg>`;
-  const eraserPng = await sharp(Buffer.from(eraserSvg))
-    .resize({ width: cropW, height: cropH, fit: "fill" })
-    .png()
-    .toBuffer();
-  const eraserMeta = await sharp(eraserPng).metadata();
-  console.log("eraser dims:", eraserMeta.width, "x", eraserMeta.height);
-
-  // Composite first (full size), then in a second pipeline resize + encode.
-  const composited = await sharp(cropped)
-    .composite([{ input: eraserPng, top: 0, left: 0 }])
-    .png()
-    .toBuffer();
-
-  const coverOut = path.join(OUT_DIR, "cover.webp");
-  const coverResult = await sharp(composited)
+  // 1) Default cover (kids in frames) — straight resize + encode.
+  const coverNowOut = path.join(OUT_DIR, "cover.webp");
+  const coverNowResult = await sharp(heroPng)
     .resize({ width: TARGET_W })
     .webp({ quality: 82, effort: 6 })
-    .toFile(coverOut);
-  console.log(`cover: src cropped ${cropW}×${cropH} -> ${path.relative(process.cwd(), coverOut)}: ${coverResult.width}×${coverResult.height}, ${(coverResult.size / 1024).toFixed(1)} KB`);
+    .toFile(coverNowOut);
+  console.log(`cover (now): -> ${path.relative(process.cwd(), coverNowOut)}: ${coverNowResult.width}×${coverNowResult.height}, ${(coverNowResult.size / 1024).toFixed(1)} KB`);
 
-  // Also export normalized PNG cutouts of couplePast / coupleNow
-  // from the IMAGES base64 data already embedded in src/App.jsx so we
-  // can reuse them as standalone WebP for layout (smaller bundle).
+  // 2) "Past" variant — preserve the SVG entirely and only swap the two
+  //    rectangular photos inside the gold frames so the SVG's frames,
+  //    bodies, and surrounding florals stay untouched.
+  const appJsx = await fs.readFile("src/App.jsx", "utf8");
+  const pastMatch = appJsx.match(/couplePast: "data:image\/webp;base64,([^"]+)"/);
+  if (!pastMatch) throw new Error("Could not find couplePast base64 in src/App.jsx");
+  const pastBuf = Buffer.from(pastMatch[1], "base64");
+
+  // Toddler photo crops (the rectangular face photos) from
+  // couplePast.png (602×632).  Take a generous square-ish crop so it
+  // fills the frame interior without leaving border gaps.
+  const boyPhoto = await sharp(pastBuf)
+    .extract({ left: 80, top: 90, width: 185, height: 175 })
+    .png()
+    .toBuffer();
+  const girlPhoto = await sharp(pastBuf)
+    .extract({ left: 350, top: 92, width: 190, height: 175 })
+    .png()
+    .toBuffer();
+
+  // SVG gold-frame photo interiors — coords measured against the
+  // rendered hero (1323×1863 at density 240).  The proportions hold
+  // for any rendered scale of the same SVG.
+  const boyTarget = {
+    left: Math.round(heroMeta.width * 0.302),
+    top: Math.round(heroMeta.height * 0.460),
+    width: Math.round(heroMeta.width * 0.150),
+    height: Math.round(heroMeta.height * 0.118),
+  };
+  const girlTarget = {
+    left: Math.round(heroMeta.width * 0.503),
+    top: Math.round(heroMeta.height * 0.460),
+    width: Math.round(heroMeta.width * 0.155),
+    height: Math.round(heroMeta.height * 0.118),
+  };
+
+  const boyResized = await sharp(boyPhoto).resize(boyTarget.width, boyTarget.height).png().toBuffer();
+  const girlResized = await sharp(girlPhoto).resize(girlTarget.width, girlTarget.height).png().toBuffer();
+
+  const heroPast = await sharp(heroPng)
+    .composite([
+      { input: boyResized, left: boyTarget.left, top: boyTarget.top },
+      { input: girlResized, left: girlTarget.left, top: girlTarget.top },
+    ])
+    .png()
+    .toBuffer();
+
+  const coverPastOut = path.join(OUT_DIR, "cover-past.webp");
+  const coverPastResult = await sharp(heroPast)
+    .resize({ width: TARGET_W })
+    .webp({ quality: 82, effort: 6 })
+    .toFile(coverPastOut);
+  console.log(`cover (past): -> ${path.relative(process.cwd(), coverPastOut)}: ${coverPastResult.width}×${coverPastResult.height}, ${(coverPastResult.size / 1024).toFixed(1)} KB`);
 } catch (err) {
   console.warn("cover step skipped:", err.message);
 }
