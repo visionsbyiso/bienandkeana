@@ -133,7 +133,9 @@ const FontInjection = () => (
 
     /* photo crossfade */
     .flip-img {
-      transition: opacity 1100ms cubic-bezier(.4,0,.2,1);
+      transition: opacity 900ms cubic-bezier(0.65, 0, 0.35, 1);
+      will-change: opacity;
+      backface-visibility: hidden;
     }
 
     /* button hover */
