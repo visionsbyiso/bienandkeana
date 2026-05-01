@@ -11,7 +11,9 @@ const OUT_DIR = path.resolve("public/pages");
 const PAGES = [
   { id: "main", file: "Main Page.svg" },
   { id: "details", file: "Details.svg" },
-  { id: "entourage", file: "Entourage Page.svg" },
+  // Updated entourage artwork lives in Downloads root (with a trailing
+  // space in the filename) — use an explicit absolute path.
+  { id: "entourage", path: "/Users/coleen/Downloads/Entourage Page .svg" },
   { id: "attire", file: "Attire.svg" },
   { id: "unplugged", file: "Unplugged_Gift.svg" },
 ];
@@ -21,7 +23,7 @@ const TARGET_W = 800; // 2x retina for ~400px column
 await fs.mkdir(OUT_DIR, { recursive: true });
 
 for (const p of PAGES) {
-  const src = path.join(SOURCE_DIR, p.file);
+  const src = p.path ?? path.join(SOURCE_DIR, p.file);
   const buf = await fs.readFile(src);
   const meta = await sharp(buf, { density: 300 }).metadata();
   console.log(`${p.id}: src ${(buf.length / 1024 / 1024).toFixed(2)} MB · vector ${meta.width}×${meta.height}`);
